@@ -125,13 +125,42 @@ better understanding of the visual representation of the brain, it is crucial to
     p_{\boldsymbol{\theta}}(\boldsymbol{z} | \boldsymbol{x}) \propto p_{\boldsymbol{\theta}}(\boldsymbol{x} | \boldsymbol{z}) p_{\boldsymbol{\theta}}(\boldsymbol{z})
 \end{equation}
 
-\par Where basically we just applied Bayes-theorem for the likelihood and the prior to acquire the posterior. We build an encoder/recognition model $q_{\phi}(\boldsymbol{z} | \boldsymbol{x})$ and a decoder model $p_{\theta}(\boldsymbol{x} | \boldsymbol{z})$. The probabilistic encoder produces a distribution over $\boldsymbol{z}$ that should properly approximate the prior while the 
+\par Where basically we just applied Bayes-theorem for the likelihood and the prior to acquire the posterior. We build an encoder/recognition model $q_{\phi}(\boldsymbol{z} | \boldsymbol{x})$ and a decoder model $p_{\theta}(\boldsymbol{x} | \boldsymbol{z})$. The probabilistic encoder produces a distribution over $\boldsymbol{z}$ that should properly approximate the prior while the  ...
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{vae.png}
+    \caption{Variational autoencoder}
+    \label{fig:vae}
+\end{figure}
+
+\par The model was built in Keras \cite{chollet2015keras} and using its built-in visualization tool I was able to show how my VAE is built:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{vae_keras.png}
+    \caption{Variational autoencoder implementation in Keras}
+\end{figure}
 
 \subsection{LVAE}
 
 \par The ladder variational autoencoder was first introduced in 2016 \cite{sonderby2016ladder} one year after the UNET \cite{ronneberger2015u} architecture which used ladder like parameter sharing across encoding and decoding layers.
 
-\par 
+\par My implementation consists only dense layers and rectified linear units. Basically each unit of the two-unit ladder encoder includes an MLP. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{lvae.png}
+    \caption{Ladder variational autoencoder}
+\end{figure}
+
+\par The model was built in Keras \cite{chollet2015keras} and using its built-in visualization tool I was able to show how my LVAE is built:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{lvae_keras.png}
+    \caption{Ladder variational autoencoder implementation in Keras}
+\end{figure}
 
 \newpage
 \printbibliography
