@@ -110,7 +110,7 @@ better understanding of the visual representation of the brain, it is crucial to
 
 \subsection{Early models}
 
-\par PCA with sparse coding \cite{olshausen1996emergence} ... (understanding of V1)
+\par PCA with sparse coding \cite{olshausen1996emergence} ... (understanding V1)
 
 \subsection{VAE}
 
@@ -142,6 +142,8 @@ better understanding of the visual representation of the brain, it is crucial to
     \caption{Variational autoencoder implementation in Keras}
 \end{figure}
 
+\par It is a bit confusing since the arrows only mean parameter passes here, not models as in the graphical representation.
+
 \subsection{LVAE}
 
 \par The ladder variational autoencoder was first introduced in 2016 \cite{sonderby2016ladder} one year after the UNET \cite{ronneberger2015u} architecture which used ladder like parameter sharing across encoding and decoding layers.
@@ -160,9 +162,33 @@ better understanding of the visual representation of the brain, it is crucial to
     \centering
     \includegraphics[width=0.65\textwidth]{lvae_keras.png}
     \caption{Ladder variational autoencoder implementation in Keras}
+    \label{fig:keras_lvae}
 \end{figure}
+
+\par Keras provides high modularity, so the block nicknamed $small\_dense\_encoder\_1$, $small\_dense\_encoder\_2$, $small\_dense\_decoder\_2$ and $small\_dense\_decoder\_1$ can all be
+changed and swapped to higher or lower capacity models with MLP or convolutional architectures. The provided figure \ref{fig:keras_lvae} contains small MLP encoders and decoders only with $\approx$ 1.2 million parameters in total.
+
+\section{Datasets}
+
+\par Mainly I used synthetically generated texture families with my models that resemble the Simonchelli & Portilla texture family \cite{portilla2003image} but I experimented with the MNIST, Fashion-MNIST \cite{xiao2017fashion}, CIFAR-10, natural textures and the dSprites dataset \cite{matthey2017dsprites}. I wanted to find out whether it would be possible for a latent variable model to disentangle parameters such as contrast from images.
+
+\section{Implementation details}
+
+\par I used the $\beta-$VAE and LVAE architectures as I mentioned. From the original LVAE article \cite{sonderby2016ladder} I used incremental $\beta$ learning, meaning that I raised my $\beta$ value incrementally during learning for 3/4ths of the epochs and kept on learning with $\beta = 1$ for the remaining. From this article I also tested batch-normalization but the KL-divergence term kept diverging so I decided not to include batch-normalization in my models.
+
+\vspace{5mm}
+
+\par For both of my latent variable model architectures (VAE, LVAE) I use the reparametrization trick on the deepest variational parameter to be able to later on sample from zero centered unit gaussians:
+
+\begin{equation}
+    \boldsymbol{z}^{(i, l)} = \boldsymbol{\mu}^{(i)} + \boldsymbol{\sigma}^{(i)} \odot \boldsymbol{\epsilon}^{(l)}
+\end{equation}
+
+\par Where $\boldsymbol{\epsilon}^{(l)} \propto \boldsymbol{N}(0, 1)$ in order to be able to achieve that when sampling from the generative model we would only need to sample a this epsilon parameter and feed it to the network to generate learnt representations corresponding to this latent random variable.
+
+\par 
 
 \newpage
 \printbibliography
 
-\end{document}
+\end{document} 
