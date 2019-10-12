@@ -8,6 +8,7 @@
 
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{mathtools}
 \usepackage{eucal}
 \usepackage{amssymb}
 \usepackage{mathrsfs}
@@ -37,6 +38,7 @@ tabsize=3
 }
 
 \usepackage{here}
+\usepackage{bm}
 
 
 \textheight=21cm
@@ -47,6 +49,9 @@ tabsize=3
 \usepackage{color}
 \usepackage{indentfirst}
 \usepackage{ragged2e}
+
+% Expectation symbol
+\DeclareMathOperator*{\E}{\mathbb{E}}
 
 \global\let\date\relax
 \newcounter{unomenos}
@@ -88,6 +93,7 @@ Alex Olar \\
 
 \renewcommand{\thesection}{\Roman{section}.}
 \renewcommand{\thesubsection}{\Roman{section}. \arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\Roman{section}. \arabic{subsection}.\arabic{subsection}.}
 
 \tableofcontents
 \newpage
@@ -100,32 +106,105 @@ Alex Olar \\
 The second computational layer is doing further abstraction but we do not yet
 have proper information about its role in vision \cite{ZiembaV2}. For the sake of acquiring a
 better understanding of the visual representation of the brain, it is crucial to be able to build models that are on one hand not similar in every regard to the brain but on the other hand reproduce its properties, responses to visual input.
+
+\vspace{3mm}
+
 \par Since the brain is capable of behaving generatively, such as imagining things that do not exist from memory, therefore we should aim for developing such models. In this aspect, the latent representational models proved to be very good candidates as the actively researched variational autoencoders (VAE) from the domain of deep learning \cite{kingma2013auto}. This model attempts to represent high-dimensional images in a smaller vector space with auxiliary constraints on the latent representation using deep neural networks.
 
 \subsection{Motivation}
 
-\par The selection of this topic was motivated by the substantial development in neurobiology that could be achieved with the use and development of deep learning models. We could gather higher level information about the image-processing of the brain. It is important to mention that this research is on the border of different sciences such as information technology, neurobiology consequently it poses an exciting challenge to understand.
+\par The selection of this topic was motivated by the substantial development in neurobiology that could be achieved with the use and development of deep learning models. We could gather higher level information about the image-processing of the brain. It is important to mention that this research is on the border of different sciences such as information technology and neurobiology consequently it poses an exciting challenge to understand.
 
 \section{Models}
 
 \subsection{Early models}
 
-\par PCA with sparse coding \cite{olshausen1996emergence} ... (understanding V1)
+\par PCA with sparse coding called ICA \cite{olshausen1996emergence} ... (understanding V1)
 
 \subsection{VAE}
 
-\par Autoencoders are mostly used to reduce dimensionality of data in an unsupervised manner. They consist of an encoder and a decoder model surrounding the reduced representation. These models are usually realized as neural network due to their generalization capability. Autoencoders are a crucial tool for data compression and can reach better results than traditional tools \cite{theis2017lossy}. Variational autoencoders tackle the same problem while constraining the latent, reduced representation. This sacrifices reconstruction accuracy in order to learn a better representation of the dataset.
+\par Autoencoders are mostly used to reduce dimensionality of data in an unsupervised manner. They consist of an encoder and a decoder model surrounding the reduced representation. These models are usually realized as neural networks due to their generalization capability. Autoencoders are a crucial tool for data compression and can reach better results than traditional tools \cite{theis2017lossy}. Variational autoencoders tackle the same problem while constraining the latent, reduced representation. This sacrifices reconstruction accuracy in order to learn a better representation of the dataset.
 
 \subsubsection{Math}
 
-\par Considering a dataset $\boldsymbol{X} = \big\{\boldsymbol{x}^{i}\big\}_{i = 1}^{N}$ that consists of independently and identically distributed samples of an underlying distribution it can be assumed that the data has some underlying, unobserved variable $\boldsymbol{z}$. The value $\boldsymbol{z}^{i}$, corresponding to a sample $\boldsymbol{x}^{i}$, is first generated from a prior distribution $p_{\boldsymbol{\theta_{real}}}(\boldsymbol{z})$ and $\boldsymbol{x}^{i}$ is then generated from a conditional distribution $p_{\theta_{real}}(\boldsymbol{x} | \boldsymbol{z})$. Since the real model parameters $\theta_{real}$ are unknown we can only approximate them with the encoder and decoder parametric models.
+\par Considering a dataset $\boldsymbol{X} = \big\{\boldsymbol{\bm{x}}^{i}\big\}_{i = 1}^{N}$ that consists of independently and identically distributed samples of an underlying distribution it can be assumed that the data has some underlying, unobserved variable $\boldsymbol{\bm{z}}$. The value $\boldsymbol{\bm{z}}^{i}$, corresponding to a sample $\boldsymbol{\bm{x}}^{i}$, is first generated from a prior distribution $p_{\boldsymbol{\vartheta_{real}}}(\boldsymbol{\bm{z}})$ and $\boldsymbol{\bm{x}}^{i}$ is then generated from a conditional distribution $p_{\vartheta_{real}}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}})$. Since the real model parameters $\vartheta_{real}$ are unknown we can only approximate them with the encoder and decoder parametric models.
 \par We want to approximate the posterior probability:
 
+\vspace{3mm}
+
 \begin{equation}
-    p_{\boldsymbol{\theta}}(\boldsymbol{z} | \boldsymbol{x}) \propto p_{\boldsymbol{\theta}}(\boldsymbol{x} | \boldsymbol{z}) p_{\boldsymbol{\theta}}(\boldsymbol{z})
+    p_{\boldsymbol{\vartheta}}(\boldsymbol{\bm{z}} | \boldsymbol{\bm{x}}) \propto p_{\boldsymbol{\vartheta}}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}}) p_{\boldsymbol{\vartheta}}(\boldsymbol{\bm{z}})
 \end{equation}
 
-\par Where basically we just applied Bayes-theorem for the likelihood and the prior to acquire the posterior. We build an encoder/recognition model $q_{\phi}(\boldsymbol{z} | \boldsymbol{x})$ and a decoder model $p_{\theta}(\boldsymbol{x} | \boldsymbol{z})$. The probabilistic encoder produces a distribution over $\boldsymbol{z}$ that should properly approximate the prior while the  ...
+\vspace{3mm}
+
+\par Where basically we just applied Bayes-theorem for the likelihood and the prior to acquire the posterior. We build an encoder/recognition model $q_{\phi}(\boldsymbol{\bm{z}} | \boldsymbol{\bm{x}})$ and a decoder model $p_{\vartheta}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}})$. The probabilistic encoder produces a distribution over $\boldsymbol{\bm{z}}$ that should properly approximate the prior while the  decoder provides samples from the approximated true distribution given a latent code. This is obviously a two-step generation process. 
+
+\vspace{3mm}
+
+\par In the article of Kingma and Welling \cite{kingma2013auto} they present a variational model that can be trained with gradient descent including stochastic variables. They achieve this in detail as follows:
+
+\vspace{3mm}
+
+\begin{gather*}
+    recognition\ model\ :\  q_{\phi}(\bm{z}|\bm{x}) \xrightarrow{\text{approximates}} p_{\vartheta_{real}}(\bm{z} | \bm{x}) \\
+    probabilistic\ decoder\ :\ p_{\theta}(\bm{x} | \bm{z}) \xrightarrow{\text{approximates}} p_{\theta_{real}}(\bm{x} | \bm{z})
+\end{gather*}
+
+\vspace{3mm}
+
+\par As the data points from the dataset are independent $p(\bm{x}^{(1)}, \bm{x}^{(2)}, ..., \bm{x}^{(N)}) = p(\bm{x}^{(1)})p(\bm{x}^{(2)})\cdot ... \cdot p(\bm{x}^{(N)})$ and applying that $p(\bm{x}^{(i)})$, so approximating $p(\bm{x}^{(i)})$ in general:
+
+\vspace{3mm}
+
+\begin{gather}
+    \ln(p(\bm{x}^{(i)})) = \ln\int p(\bm{x}^{(i)}, \bm{z})dz \quad from\ marginal\ prob.\ dist.\\
+    \ln(p(\bm{x}^{(i)})) = \ln\int p(\bm{x}^{(i)}, \bm{z})\frac{q(\bm{z})}{q(\bm{z})}dz \quad introducing\ the\ prior \\
+    \ln(p(\bm{x}^{(i)})) = \ln \E_{q(\bm{z})} \Big( \frac{p(\bm{x}^{(i)}, \bm{z})}{q(\bm{z})}\Big) \\
+    \ln \E_{q(\bm{z})} \Big( \frac{p(\bm{x}^{(i)}, \bm{z})}{q(\bm{z})}\Big) \geq \E_{q(\bm{z})} \ln\Big( \frac{p(\bm{x}^{(i)}, \bm{z})}{q(\bm{z})}\Big) \quad applying\ Jensen's\ inequality \\
+    L_{i} = \ln(p(\bm{x}^{(i)})) \geq \E_{q(\bm{z})} \ln\Big( \frac{p(\bm{x}^{(i)}, \bm{z})}{q(\bm{z})}\Big) \quad ELBO
+\end{gather}
+
+\vspace{3mm}
+
+\par Jensen's inequality holds for convex functions and the natural logarithm is such. By applying the definition of the joint probability term $p(\bm{x}, \bm{z}) = p(\bm{x} | \bm{z})p(\bm{z})$ and realizing that we use the recognition model for $q(\bm{z})$ in our case $q_{\phi}(\bm{z} | \bm{x})$:
+
+\vspace{3mm}
+
+\begin{equation}
+    L_{i} \geq \E_{q_{\phi}(\bm{z} | \bm{x})} \Big( \ln p(\bm{x}^{(i)} | \bm{z}) \Big) + \E_{q_{\phi}(\bm{z} | \bm{x})} \Big( \ln p_{\theta}(\bm{z} | \bm{x}^{(i)}) \Big) - \E_{q_{\phi}(\bm{z} | \bm{x})} \Big( \ln q_{\phi}(\bm{z} | \bm{x}^{(i)}) \Big)
+\end{equation}
+
+\vspace{3mm}
+
+\par By introducing the Kullback-Leibler-divergence term:
+
+\vspace{3mm}
+
+\begin{gather*}
+    KL(q_{\phi}(\bm{z} | \bm{x}^{(i)}) | p_{\theta}(\bm{z} | \bm{x}^{(i)})) = \int q_{\phi}(\bm{z} | \bm{x}^{(i)})\ln \frac{q_{\phi}(\bm{z} | \bm{x}^{(i)})}{p_{\theta}(\bm{z} | \bm{x}^{(i)})}dz = \E_{q_{\phi}(\bm{z} | \bm{x}^{(i)})} \Big( \ln \frac{q_{\phi}(\bm{z} | \bm{x}^{(i)})}{p_{\theta}(\bm{z}|\bm{x}^{(i)})}  \Big) \\ \\
+    KL(q_{\phi} | p_{\theta}) = -L_{i} + \E_{q_{\phi}(\bm{z} | \bm{x}^{(i)})} \Big( \ln p_{\theta}(\bm{x}^{(i)} | \bm{z}) \Big) \quad using\ Bayes-theorem
+\end{gather*}
+
+\vspace{3mm}
+
+\par The goal of the algorithm is to optimize the variational lower bound (ELBO) with respect to the parameters $\phi, \theta$. We also introduce $p_{\theta}(\bm{z} | \bm{x}^{(i)}) \equiv p_{\theta}(\bm{z})$, for all data points, as our prior distribution over the latent variables. Since the gradient of the ELBO is a bit problematic, especially requiring a large amount of computation w. r. t. $\phi$ Kingma and Welling came up with auto-encoding variational Bayes (AEVB) algorithm that makes the model trainable via stochastic gradient descent.
+
+\paragraph{The reparametrization trick \newline \newline}
+
+\par Let $\bm{z}$ be a random variable sampled from $   q_{\phi}(\bm{z} | \bm{x})$. It is often possible to express \footnote{1. tractable CDF, 2. norm-scale functions, 3. composition} such variable as a deterministic mapping $\bm{z} = g_{\phi}(\bm{\epsilon}, \bm{x})$ where $\bm{\epsilon}$ is an independent random variable with marginal distribution $p(\bm{\epsilon})$. Since we know from basic probability theory $q_{\phi}(\bm{z} | \bm{x})dz = p(\bm{\epsilon})d\bm{\epsilon}$. Therefore the expected value of a function $f(\bm{z})$ can be computed as:
+
+\vspace{3mm}
+
+\begin{equation}
+    \int f(\bm{z})q_{\phi}(\bm{z} | \bm{x}^{(i)})dz = \int p(\bm{\epsilon})f(g_{\phi}(\bm{\epsilon}, \bm{x}^{(i)})) d\bm{\epsilon} \approx \frac{1}{L}\sum_{l=1}^{L}f(g_{\phi}(\bm{\epsilon}^{(l)}, \bm{x}^{(i)}))
+\end{equation}
+
+\vspace{3mm}
+
+\par Where $\bm{\epsilon}^{(l)}$ is sampled from $p(\bm{\epsilon})$. If we take $q_{\phi}(\bm{z} | \bm{x})$ as the Gaussian distribution $\bm{z} \sim N(\mu, \sigma)$ then a straightforward reparametrization $g_{\phi}$ occurs as $\bm{z} = \mu + \bm{\epsilon} \sigma$.
+
+\vspace{3mm}
 
 \begin{figure}[H]
     \centering
@@ -134,7 +213,33 @@ better understanding of the visual representation of the brain, it is crucial to
     \label{fig:vae}
 \end{figure}
 
-\par The model was built in Keras \cite{chollet2015keras} and using its built-in visualization tool I was able to show how my VAE is built:
+\vspace{3mm}
+
+\par As we can see in figure \ref{fig:vae} the variational autoencoder is outlined. The general intuition is that a neural network approximates $q_{\phi}(\bm{z} | \bm{x})$ over that dataset and it is assumed that it takes a multivariate Gaussian form for the true, intractable posterior $p_{\theta_{real}}(\bm{z} | \bm{x})$.
+
+\vspace{3mm}
+
+\par We sample $\bm{z}$ from a Gaussian where the mean and standard deviation is the output of the probabilistic encoder and than we apply the reparametrization. With this method the variational lower bound becomes simple to approximate:
+
+\vspace{3mm}
+
+\begin{equation}
+    L_{i} \simeq \frac{1}{2}\sum_{j = 1}^{J}\Big( 1 + \ln(\sigma^{(i)}_{j})^{2} - (\mu^{(i)}_{j})^{2} - (\sigma^{(i)}_{j})^{2} \Big) + \frac{1}{L}\sum_{l=1}^{L}\ln p_{\theta}(\bm{x}^{(i)} | \bm{z}^{(i, l)})
+\end{equation}
+
+\vspace{3mm}
+
+\par Where $\bm{z}^{(i, l)} = \mu^{(i)} + \sigma^{(i)} \odot \bm{\epsilon}^{(l)}$ where $\mu, \sigma$ come from $q_{\phi}(\bm{z} | \bm{x})$ and $\bm{\epsilon}$ from $p(\bm{\epsilon}) \sim N(0, 1)$. The first part is the Kullback-Leibler-divergence between a unit Gaussian and $N(\mu^{(i)}, \sigma^{(i)})$ Gaussian, this can be analytically calculated.
+
+\vspace{3mm}
+
+\par In practice this means that the KL-divergence can be computed efficiently after encoding and to speed up the process $L = 1$ is usually chosen to not to pass the code through the decoder several times. In the case of continuous pixel values the second part of the ELBO can be approximated with a multivariate Gaussian whereas in case of binary pixel values it becomes a Bernoulli-distribution. 
+
+\vspace{3mm}
+
+\par The models were built in Keras \cite{chollet2015keras} and using its built-in visualization tool I was able to show how my VAE is built:
+
+\vspace{3mm}
 
 \begin{figure}[H]
     \centering
@@ -142,13 +247,19 @@ better understanding of the visual representation of the brain, it is crucial to
     \caption{Variational autoencoder implementation in Keras}
 \end{figure}
 
+\vspace{3mm}
+
 \par It is a bit confusing since the arrows only mean parameter passes here, not models as in the graphical representation.
 
 \subsection{LVAE}
 
 \par The ladder variational autoencoder was first introduced in 2016 \cite{sonderby2016ladder} one year after the UNET \cite{ronneberger2015u} architecture which used ladder like parameter sharing across encoding and decoding layers.
 
+\vspace{3mm}
+
 \par My implementation consists only dense layers and rectified linear units. Basically each unit of the two-unit ladder encoder includes an MLP. 
+
+\vspace{3mm}
 
 \begin{figure}[H]
     \centering
@@ -156,7 +267,12 @@ better understanding of the visual representation of the brain, it is crucial to
     \caption{Ladder variational autoencoder}
 \end{figure}
 
-\par The model was built in Keras \cite{chollet2015keras} and using its built-in visualization tool I was able to show how my LVAE is built:
+\vspace{3mm}
+
+% TODO: change figure
+\par The models were built with Keras \cite{chollet2015keras} as well:
+
+\vspace{3mm}
 
 \begin{figure}[H]
     \centering
@@ -165,28 +281,57 @@ better understanding of the visual representation of the brain, it is crucial to
     \label{fig:keras_lvae}
 \end{figure}
 
+\vspace{3mm}
+
 \par Keras provides high modularity, so the block nicknamed $small\_dense\_encoder\_1$, $small\_dense\_encoder\_2$, $small\_dense\_decoder\_2$ and $small\_dense\_decoder\_1$ can all be
 changed and swapped to higher or lower capacity models with MLP or convolutional architectures. The provided figure \ref{fig:keras_lvae} contains small MLP encoders and decoders only with $\approx$ 1.2 million parameters in total.
 
 \section{Datasets}
 
-\par Mainly I used synthetically generated texture families with my models that resemble the Simonchelli & Portilla texture family \cite{portilla2003image} but I experimented with the MNIST, Fashion-MNIST \cite{xiao2017fashion}, CIFAR-10, natural textures and the dSprites dataset \cite{matthey2017dsprites}. I wanted to find out whether it would be possible for a latent variable model to disentangle parameters such as contrast from images.
+\par Mainly I used synthetically generated texture families with my models that resemble the Simonchelli-Portilla texture family \cite{portilla2003image} but I experimented with the MNIST, Fashion-MNIST \cite{xiao2017fashion}, CIFAR-10, natural textures and the dSprites dataset \cite{matthey2017dsprites}. I wanted to find out whether it would be possible for a latent variable model to disentangle parameters such as contrast from images.
 
 \section{Implementation details}
 
-\par I used the $\beta-$VAE and LVAE architectures as I mentioned. From the original LVAE article \cite{sonderby2016ladder} I used incremental $\beta$ learning, meaning that I raised my $\beta$ value incrementally during learning for 3/4ths of the epochs and kept on learning with $\beta = 1$ for the remaining. From this article I also tested batch-normalization but the KL-divergence term kept diverging so I decided not to include batch-normalization in my models.
+\par I used the $\beta-$VAE and ($\beta-$)LVAE architectures as I mentioned. From the original LVAE article \cite{sonderby2016ladder} I used incremental $\beta$ learning, meaning that I raised my $\beta$ value incrementally during learning for 3/7ths of the epochs and kept on learning with $\beta = \beta_{max}$ for the remaining steps. From this article I also tested batch-normalization and built modular models that include batch-normalization as well.
 
-\vspace{5mm}
+\vspace{3mm}
 
-\par For both of my latent variable model architectures (VAE, LVAE) I use the reparametrization trick on the deepest variational parameter to be able to later on sample from zero centered unit gaussians:
+\par For both of my latent variable model architectures (VAE, LVAE) I use the reparametrization trick on the deepest variational parameter to be able to later on sample from zero centered unit Gaussians:
+
+\vspace{3mm}
 
 \begin{equation}
-    \boldsymbol{z}^{(i, l)} = \boldsymbol{\mu}^{(i)} + \boldsymbol{\sigma}^{(i)} \odot \boldsymbol{\epsilon}^{(l)}
+    \boldsymbol{\bm{z}}^{(i, l)} = \boldsymbol{\mu}^{(i)} + \boldsymbol{\sigma}^{(i)} \odot \boldsymbol{\bm{\epsilon}}^{(l)}
 \end{equation}
 
-\par Where $\boldsymbol{\epsilon}^{(l)} \propto \boldsymbol{N}(0, 1)$ in order to be able to achieve that when sampling from the generative model we would only need to sample a this epsilon parameter and feed it to the network to generate learnt representations corresponding to this latent random variable.
+\vspace{3mm}
 
-\par 
+\par Where $\boldsymbol{\bm{\epsilon}}^{(l)} \propto \boldsymbol{N}(0, 1)$ in order to be able to achieve that when sampling from the generative model we would only need to sample this $\bm{\epsilon}$ parameter and feed it to the network to generate learnt representations corresponding to this latent random variable.
+
+\vspace{3mm}
+
+\par Both models can be samples after training. However, in the VAE architecture it is straightforward to do on the other hand the LVAE needs bottom up information from the image since the calculation of the mean and standard deviation is deterministic from bottom up (from the input image - referenced as BU) and top down (from the stochastic latent parameter - referenced as TD) components:
+
+\vspace{3mm}
+
+\begin{gather*}
+    \hat{\sigma}_{1} = \frac{1}{\sigma_{BU}^{-2} + \sigma_{TD}^{-2}} \\ \\
+    \hat{\mu}_{1} = \frac{\mu_{BU}\sigma_{BU}^{-2} + \mu_{TD}\sigma_{TD}^{-2}}{\sigma_{BU}^{-2} + \sigma_{TD}^{-2}}
+\end{gather*}
+
+\vspace{3mm}
+
+\par When sampling \vec{\bm{z}^{2}} the deepest latent vector the bottom up standard deviation is considered infinite therefore:
+
+\vspace{3mm}
+
+\begin{equation*}
+    \hat{\sigma}_{1} = \sigma_{TD}^{2} \quad \quad \hat{\mu_{1}} = \mu_{TD}
+\end{equation*}
+
+\vspace{3mm}
+
+\par This provides a good way of examining the trained models. Doing a full reconstruction and comparing the bottom up means and standard deviations with the top down means and standard deviations we can find out which of these have a bigger influence on the reconstruction. It might be that the we only add noise to the generated images with the stochasticity from the deepest latent and only the bottom up components are used for reconstruction, I explore this more in a later section.
 
 \newpage
 \printbibliography
