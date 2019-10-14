@@ -100,7 +100,11 @@ Alex Olar \\
 
 \section{Introduction}
 
+\vspace{7mm}
+
 \subsection{General}
+
+\vspace{5mm}
 
 \par  The visual cortex is a many layered unit in the brain, in which the first computational layer (V1) is known to detect edges in visual stimuli.
 The second computational layer is doing further abstraction but we do not yet
@@ -113,15 +117,47 @@ better understanding of the visual representation of the brain, it is crucial to
 
 \subsection{Motivation}
 
+\vspace{5mm}
+
 \par The selection of this topic was motivated by the substantial development in neurobiology that could be achieved with the use and development of deep learning models. We could gather higher level information about the image-processing of the brain. It is important to mention that this research is on the border of different sciences such as information technology and neurobiology consequently it poses an exciting challenge to understand.
+
+\newpage
 
 \section{Models}
 
+\vspace{7mm}
+
 \subsection{Early models}
 
-\par PCA with sparse coding called ICA \cite{olshausen1996emergence} ... (understanding V1)
+\vspace{5mm}
+
+\par It was the work of Olshausen and Field \cite{olshausen1996emergence} who proposed a model describing the structure of the first layer in the visual cortex (V1). The main assumption than an image $I(x, y)$ can be decomposed on a set of linear basis functions:
+
+\vspace{3mm}
+
+\begin{equation}
+    I(x, y) = \sum_{i}a_i \Phi_{i}(x, y)
+\end{equation}
+
+\vspace{3mm}
+
+\par Where the components $a_{i}$ are decorrelated pairwise $\E (a_i a_j) = \E a_i \E a_j$. These assumptions were made to satisfy three main point:
+
+\vspace{3mm}
+
+\begin{itemize}
+    \item spatially localized
+    \item oriented
+    \item bandpass - selective to structures at different scaled
+\end{itemize}
+
+\vspace{3mm}
+
+\par PCA \footnote{Pricipal Component Analysis} was not fit for this type of problem since it provides a good tool for describing data where pairwise linear correlations are the most important form of statistical dependence. However, it is not the case for high-order correlations in natural images. In order to capture this they proposed a solution that minimizes entropy while sparsely coding the natural images, meaning that they wanted to describe each via a small set of variables out of the large set. The method developed is called sparse coding and a special case of it is ICA \footnote{Independent Component Analysis - \url{https://redwood.berkeley.edu/wp-content/uploads/2018/08/sparse-coding-ICA.pdf}}.
 
 \subsection{VAE}
+
+\vspace{5mm}
 
 \par Autoencoders are mostly used to reduce dimensionality of data in an unsupervised manner. They consist of an encoder and a decoder model surrounding the reduced representation. These models are usually realized as neural networks due to their generalization capability. Autoencoders are a crucial tool for data compression and can reach better results than traditional tools \cite{theis2017lossy}. Variational autoencoders tackle the same problem while constraining the latent, reduced representation. This sacrifices reconstruction accuracy in order to learn a better representation of the dataset.
 
@@ -249,15 +285,38 @@ better understanding of the visual representation of the brain, it is crucial to
 
 \vspace{3mm}
 
-\par It is a bit confusing since the arrows only mean parameter passes here, not models as in the graphical representation.
+\par It is a bit confusing since the arrows only mean parameter passes here not dependence as in the graphical representation where the nodes of the graph are random variables as opposed to models. 
 
 \subsection{LVAE}
 
-\par The ladder variational autoencoder was first introduced in 2016 \cite{sonderby2016ladder} one year after the UNET \cite{ronneberger2015u} architecture which used ladder like parameter sharing across encoding and decoding layers.
+\vspace{5mm}
+
+\par The ladder variational autoencoder was first introduced in 2016 \cite{sonderby2016ladder} one year after the UNET \cite{ronneberger2015u} architecture which used ladder like parameter sharing across encoding and decoding layers. Using ladder like structures became popular around 2015.
 
 \vspace{3mm}
 
-\par My implementation consists only dense layers and rectified linear units. Basically each unit of the two-unit ladder encoder includes an MLP. 
+\par I need to emphasise that the LVAE model only differs from the VAE in the inference model $q_{\phi} (z | x)$ by introducing more stochastic layers to provide better reconstruction results and to learn a more abstract latent representation oft the data. In \cite{sonderby2016ladder} they approximated $p_{\theta_{real}}$ by splitting it up two L layers:
+
+\vspace{3mm}
+
+\begin{equation}
+    p_{\theta_{real}}(\bm{z}) =  p_{\theta}(\bm{z}_{L})\prod_{i = 1}^{L - 1}p_{\theta}(\bm{z}_i | \bm{z}_{i+1})
+\end{equation}
+
+\vspace{3mm}
+
+\par In practice I added one additional layer to the VAE architecture as they did in the above mentioned article. Here:
+
+\vspace{3mm}
+
+\begin{gather*}
+    p_{\theta}(\bm{z}_L) = N(\bm{z}_L  ~ | ~ 0, 1) \quad called\ \epsilon\ previously\\
+    p_{\theta}(\bm{z}_i ~ | ~ \bm{z}_{i+1}) = N(\bm{z}_i ~ |  ~ \mu_{p,i}(\bm{z}_{i+1}), \sigma_{p, i}(\bm{z}_{i+1}))
+\end{gather*}
+
+\vspace{3mm}
+
+\par Of course, I outlined here the case of continuous variables the case where the dataset is not binarized. 
 
 \vspace{3mm}
 
@@ -276,27 +335,35 @@ better understanding of the visual representation of the brain, it is crucial to
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{lvae_keras.png}
+    \includegraphics[width=0.65\textwidth]{dense_lvae_keras.png}
     \caption{Ladder variational autoencoder implementation in Keras}
     \label{fig:keras_lvae}
 \end{figure}
 
 \vspace{3mm}
 
-\par Keras provides high modularity, so the block nicknamed $small\_dense\_encoder\_1$, $small\_dense\_encoder\_2$, $small\_dense\_decoder\_2$ and $small\_dense\_decoder\_1$ can all be
-changed and swapped to higher or lower capacity models with MLP or convolutional architectures. The provided figure \ref{fig:keras_lvae} contains small MLP encoders and decoders only with $\approx$ 1.2 million parameters in total.
+\par Keras provides high modularity so the blocks \textit{dense\_encoder\_1, dense\_decoder\_1, etc.} can all be
+changed and swapped to higher or lower capacity models with MLP or convolutional architectures.
+
+\newpage
 
 \section{Datasets}
 
+\vspace{7mm}
+
 \par Mainly I used synthetically generated texture families with my models that resemble the Simonchelli-Portilla texture family \cite{portilla2003image} but I experimented with the MNIST, Fashion-MNIST \cite{xiao2017fashion}, CIFAR-10, natural textures and the dSprites dataset \cite{matthey2017dsprites}. I wanted to find out whether it would be possible for a latent variable model to disentangle parameters such as contrast from images.
+
+\vspace{7mm}
 
 \section{Implementation details}
 
-\par I used the $\beta-$VAE and ($\beta-$)LVAE architectures as I mentioned. From the original LVAE article \cite{sonderby2016ladder} I used incremental $\beta$ learning, meaning that I raised my $\beta$ value incrementally during learning for 3/7ths of the epochs and kept on learning with $\beta = \beta_{max}$ for the remaining steps. From this article I also tested batch-normalization and built modular models that include batch-normalization as well.
+\vspace{7mm}
+
+\par I used the $\beta-$VAE and ($\beta-$)LVAE architectures as I mentioned. From the original LVAE article \cite{sonderby2016ladder} I used incremental $\beta$ learning, meaning that I raised my $\beta$ value incrementally during learning for 3/7ths of the epochs and kept on learning with $\beta = \beta_{max}$ for the remaining steps. From this article I also tested batch-normalization and built modular models that include convolution with batch-normalization as well. The value $\beta_{max}$ can be set before the start of the training, $\beta_{max} = 1$ is the case of the VAE but raising its value directly emphasizes the influence of the KL-term during training.
 
 \vspace{3mm}
 
-\par For both of my latent variable model architectures (VAE, LVAE) I use the reparametrization trick on the deepest variational parameter to be able to later on sample from zero centered unit Gaussians:
+\par For both of my latent variable model architectures (VAE, LVAE) I use the reparametrization trick on the deepest variational parameter to be able to later on sample from zero centered unit Gaussian:
 
 \vspace{3mm}
 
@@ -306,11 +373,11 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{3mm}
 
-\par Where $\boldsymbol{\bm{\epsilon}}^{(l)} \propto \boldsymbol{N}(0, 1)$ in order to be able to achieve that when sampling from the generative model we would only need to sample this $\bm{\epsilon}$ parameter and feed it to the network to generate learnt representations corresponding to this latent random variable.
+\par Where $\boldsymbol{\bm{\epsilon}}^{(l)} \sim \boldsymbol{N}(0, 1)$ in order to be able to achieve that when sampling from the generative model we would only need to sample this $\bm{\epsilon}$ parameter and feed it to the network to generate learnt representations corresponding to this latent random variable.
 
 \vspace{3mm}
 
-\par Both models can be samples after training. However, in the VAE architecture it is straightforward to do on the other hand the LVAE needs bottom up information from the image since the calculation of the mean and standard deviation is deterministic from bottom up (from the input image - referenced as BU) and top down (from the stochastic latent parameter - referenced as TD) components:
+\par Both models can be sampled after training. However, in the VAE architecture it is straightforward to do so, on the other hand, the LVAE needs bottom up information from the image since the calculation of the mean and standard deviation is deterministic from the generated bottom up (from the input image - referenced as BU) and top down (from the stochastic latent parameter - referenced as TD) components:
 
 \vspace{3mm}
 
@@ -321,7 +388,7 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{3mm}
 
-\par When sampling \vec{\bm{z}^{2}} the deepest latent vector the bottom up standard deviation is considered infinite therefore:
+\par When sampling $\bm{z}^{(2)}$, the deepest latent vector, the bottom up standard deviation is considered infinite, therefore:
 
 \vspace{3mm}
 
@@ -331,7 +398,19 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{3mm}
 
-\par This provides a good way of examining the trained models. Doing a full reconstruction and comparing the bottom up means and standard deviations with the top down means and standard deviations we can find out which of these have a bigger influence on the reconstruction. It might be that the we only add noise to the generated images with the stochasticity from the deepest latent and only the bottom up components are used for reconstruction, I explore this more in a later section.
+\par This provides a good way of examining the trained models. Doing a full reconstruction and comparing the bottom up means and standard deviations with the top down means and standard deviations we can find out which of these have a bigger influence on the reconstruction. It might be that we only add noise to the generated images with the stochasticity from the deepest latent sampling and only the bottom up components are used for reconstruction, I explore this more in a later section.
+
+\vspace{3mm}
+
+\par My implementation consists mostly dense layers and rectified linear units. Basically each unit of the two-unit ladder encoder includes an MLP in the LVAE architecture. Also, I experimented with convolutional and deconvolutional \footnote{referred to also as transpose convolution, inverse convolution} encoders and decoders for both the VAE and LVAE architectures. Not only did I create variational/stochastic models but also I implemented autoencoders with no restriction on the latent space for comparison.
+
+\vspace{3mm}
+
+\par In \ref{fig:vae}, \ref{fig:keras_lvae} it can be spotted that there is an intermediate step included in the generation process of the standard deviations. Since linear layers are constructing the means and the standard deviations they are not restricted to be positive which is not an issue for the means of Gaussian distributions but for the standard deviations. It is usually resolved as generating the logarithm of the standard deviations and then taking their exponential each time their value is needed.
+
+\vspace{3mm}
+
+\par As I mentioned during the description of the models used, I implemented everything in the framework Keras and used the package $\bm{tensorflow\_probability}$ to be able to include statistical methods, such as probability distribution sampling in my code. In addition, I want to emphasize that I have build a Python library out of my code to provide a framework to test variational autoencoders with different datasets. The package is available via $\bm{pip}$ \footnote{\url{https://pypi.org/project/csnl-vae-olaralex/}} and the corresponding datasets to use with some example Jupyter notebooks are available through Kaggle \footnote{\url{https://www.kaggle.com/dumbo666/wigner-csnl-textures-mnist-format}}.
 
 \newpage
 \printbibliography
