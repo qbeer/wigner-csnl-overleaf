@@ -107,14 +107,13 @@ Computational Systems Neuroscience Lab \\
 
 \vspace{7mm}
 
-\par  The visual cortex is a many layered unit in the brain, in which the first computational layer (V1) is known to detect edges in visual stimuli.
-The second computational layer is doing further abstraction but we do not yet
-have proper information about its role in vision \cite{ZiembaV2}. For the sake of acquiring a
-better understanding of the visual representation of the brain, it is crucial to be able to build models that are on one hand not similar in every regard to the brain but on the other hand reproduce its properties, responses to visual input.
+\par  The visual cortex is a hierarchically organized structure in the mammalian brain, in which the first computational layer (primary visual cortex - V1) is known to detect edges in visual stimuli \cite{hubel1968receptive}.
+As the visual hierarchy ultimately produces the representation of high-level concepts such as objects, we have strong reasons to believe that the second computational layer (secondary visual cortex - V2) extracts features that are compositions of the edge features from V1, such as textures \cite{ZiembaV2}, although the representation in V2 is nowhere near as well-explored as the one in V1, and further levels of the visual hierarchy have been studied even less. In order to obtain a more complete understanding of the representational layers of the visual cortex, we need to build computational models that can take images as input and produce testable predictions about various measurable statistical properties of the neural activity elicited by the same images in human or animal brains \cite{yamins2014performance}.
+While it is important that the variables of such models are comparable to experimentally recorded neurons, in order to provide a functional understanding of the visual system, they need to abstract away the biophysical details of neural and synaptic dynamics into abstract variables. For these reasons, we turn to computational models developed in machine learning, which have been highly successful in modelling image data, and apply them to provide insights to the computational architecture of the brain.
 
 \vspace{4mm}
 
-\par Since the brain is capable of behaving generatively, such as imagining things that do not exist from memory, therefore we should aim for developing such models. In this aspect, the latent representational models proved to be very good candidates as the actively researched variational autoencoders (VAE) from the domain of deep learning \cite{kingma2013auto}. This model attempts to represent high-dimensional images in a smaller vector space with auxiliary constraints on the latent representation using deep neural networks.
+\par Since the brain is capable of behaving generatively, such as imagining things that do not exist from memory, therefore we should aim for developing such models. In this aspect, the latent representational models proved to be very good candidates such as the actively researched variational autoencoders (VAE) from the domain of deep learning \cite{kingma2013auto}. This model attempts to represent high-dimensional images in a smaller vector space with auxiliary constraints on the latent representation using deep neural networks.
 
 \vspace{4mm}
 
@@ -132,9 +131,17 @@ better understanding of the visual representation of the brain, it is crucial to
 
 \par Recent advances in machine learning provide tools to tackle variational inference since VAEs perform approximate inference on complex data. Also biological insights can be used to explore several aspects of VAEs. Inspired by the hierarchical structure of the visual cortex, we seek to understand how hierarchical models can be built using VAEs. Some elementary but not trivial properties of images are tested, such as contrast and we explore how variational auto-encoders deal with them. These insights provide a way to see how a promising class of machine learning models can be used to get and understanding of visual processing in the mammalian visual cortex.
 
+\vspace{7mm}
+
+\subsection{Overview}
+
+\vspace{7mm}
+
+\par In the following essay we are going to present different models for understanding the visual cortex. Firstly, we will discuss early models such as sparse coding, since it was a breakthrough in getting a better insight on the V1. Moving on from this to current deep learning territory we are going to explain the details of auto-encoders, variational auto-encoders and ladder variational auto-encoders and their role in developing methods to understand the mammalian visual cortex. Variational inference used in VAEs and LVAEs is discussed in detail with the underlying theory and results. Moving on from theory we present details of the models used in this work heavily emphasizing that most components in the architectures can be freely swapped to lower or higher complexity ones. Additionally the main dataset is presented along with implementation details and nuances that made training of these deep neural networks successful in these settings. At last but not least in the results section contrast disentanglement is discussed in detail analyzing different models and input modifications in order to understand the acquired low-dimensional representations. 
+
 \newpage
 
-\section{Models}
+\section{Computational models}
 
 \vspace{7mm}
 
@@ -142,7 +149,7 @@ better understanding of the visual representation of the brain, it is crucial to
 
 \vspace{5mm}
 
-\par It was the work of Olshausen and Field \cite{olshausen1996emergence} who proposed a model describing the structure of the first layer in the visual cortex (V1). The main assumption than an image $I(x, y)$ can be decomposed on a set of linear basis functions:
+\par It was the work of Olshausen and Field \cite{olshausen1996emergence} who proposed a model describing the structure of the first computational layer in the visual cortex (V1). The main assumption is that an image $I(x, y)$ can be decomposed on a set of linear basis functions:
 
 \vspace{4mm}
 
@@ -152,7 +159,7 @@ better understanding of the visual representation of the brain, it is crucial to
 
 \vspace{4mm}
 
-\par Where the components $a_{i}$ are decorrelated pairwise $\E (a_i a_j) = \E a_i \E a_j$. These assumptions were made to satisfy three main point:
+\par Where the components $a_{i}$ are pairwise decorrelated $\E (a_i a_j) = \E a_i \E a_j$. These assumptions were made to satisfy three main point:
 
 \vspace{4mm}
 
@@ -172,17 +179,28 @@ better understanding of the visual representation of the brain, it is crucial to
 
 \vspace{5mm}
 
-\par Autoencoders are mostly used to reduce dimensionality of data in an unsupervised manner. They consist of an encoder and a decoder model surrounding the reduced representation. These models are usually realized as neural networks due to their generalization capability. Autoencoders are a crucial tool for data compression and can reach better results than traditional tools \cite{theis2017lossy}. Variational autoencoders tackle the same problem while constraining the latent, reduced representation. This sacrifices reconstruction accuracy in order to learn a better representation of the dataset.
-
-\subsubsection{Math}
+\par Auto-encoders are mostly used to reduce dimensionality of data in an unsupervised manner. They consist of an encoder and a decoder model surrounding the reduced representation \ref{fig:auto_encoder_scheme}. 
 
 \vspace{4mm}
 
-\par Considering a dataset $\boldsymbol{X} = \big\{\boldsymbol{\bm{x}}^{i}\big\}_{i = 1}^{N}$ that consists of independently and identically distributed samples of an underlying distribution it can be assumed that the data has some underlying, unobserved variable $\boldsymbol{\bm{z}}$. The value $\boldsymbol{\bm{z}}^{i}$, corresponding to a sample $\boldsymbol{\bm{x}}^{i}$, is first generated from a prior distribution $p_{\boldsymbol{\vartheta_{real}}}(\boldsymbol{\bm{z}})$ and $\boldsymbol{\bm{x}}^{i}$ is then generated from a conditional distribution $p_{\vartheta_{real}}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}})$. Since the real model parameters $\vartheta_{real}$ are unknown we can only approximate them with the encoder and decoder parametric models.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{220px-Autoencoder_schema.png}
+    \caption{Basic scheme of an auto-encoder \footnote{From \url{https://en.wikipedia.org/wiki/Autoencoder}}}
+    \label{fig:auto_encoder_scheme}
+\end{figure}
 
 \vspace{4mm}
 
-\par We want to approximate the posterior probability:
+\par These models are usually realized as neural networks due to their generalization capability as universal function approximators. Auto-encoders are a crucial tool for data compression and can reach better results than traditional algorithms \cite{theis2017lossy} such as lossy JPEG. Variational auto-encoders tackle the same problem while constraining the latent representation. This sacrifices reconstruction accuracy in order to learn a better representation of the used dataset.
+
+\vspace{4mm}
+
+\subsubsection{Variational inference in auto-encoders}
+
+\vspace{4mm}
+
+\par Considering a dataset $\boldsymbol{X} = \big\{\boldsymbol{\bm{x}}^{(i)}\big\}_{i = 1}^{N}$ that consists of independently and identically distributed samples of an underlying distribution $p{\boldsymbol{X}}$ it can be assumed that the data has some underlying, unobserved variable $\boldsymbol{\bm{z}}$. The value $\boldsymbol{\bm{z}}^{(i)}$, corresponding to a sample $\boldsymbol{\bm{x}}^{(i)}$, is first generated from a prior distribution $p_{\boldsymbol{\vartheta_{real}}}(\boldsymbol{\bm{z}})$ and $\boldsymbol{\bm{x}}^{(i)}$ is then generated from a conditional distribution $p_{\vartheta_{real}}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}})$. Since the real model parameters $\vartheta_{real}$ are unknown we can only approximate them with the encoder and decoder parametric models. As we want to approximate the posterior probability:
 
 \vspace{4mm}
 
@@ -192,31 +210,31 @@ better understanding of the visual representation of the brain, it is crucial to
 
 \vspace{4mm}
 
-\par Where basically we just applied Bayes-theorem for the likelihood and the prior to acquire the posterior. We build an encoder/recognition model $q_{\phi}(\boldsymbol{\bm{z}} | \boldsymbol{\bm{x}})$ and a decoder model $p_{\vartheta}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}})$. The probabilistic encoder produces a distribution over $\boldsymbol{\bm{z}}$ that should properly approximate the prior while the  decoder provides samples from the approximated true distribution given a latent code. This is obviously a two-step generation process. 
+\par Where basically we just applied Bayes-theorem for the likelihood and the prior to acquire the posterior \footnote{the true posterior is intractable since it would require us to calculate $p_{\vartheta}(\bm{x})$}. We build an encoder/recognition model $q_{\phi}(\boldsymbol{\bm{z}} | \boldsymbol{\bm{x}})$ and a decoder model $p_{\vartheta}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}})$. The probabilistic encoder produces a distribution over $\boldsymbol{\bm{z}}$ that should properly approximate the prior while the  decoder provides samples from the approximated true distribution given a latent code. This is obviously a two-step generation process. 
 
 \vspace{4mm}
 
-\par In the article of Kingma and Welling \cite{kingma2013auto} they present a variational model that can be trained with gradient descent including stochastic variables. They achieve this in detail as follows:
+\par In the article of Kingma and Welling \cite{kingma2013auto} they present a variational model that can be trained with gradient descent including stochastic variables. This is not a straigthforward problem since back-propagation through stochastic layers is not possible by default. They achieve this goal as explained here:
 
 \vspace{4mm}
 
 \begin{gather*}
     recognition\ model\ :\  q_{\phi}(\bm{z}|\bm{x}) \xrightarrow{\text{approximates}} p_{\vartheta_{real}}(\bm{z} | \bm{x}) \\
-    probabilistic\ decoder\ :\ p_{\theta}(\bm{x} | \bm{z}) \xrightarrow{\text{approximates}} p_{\theta_{real}}(\bm{x} | \bm{z})
+    probabilistic\ decoder\ :\ p_{\vartheta}(\bm{x} | \bm{z}) \xrightarrow{\text{approximates}} p_{\vartheta_{real}}(\bm{x} | \bm{z})
 \end{gather*}
 
 \vspace{4mm}
 
-\par As the data points from the dataset are independent $p(\bm{x}^{(1)}, \bm{x}^{(2)}, ..., \bm{x}^{(N)}) = p(\bm{x}^{(1)})p(\bm{x}^{(2)})\cdot ... \cdot p(\bm{x}^{(N)})$ and applying that $p(\bm{x}^{(i)})$, so approximating $p(\bm{x}^{(i)})$ in general:
+\par As the data points from the dataset are independent $p(\bm{x}^{(1)}, \bm{x}^{(2)}, ..., \bm{x}^{(N)}) = p(\bm{x}^{(1)})p(\bm{x}^{(2)})\cdot ... \cdot p(\bm{x}^{(N)})$ we can apply everything on $p(\bm{x}^{(i)})$, so approximating $p(\bm{x}^{(i)})$ in general can be calculated as follows:
 
 \vspace{4mm}
 
 \begin{gather}
-    \ln(p(\bm{x}^{(i)})) = \ln\int p(\bm{x}^{(i)}, \bm{z})dz \quad from\ marginal\ prob.\ dist.\\
-    \ln(p(\bm{x}^{(i)})) = \ln\int p(\bm{x}^{(i)}, \bm{z})\frac{q(\bm{z})}{q(\bm{z})}dz \quad introducing\ the\ prior \\
-    \ln(p(\bm{x}^{(i)})) = \ln \E_{q(\bm{z})} \Big( \frac{p(\bm{x}^{(i)}, \bm{z})}{q(\bm{z})}\Big) \\
+    \ln p(\bm{x}^{(i)}) = \ln\int p(\bm{x}^{(i)}, \bm{z})dz \quad from\ marginal\ prob.\ dist.\\
+    \ln p(\bm{x}^{(i)}) = \ln\int p(\bm{x}^{(i)}, \bm{z})\frac{q(\bm{z})}{q(\bm{z})}dz \quad introducing\ the\ prior \\
+    \ln p(\bm{x}^{(i)}) = \ln \E_{q(\bm{z})} \Big( \frac{p(\bm{x}^{(i)}, \bm{z})}{q(\bm{z})}\Big) \\
     \ln \E_{q(\bm{z})} \Big( \frac{p(\bm{x}^{(i)}, \bm{z})}{q(\bm{z})}\Big) \geq \E_{q(\bm{z})} \ln\Big( \frac{p(\bm{x}^{(i)}, \bm{z})}{q(\bm{z})}\Big) \quad applying\ Jensen's\ inequality \\
-    L_{i} = \ln(p(\bm{x}^{(i)})) \geq \E_{q(\bm{z})} \ln\Big( \frac{p(\bm{x}^{(i)}, \bm{z})}{q(\bm{z})}\Big) \quad ELBO
+    L_{i} = \ln p(\bm{x}^{(i)}) \geq \E_{q(\bm{z})} \ln\Big( \frac{p(\bm{x}^{(i)}, \bm{z})}{q(\bm{z})}\Big) \quad ELBO
 \end{gather}
 
 \vspace{4mm}
@@ -226,37 +244,41 @@ better understanding of the visual representation of the brain, it is crucial to
 \vspace{4mm}
 
 \begin{equation}
-    L_{i} \geq \E_{q_{\phi}(\bm{z} | \bm{x})} \Big( \ln p(\bm{x}^{(i)} | \bm{z}) \Big) + \E_{q_{\phi}(\bm{z} | \bm{x})} \Big( \ln p_{\theta}(\bm{z} | \bm{x}^{(i)}) \Big) - \E_{q_{\phi}(\bm{z} | \bm{x})} \Big( \ln q_{\phi}(\bm{z} | \bm{x}^{(i)}) \Big)
+    L_{i} \geq \E_{q_{\phi}(\bm{z} | \bm{x})} \Big( \ln p(\bm{x}^{(i)} | \bm{z}) \Big) + \E_{q_{\phi}(\bm{z} | \bm{x})} \Big( \ln p_{\vartheta}(\bm{z} | \bm{x}^{(i)}) \Big) - \E_{q_{\phi}(\bm{z} | \bm{x})} \Big( \ln q_{\phi}(\bm{z} | \bm{x}^{(i)}) \Big)
 \end{equation}
 
 \vspace{4mm}
 
-\par By introducing the Kullback-Leibler-divergence term:
+\par By introducing the Kullback-Leibler-divergence term that in layman's term measures the difference of two probability distributions therefore in optimization it ensures that two distributions should be close to each other:
 
 \vspace{4mm}
 
 \begin{gather*}
-    KL(q_{\phi}(\bm{z} | \bm{x}^{(i)}) | p_{\theta}(\bm{z} | \bm{x}^{(i)})) = \int q_{\phi}(\bm{z} | \bm{x}^{(i)})\ln \frac{q_{\phi}(\bm{z} | \bm{x}^{(i)})}{p_{\theta}(\bm{z} | \bm{x}^{(i)})}dz = \E_{q_{\phi}(\bm{z} | \bm{x}^{(i)})} \Big( \ln \frac{q_{\phi}(\bm{z} | \bm{x}^{(i)})}{p_{\theta}(\bm{z}|\bm{x}^{(i)})}  \Big) \\ \\
-    KL(q_{\phi} | p_{\theta}) = -L_{i} + \E_{q_{\phi}(\bm{z} | \bm{x}^{(i)})} \Big( \ln p_{\theta}(\bm{x}^{(i)} | \bm{z}) \Big) \quad using\ Bayes-theorem
+    KL(q_{\phi}(\bm{z} | \bm{x}^{(i)}) | p_{\vartheta}(\bm{z} | \bm{x}^{(i)})) = \int q_{\phi}(\bm{z} | \bm{x}^{(i)})\ln \frac{q_{\phi}(\bm{z} | \bm{x}^{(i)})}{p_{\vartheta}(\bm{z} | \bm{x}^{(i)})}dz = \E_{q_{\phi}(\bm{z} | \bm{x}^{(i)})} \Big( \ln \frac{q_{\phi}(\bm{z} | \bm{x}^{(i)})}{p_{\vartheta}(\bm{z}|\bm{x}^{(i)})}  \Big) \\ \\
+    KL(q_{\phi} | p_{\vartheta}) = -L_{i} + \E_{q_{\phi}(\bm{z} | \bm{x}^{(i)})} \Big( \ln p_{\vartheta}(\bm{x}^{(i)} | \bm{z}) \Big) \quad using\ Bayes-theorem
 \end{gather*}
 
 \vspace{4mm}
 
-\par The goal of the algorithm is to optimize the variational lower bound (ELBO) with respect to the parameters $\phi, \theta$. We also introduce $p_{\theta}(\bm{z} | \bm{x}^{(i)}) \equiv p_{\theta}(\bm{z})$, for all data points, as our prior distribution over the latent variables. Since the gradient of the ELBO is a bit problematic, especially requiring a large amount of computation w. r. t. $\phi$ Kingma and Welling came up with auto-encoding variational Bayes (AEVB) algorithm that makes the model trainable via stochastic gradient descent.
+\par The goal of the algorithm is to optimize the variational lower bound (ELBO) with respect to the parameters $\phi, \vartheta$. We also introduce $p_{\vartheta}(\bm{z} | \bm{x}^{(i)}) \equiv p_{\vartheta}(\bm{z})$, for all data points, as our prior distribution over the latent variables. Since the gradient of the ELBO is a bit problematic, especially requiring a large amount of computation w. r. t. $\phi$, Kingma and Welling came up with auto-encoding variational Bayes (AEVB) algorithm that makes the model trainable via stochastic gradient descent.
+
+\vspace{4mm}
 
 \paragraph{The reparametrization trick \newline \newline}
 
-\par Let $\bm{z}$ be a random variable sampled from $   q_{\phi}(\bm{z} | \bm{x})$. It is often possible to express \footnote{1. tractable CDF, 2. norm-scale functions, 3. composition} such variable as a deterministic mapping $\bm{z} = g_{\phi}(\bm{\epsilon}, \bm{x})$ where $\bm{\epsilon}$ is an independent random variable with marginal distribution $p(\bm{\epsilon})$. Since we know from basic probability theory $q_{\phi}(\bm{z} | \bm{x})dz = p(\bm{\epsilon})d\bm{\epsilon}$. Therefore the expected value of a function $f(\bm{z})$ can be computed as:
+\vspace{4mm}
+
+\par Let $\bm{z}$ be a random variable sampled from $   q_{\phi}(\bm{z} | \bm{x})$. It is often possible to express \footnote{1. tractable CDF, 2. norm-scale functions, 3. composition} such variable as a deterministic mapping $\bm{z} = g_{\phi}(\bm{\epsilon}, \bm{x})$ where $\bm{\epsilon}$ is an independent random variable with marginal distribution $p(\bm{\epsilon})$. Since we know from basic probability theory $q_{\phi}(\bm{z} | \bm{x})|d\bm{z}| = p(\bm{\epsilon})|d\bm{\epsilon}|$. Therefore the expected value of a function $f(\bm{z})$ can be computed as:
 
 \vspace{4mm}
 
 \begin{equation}
-    \int f(\bm{z})q_{\phi}(\bm{z} | \bm{x}^{(i)})dz = \int p(\bm{\epsilon})f(g_{\phi}(\bm{\epsilon}, \bm{x}^{(i)})) d\bm{\epsilon} \approx \frac{1}{L}\sum_{l=1}^{L}f(g_{\phi}(\bm{\epsilon}^{(l)}, \bm{x}^{(i)}))
+    \int f(\bm{z})q_{\phi}(\bm{z} | \bm{x}^{(i)})d\bm{z} = \int p(\bm{\epsilon})f(g_{\phi}(\bm{\epsilon}, \bm{x}^{(i)})) d\bm{\epsilon} \approx \frac{1}{L}\sum_{l=1}^{L}f(g_{\phi}(\bm{\epsilon}^{(l)}, \bm{x}^{(i)}))
 \end{equation}
 
 \vspace{4mm}
 
-\par Where $\bm{\epsilon}^{(l)}$ is sampled from $p(\bm{\epsilon})$. If we take $q_{\phi}(\bm{z} | \bm{x})$ as the Gaussian distribution $\bm{z} \sim N(\mu, \sigma)$ then a straightforward reparametrization $g_{\phi}$ occurs as $\bm{z} = \mu + \bm{\epsilon} \sigma$.
+\par Where $\bm{\epsilon}^{(l)}$ is sampled from $p(\bm{\epsilon})$. If we take $q_{\phi}(\bm{z} | \bm{x})$ as the Gaussian distribution $\bm{z} \sim N(\bm{\mu}, \bm{\sigma})$ then a straightforward reparametrization $g_{\phi}$ occurs as $\bm{z} = \bm{\mu} + \bm{\epsilon} \odot \bm{\sigma}$.
 
 \vspace{4mm}
 
@@ -269,41 +291,26 @@ better understanding of the visual representation of the brain, it is crucial to
 
 \vspace{4mm}
 
-\par As we can see in figure \ref{fig:vae} the variational autoencoder is outlined. The general intuition is that a neural network approximates $q_{\phi}(\bm{z} | \bm{x})$ over that dataset and it is assumed that it takes a multivariate Gaussian form for the true, intractable posterior $p_{\theta_{real}}(\bm{z} | \bm{x})$.
+\par As we can see in (\ref{fig:vae}) the variational autoencoder is outlined. The general intuition is that a neural network approximates $q_{\phi}(\bm{z} | \bm{x})$ over that dataset and it is assumed that it takes a multivariate Gaussian form for the true, intractable posterior $p_{\vartheta_{real}}(\bm{z} | \bm{x})$.
 
 \vspace{4mm}
 
-\par We sample $\bm{z}$ from a Gaussian where the mean and standard deviation is the output of the probabilistic encoder and than we apply the reparametrization. With this method the variational lower bound becomes simple to approximate:
+\par We sample $\bm{z}$ from a Gaussian where the mean and standard deviation is the output of the probabilistic encoder and than we apply the reparametrization trick. With this method the variational lower bound becomes simple to approximate:
 
 \vspace{4mm}
 
 \begin{equation}
     L_{i} \simeq \frac{1}{2}\sum_{j = 1}^{J}\Big( 1 + \ln(\sigma^{(i)}_{j})^{2} - (\mu^{(i)}_{j})^{2} - (\sigma^{(i)}_{j})^{2} \Big) + \frac{1}{L}\sum_{l=1}^{L}\ln p_{\theta}(\bm{x}^{(i)} | \bm{z}^{(i, l)})
+    \label{eq:ELBO}
 \end{equation}
 
 \vspace{4mm}
 
-\par Where $\bm{z}^{(i, l)} = \mu^{(i)} + \sigma^{(i)} \odot \bm{\epsilon}^{(l)}$ where $\mu, \sigma$ come from $q_{\phi}(\bm{z} | \bm{x})$ and $\bm{\epsilon}$ from $p(\bm{\epsilon}) \sim N(0, 1)$. The first part is the Kullback-Leibler-divergence between a unit Gaussian and $N(\mu^{(i)}, \sigma^{(i)})$ Gaussian, this can be analytically calculated.
+\par Where $\bm{z}^{(i, l)} = \bm{\mu}^{(i)} + \bm{\sigma}^{(i)} \odot \bm{\epsilon}^{(l)}$ where $\bm{\mu}, \bm{\sigma}$ come from $q_{\phi}(\bm{z} | \bm{x})$ and $\bm{\epsilon}$ from $p(\bm{\epsilon}) \sim N(0, 1)$. The first part is the Kullback-Leibler-divergence between a unit Gaussian and $N(\mu^{(i)}, \sigma^{(i)})$ can be analytically calculated and was substituted in \ref{eq:ELBO}.
 
 \vspace{4mm}
 
-\par In practice this means that the KL-divergence can be computed efficiently after encoding and to speed up the process $L = 1$ is usually chosen to not to pass the code through the decoder several times. In the case of continuous pixel values the second part of the ELBO can be approximated with a multivariate Gaussian whereas in case of binary pixel values it becomes a Bernoulli-distribution. 
-
-\vspace{4mm}
-
-\par The models were built in Keras \cite{chollet2015keras} and using its built-in visualization tool I was able to show how my VAE is built:
-
-\vspace{4mm}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.25\textwidth]{vae_keras.png}
-    \caption{Variational autoencoder implementation in Keras}
-\end{figure}
-
-\vspace{4mm}
-
-\par It is a bit confusing since the arrows only mean parameter passes here not dependence as in the graphical representation where the nodes of the graph are random variables as opposed to models. 
+\par In practice this means that the KL-divergence can be computed efficiently after the encoding and to speed up the learning process usually $L = 1$ is chosen to not to pass the code through the decoder several times. In the case of continuous pixel values the second part of the ELBO can be approximated with a multivariate Gaussian whereas in case of binary pixel values it becomes a Bernoulli-distribution. 
 
 \vspace{5mm}
 
@@ -346,24 +353,6 @@ better understanding of the visual representation of the brain, it is crucial to
     \caption{Ladder variational autoencoder}
 \end{figure}
 
-\vspace{4mm}
-
-\par The models were built with Keras \cite{chollet2015keras} as well:
-
-\vspace{4mm}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{dense_lvae_keras.png}
-    \caption{Ladder variational autoencoder implementation in Keras}
-    \label{fig:keras_lvae}
-\end{figure}
-
-\vspace{4mm}
-
-\par Keras provides high modularity so the blocks \textit{dense\_encoder\_1, dense\_decoder\_1, etc.} can all be
-changed and swapped to higher or lower capacity models with MLP or convolutional architectures.
-
 \newpage
 
 \section{Datasets}
@@ -378,24 +367,26 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\begin{figure}[ht] 
+\begin{figure}[H] 
   \label{fig:texture-families} 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{default.png} 
     \caption{Images} 
-  \end{minipage}%%
-  \begin{minipage}[b]{0.5\linewidth}
+  \end{minipage}
+  \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{normalized.png} 
     \caption{Normalized images} 
   \end{minipage} 
-  \begin{minipage}[b]{0.5\linewidth}
+  
+  
+  \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{default_contrast.png} 
     \caption{Images - contrast applied} 
   \end{minipage}%% 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{normalized_contrast.png} 
     \caption{Normalized images - contrast applied} 
@@ -416,7 +407,45 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
     L_{i} \simeq \beta_{max}\frac{1}{2}\sum_{j = 1}^{J}\Big( 1 + \ln(\sigma^{(i)}_{j})^{2} - (\mu^{(i)}_{j})^{2} - (\sigma^{(i)}_{j})^{2} \Big) + \frac{1}{L}\sum_{l=1}^{L}\ln p_{\theta}(\bm{x}^{(i)} | \bm{z}^{(i, l)})
 \end{equation}
 
+\vspace{5mm}
+
+\subsection{Architectural details}
+
+\vspace{5mm}
+
+\par The models were built in Keras \cite{chollet2015keras} and using its built-in visualization tool I was able to show how my modular VAE is constructed:
+
 \vspace{4mm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.25\textwidth]{vae_keras.png}
+    \caption{Variational autoencoder implementation in Keras}
+\end{figure}
+
+\vspace{4mm}
+
+\par It is a bit confusing since the arrows only mean parameter passes here not dependence as in the graphical representation where the nodes of the graph are random variables as opposed to models. Moving on to the LVAE:
+
+\vspace{4mm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{dense_lvae_keras.png}
+    \caption{Ladder variational autoencoder implementation in Keras}
+    \label{fig:keras_lvae}
+\end{figure}
+
+\vspace{4mm}
+
+\par Keras provides high modularity so the blocks \textit{dense\_encoder\_1, dense\_decoder\_1, etc.} can all be
+changed and swapped to higher or lower capacity and complexity modules with MLP \footnote{Multilayer Perceptron} or convolutional architectures.
+
+\vspace{5mm}
+
+\subsection{Incremental $\beta$-learning}
+
+\vspace{5mm}
 
 \par From the original LVAE article \cite{sonderby2016ladder} I used incremental $\beta$ learning, meaning that I raised my $\beta$ value incrementally during learning for 3/7ths of the epochs and kept on learning with $\beta = \beta_{max}$ for the remaining steps. From this article I also tested batch-normalization and built modular models that include convolution with batch-normalization as well. The value $\beta_{max}$ can be set before the start of the training, $\beta_{max} = 1$ is the case of the VAE but raising its value directly emphasizes the influence of the KL-term on the system during training.
 
@@ -434,7 +463,11 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \par Where $\boldsymbol{\bm{\epsilon}}^{(l)} \sim \boldsymbol{N}(0, 1)$ in order to be able to achieve that when sampling from the generative model we would only need to sample this $\bm{\epsilon}$ parameter and feed it to the network to generate new samples from the approximated $p_{\vartheta_{real}}(x | z)$ distribution based on the learnt latent representations.
 
-\vspace{4mm}
+\vspace{5mm}
+
+\subsection{Generative model sampling}
+
+\vspace{5mm}
 
 \par Both models can be sampled after training. However, in the VAE architecture it is straightforward to do so \footnote{generate the random variable and feed it to the decoder}, on the other hand, the LVAE needs bottom up information from the image since the calculation of the mean and standard deviation is deterministic from the generated bottom up (from the input image - referenced as $\bm{bu}$) and top down (from the stochastic latent parameter - referenced as $\bm{td}$) components:
 
@@ -468,11 +501,15 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\par In figures (\ref{fig:vae}), (\ref{fig:keras_lvae}) it can be spotted that there is an intermediate step included in the generation process of the standard deviations. Since linear layers are constructing the means and the standard deviations they are not restricted to be positive which is not an issue for the means of Gaussian distributions but for the standard deviations. It is usually resolved as generating the logarithm of the standard deviations and then taking their exponential each time their value is needed.
+\par In (\ref{fig:vae}), (\ref{fig:keras_lvae}) it can be spotted that there is an intermediate step included in the generation process of the standard deviations. Since linear layers are constructing the means and the standard deviations they are not restricted to be positive which is not an issue for the means of Gaussian distributions but for the standard deviations. It is usually resolved as generating the logarithm of the standard deviations and then taking their exponential each time their value is needed.
 
-\vspace{4mm}
+\vspace{5mm}
 
-\par As I mentioned during the description of the models used, I implemented everything in the framework Keras and used the package $\bm{tensorflow\_probability}$ to be able to include statistical methods, such as probability distribution sampling in my code. In addition, I want to emphasize that I have build a Python library out of my code to provide a framework to test variational autoencoders with different datasets. The package is available via $\bm{pip}$ \footnote{\url{https://pypi.org/project/csnl-vae-olaralex/}} and the corresponding datasets to use with some example Jupyter notebooks are available through Kaggle \footnote{\url{https://www.kaggle.com/dumbo666/wigner-csnl-textures-mnist-format}}.
+\subsection{Tools and resources}
+
+\vspace{5mm}
+
+\par As I mentioned during the description of the models used, I implemented everything in the framework Keras and also heavily relied on the package $\bm{tensorflow\_probability}$ to be able to include statistical methods, such as probability distribution sampling in my code. In addition, I want to emphasize that I have build a Python library out of my code to provide a framework to test variational autoencoders with different datasets. The package is available via $\bm{pip}$ \footnote{\url{https://pypi.org/project/csnl-vae-olaralex/}} and the corresponding datasets to use with some example Jupyter notebooks are available through Kaggle \footnote{\url{https://www.kaggle.com/dumbo666/wigner-csnl-textures-mnist-format}}.
 
 \newpage
 
@@ -480,11 +517,11 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{7mm}
 
-\subsection{Disentangled learning - contrast}
+\subsection{Disentangling contrast}
 
 \vspace{5mm}
 
-\par I wanted to encode information in the latent code. In order to do so I implemented some random contrast factor on the training data while feeding it through my networks. This mode could have been switched on and off by a function flag. All my datasets contained continuous values in the range $[0, 1]$. I applied the following non-deterministic function on each image of a batch:
+\par I wanted to encode high level information in the latent code. In order to do so I implemented some random contrast factor on the training data while feeding it through my networks in batches. This mode could have been switched on and off by a function flag to apply additional contrast or not. All my datasets contained continuous values in the range $[0, 1]$. I applied the following non-deterministic function on each image of a batch:
 
 \vspace{4mm}
 
@@ -494,7 +531,7 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\par Where $I(x, y)$ is the original image, I approximated the global mean with $0.5$ therefore the multiplication by the random number $R$ for each image directly modified the standard deviation of the image, therefore its contrast.
+\par Where $I(x, y)$ is the original image, I approximated the global mean with $0.5$ therefore the multiplication by the random number $R$ for each image directly modified the standard deviation of the image, therefore its global contrast.
 
 \vspace{4mm}
 
@@ -502,7 +539,7 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{5mm}
 
-\subsection{Incremental $\beta$ learning}
+\subsection{Incremental $\beta$-learning}
 
 \vspace{5mm}
 
@@ -510,7 +547,7 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\par It can be heuristically explained why warm-up/incremental $\beta$ learning helps the process. Since with $\beta = 0$ the VAE becomes a simple auto-encoder, for which the primary goal is to reconstruct the given examples perfectly, we incrementally add the restriction to the latent space, therefore a better reconstruction is achieved with not randomly initialized weights by the time that the KL-term influences the latent space significantly. I examine the case where $\beta_{max}$ is high and therefore has a substantial influence on reconstruction quality and latent structure.
+\par It can be heuristically explained why warm-up/incremental $\beta$-learning helps the process. Since with $\beta = 0$ the VAE becomes similar to simple auto-encoder, for which the primary goal is to reconstruct the given examples perfectly, we incrementally add the restriction to the latent space, therefore a better reconstruction is achieved with not randomly initialized weights by the time that the KL-term influences the latent space significantly. I examine the case where $\beta_{max}$ is high and therefore has a substantial influence on reconstruction quality and latent structure.
 
 \vspace{5mm}
 
@@ -518,24 +555,26 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{5mm}
 
-\par After training a model for several epochs we have an inference model which is not very interesting. Since in best conditions it reconstructs the image provided to it. We want to be able to sample from $p_{\bm{\epsilon}}$, pass the sampled value through the decoder and achieve previously unseen but visually pleasing images of the same sort as the used dataset. 
+\par After training a model for several epochs we have an inference model which is not very interesting. Since in best conditions it reconstructs the images provided to it perfectly. We want to be able to sample from $p_{\bm{\epsilon}}$, pass the sampled value through the decoder and achieve previously unseen but visually pleasing images of the same sort as the used dataset. For this we use the generative or decoder model. 
 
 \vspace{4mm}
 
-\par In order to do this I implemented several sampling processes. On samples the prior distribution $N x N$ times where $N$ is a function parameter and plots the results on a grid. This shows whether the latent space became meaningful at all. I also implemented sweeping in the latent space where each component of the latent code can be chosen and by sampling from $p(\bm{\epsilon})$ once an changing only $\epsilon_{i}$ in a range one can visualize what each latent component does. Since they are not completely independent this method only provides an intuition, however, when combined with contrast one can find parameters which mostly encode that.
+\par In order to do this I implemented several sampling processes. One samples the prior distribution $N x N$ times where $N$ is a function parameter and plots the results on a grid. This shows whether the latent space became meaningful at all. I also implemented sweeping in the latent space where each component of the latent code can be chosen and by sampling from $p(\bm{\epsilon})$ once an changing only $\epsilon_{i}$ in a range one can visualize what each latent component does. Since they are not completely independent this method only provides an intuition, however, when combined with contrast one can hope to find parameters which mostly encode that.
 
 \vspace{4mm}
 
 \begin{figure}[ht] 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_mnist_dense_vae.png}
-    \caption{Sampled images} 
-  \end{minipage}%%
-  \begin{minipage}[b]{0.5\linewidth}
+    \caption{Sampled images from a trained generative model on the MNIST dataset with dense encoder/decoder and $\beta$-VAE architecture}
+    \label{fig:sampled-images-1}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_fashion_mnist_dense_vae.png} 
-    \caption{Sampled images} 
+    \caption{Sampled images from a trained generative model on the FashionMNIST dataset with dense encoder/decoder and $\beta$-VAE architecture} 
+    \label{fig:sampled-images-2}
   \end{minipage} 
 \end{figure}
 
@@ -545,7 +584,19 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\par For labeled data (MNIST, textures) I could also correlate the one hot encoded labels with the latent code for each class. With this method I could measure which latent components reacts to which class labels mostly. By changing its value I wanted to find out whether the texture-family or the corresponding digit features can be suppressed or not.
+\subsection{Label correlation anaylisis}
+
+\vspace{4mm}
+
+\par For labeled data (MNIST, FashionMNIST, textures) I could also correlate the one hot encoded labels with the latent code for each class. With this method I could measure which latent components reacts to which class labels mostly. By changing its value I wanted to find out whether the texture-family or the corresponding digit features can be suppressed or not.
+
+\vspace{4mm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{17_DenseLinLinLadderVAE_contrastNorm-cat-4-to-z2-corr.png}
+    \caption{Linear + dense encoders and dense + linear decoders LVAE architecture with contrast normalization, showing the $4$th category pairwise correlation for a large, representative batch with $\bm{z^{(2)}}$}
+\end{figure}
 
 \vspace{4mm}
 
@@ -562,7 +613,60 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\par I also experimented with t-SNE \cite{maaten2008visualizing} decomposition on the latent code(s) and data reconstructed data to see whether the image/texture classes are decomposed in the embedding space. It is also crucial to see whether in the case of the LVAE if $\bm{z}^{(2)}$ contains more, less or the same information as $\bm{z}^{(1)}$. This question is motivated by the fact that in \cite{ZiembaV2} they suggest that the V2 codes different information as the V1 and hierarchical models use different information in different levels in the mammalian brain from the same input.
+\subsection{UMAP decomposition}
+
+\vspace{4mm}
+
+\par I also experimented with UMAP \cite{mcinnes2018umap} and  t-SNE \cite{maaten2008visualizing} embeddings on the latent code(s) and reconstructed data to see whether the image/texture classes are decomposed in the embedding space. It is also crucial to see whether in the case of the LVAE if $\bm{z}^{(2)}$ contains more, less or the same information as $\bm{z}^{(1)}$. This question is motivated by the fact that in \cite{ZiembaV2} they suggest that the V2 codes different information as the V1 and hierarchical models use different information in different levels in the mammalian brain from the same input. For computational efficiency I used UMAP since it is significantly faster and produces visually similar results to t-SNE.
+
+\begin{figure}[H] 
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=.7\linewidth]{umap_z1_dense_lin_lin_no_norm.png}
+    \caption{UMAP decomposition of $\bm{z^{(1)}}$ from a trained LVAE architecture with linear + dense encoders and dense + linear decoders}
+    \label{fig:umap-z1}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=.7\linewidth]{umap_z2_dense_lin_lin_no_norm.png} 
+    \caption{UMAP decomposition of $\bm{z^{(2)}}$ from a trained LVAE architecture with linear + dense encoders and dense + linear decoders} 
+    \label{fig:umap-z2}
+  \end{minipage} 
+\end{figure}
+
+\vspace{4mm}
+
+\par With the same decomposition I present here the corresponding textures not just their labels what we can notice in the following figures is that the UMAP embedding suggests that some information is lost and some information is gained from $\bm{z}^{(1)}$ to $\bm{z}^{(2)}$, since in (\ref{fig:umap-z1}, \ref{fig:umap-z1-text}) categories $5$, $6$ are properly separated into two distinct groups while label $5$ is separated into 3 folds in (\ref{fig:umap-z2}, \ref{fig:umap-z2-text}) and is even mixing with $3$. On the other hand, two mixed groups are separated in the deepest latent code.
+
+\vspace{4mm}
+
+\begin{figure}[H] 
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=.7\linewidth]{umap_z1_dense_lin_lin_no_norm_textures.png}
+    \caption{UMAP decomposition of $\bm{z^{(1)}}$ from a trained LVAE architecture with linear + dense encoders and dense + linear decoders, each point is represented with the reconstruction from the corresponding texture family}
+    \label{fig:umap-z1-text}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
+    \centering
+    \includegraphics[width=.7\linewidth]{umap_z2_dense_lin_lin_no_norm_textures.png} 
+    \caption{UMAP decomposition of $\bm{z^{(2)}}$ from a trained LVAE architecture with linear + dense encoders and dense + linear decoders, each point is represented with the reconstruction from the corresponding texture family} 
+    \label{fig:umap-z2-text}
+  \end{minipage} 
+\end{figure}
+
+\vspace{4mm}
+
+\par We also measured pairwise linear correlation - Pearson-correlation - between $\bm{z}^{(1)}$ and $\bm{z}^{(2)}$.
+
+\vspace{4mm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{z1_z2_correlation.png}
+    \label{fig:pearson-matrix}
+    \caption{Pearson-correlation between $\bm{z}^{(1)}$ and $\bm{z}^{(2)}$}
+\end{figure}
 
 \newpage
 
@@ -582,14 +686,14 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\begin{figure}[ht] 
+\begin{figure}[H] 
   \label{fig:auto_encoder_results} 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_mnist_auto_encoder.png} 
     \caption{Sampled images} 
-  \end{minipage}%%
-  \begin{minipage}[b]{0.5\linewidth}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{reco/reconstrunction_samples_mnist_auto_encoder.png} 
     \caption{Reconstructed images} 
@@ -612,12 +716,12 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \begin{figure}[ht] 
   \label{fig:auto_encoder_results} 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_fashion_mnist_dense_vae.png} 
     \caption{Sampled images} 
   \end{minipage}%%
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{reco/reconstrunction_samples_fashion_mnist_dense_vae.png} 
     \caption{Reconstructed images} 
@@ -634,12 +738,12 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \begin{figure}[ht] 
   \label{fig:auto_encoder_results} 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_fashion_mnist_auto_encoder.png} 
     \caption{Sampled images} 
   \end{minipage}%%
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{reco/reconstrunction_samples_fashion_mnist_auto_encoder.png} 
     \caption{Reconstructed images} 
@@ -685,25 +789,25 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 \vspace{4mm}
 
 \begin{figure}[H] 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_noContrastNorm_noContrast.png} 
     \caption{No contrast - no normalization} 
     \label{fig:contrast-generated-1} 
   \end{minipage}%%
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_noContrastNorm_contrast.png} 
     \caption{Contrast - no normalization} 
     \label{fig:contrast-generated-2} 
   \end{minipage} 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_contrastNorm_noContrast.png} 
     \caption{No contrast - normalization} 
     \label{fig:contrast-generated-3} 
   \end{minipage}%% 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_contrastNorm_contrast.png} 
     \caption{Contrast - normalization} 
@@ -733,25 +837,25 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \begin{figure}[H] 
   \label{fig:contrast-correlation} 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{contrast_to_latent/no_norm_contrast_z2_corr.png} 
     \caption{No contrast - no normalization} 
     \label{fig:no-contrast-no-norm}
   \end{minipage}%%
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{contrast_to_latent/no_norm_contrast_contrast_z2_corr.png} 
     \caption{Contrast - no normalization} 
     \label{fig:contrast-no-norm}
   \end{minipage} 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{contrast_to_latent/norm_no_contrast_correlation.png} 
     \caption{No contrast - normalization} 
     \label{fig:no-contrast-norm}
   \end{minipage}%% 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{contrast_to_latent/norm_contrast_correlation.png} 
     \caption{Contrast - normalization} 
@@ -774,13 +878,13 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 \vspace{4mm}
 
 \begin{figure}[H]
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{label-contrast-corr/cat-1-to-z2-corr.png} 
     \caption{$1$st one-hot encoded label to $\bm{z}_{2}$} 
     \label{fig:label-contrast-corr-1}
 \end{minipage}%% 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{label-contrast-corr/contrast-to-z2-corr.png} 
     \caption{Contrast to $\bm{z}_{2}$} 
@@ -798,32 +902,32 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \begin{figure}[H] 
   \label{fig:contrast-correlation} 
-  \begin{minipage}[b]{0.33\linewidth}
+  \begin{minipage}{0.33\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{sweep/no_norm_no_contrast_sweep_minus_two_to_one.png} 
     \caption{No contrast, no \newline norm. sweep in $[-2, 1]$} 
     \label{fig:no-contrast-no-norm-sweep}
   \end{minipage}%%
-  \begin{minipage}[b]{0.33\linewidth}
+  \begin{minipage}{0.33\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{sweep/no_norm_contrast_sweep_minus_two_to_two_3rd_param.png} 
     \caption{Contrast, no norm. \newline sweep in $[-2, 2]$ $3$rd component} 
     \label{fig:contrast-no-norm-sweep-3}
   \end{minipage} 
-  \begin{minipage}[b]{0.33\linewidth}
+  \begin{minipage}{0.33\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{sweep/no_norm_contrast_sweep_minus_two_to_two_5th_param.png} 
     \caption{Contrast, no norm. \newline sweep in $[-2, 2]$ $5$th component} 
     \label{fig:contrast-no-norm-sweep-5}
   \end{minipage}
   %% stats
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{sweep/no_contrast_no_norm_z2_stats.png} 
     \caption{No contrast \newline no norm $\bm{z}_{2}$ statistics} 
     \label{fig:no-contrast-no-norm-stats}
   \end{minipage} 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{sweep/contrast_no_norm_z2_stats.png} 
     \caption{Contrast, no norm. \newline $\bm{z}_{2}$ statistics} 
@@ -843,13 +947,13 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \begin{figure}[H] 
   \label{fig:contrast-correlation} 
-  \begin{minipage}[b]{0.4\linewidth}
+  \begin{minipage}{0.4\linewidth}
     \centering
     \includegraphics[width=.8\linewidth]{sweep/norm_no_contrast_sweep_one_to_two_4th_param.png} 
     \caption{No contrast, norm., sweep in $[1, 2]$, $4$th compoment} 
     \label{fig:no-contrast-norm-sweep}
   \end{minipage}%%
-  \begin{minipage}[b]{0.6\linewidth}
+  \begin{minipage}{0.6\linewidth}
     \centering
     \includegraphics[width=1\linewidth]{sweep/norm_no_contrast_z2_stats.png} 
     \caption{No contrast, norm.,  $\bm{z}_{2}$ statistics} 
@@ -864,13 +968,13 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 \vspace{4mm}
  
 \begin{figure}[H]
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_zero_to_one_0th_param.png} 
     \caption{Contrast, norm., sweep in $[0, 1]$ \newline $0$th component} 
     \label{fig:contrast-norm-sweep-0}
   \end{minipage} 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_minus_two_to_one_2nd_param.png} 
     \caption{Contrast, norm., sweep in $[-2, 1]$ \newline $2$nd component} 
@@ -880,13 +984,13 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 
 \begin{figure}[H]
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_minus_two_to_one_3rd_param.png} 
     \caption{Contrast, norm., sweep in $[-2, 1]$ \newline  $3$rd component} 
     \label{fig:contrast-norm-sweep-3}
   \end{minipage}
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_zero_to_two_6th_param.png} 
     \caption{Contrast, norm., sweep in $[0, 2]$ \newline $6$th component} 
@@ -920,22 +1024,22 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 \vspace{4mm}
 
 \begin{figure}[H]
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.6\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-1_TD_BU_COMPS_1.png}
   \end{minipage}
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.6\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-2_TD_BU_COMPS_1.png} 
   \end{minipage}
 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-1_vector_comparisons_1.png} 
     \caption{No contrast, no normalization}
     \label{fig:sample-no-norm-no-contrast-1}
   \end{minipage}
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-2_vector_comparisons_1.png}
     \caption{No contrast, no normalization}
@@ -952,22 +1056,22 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 \vspace{4mm}
 
 \begin{figure}[H]
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_no_contrast_norm/17_DenseLinLinLadderVAE_contrastNorm-stats-1_TD_BU_COMPS_1.png}
   \end{minipage}
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_no_contrast_norm/17_DenseLinLinLadderVAE_contrastNorm-stats-2_TD_BU_COMPS_1.png} 
   \end{minipage}
 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_no_contrast_norm/17_DenseLinLinLadderVAE_contrastNorm-stats-1_vector_comparisons_1.png} 
     \caption{No contrast, normalization}
     \label{fig:sample-norm-no-contrast-1}
   \end{minipage}
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_no_contrast_norm/17_DenseLinLinLadderVAE_contrastNorm-stats-2_vector_comparisons_1.png}
     \caption{No contrast, normalization}
@@ -982,22 +1086,22 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 \vspace{4mm}
 
 \begin{figure}[H]
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_contrast_no_norm/15_DenseLinLinLadderVAE_textures_noContrastNorm_contrast-stats-1_TD_BU_COMPS_1.png}
   \end{minipage}
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_contrast_no_norm/15_DenseLinLinLadderVAE_textures_noContrastNorm_contrast-stats-2_TD_BU_COMPS_1.png} 
   \end{minipage}
 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_contrast_no_norm/15_DenseLinLinLadderVAE_textures_noContrastNorm_contrast-stats-1_vector_comparisons_1.png} 
     \caption{Contrast, no normalization}
     \label{fig:sample-no-norm-contrast-1}
   \end{minipage}
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_contrast_no_norm/15_DenseLinLinLadderVAE_textures_noContrastNorm_contrast-stats-2_vector_comparisons_1.png}
     \caption{Contrast, no normalization}
@@ -1016,22 +1120,22 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 \vspace{4mm}
 
 \begin{figure}[H]
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_norm_contrast/16_DenseLinLinLadderVAE_textures_contrastNorm_contrast-stats-1_TD_BU_COMPS_1.png}
   \end{minipage}
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_norm_contrast/16_DenseLinLinLadderVAE_textures_contrastNorm_contrast-stats-2_TD_BU_COMPS_1.png}
   \end{minipage}
 
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_norm_contrast/16_DenseLinLinLadderVAE_textures_contrastNorm_contrast-stats-1_vector_comparisons_1.png}
     \caption{Contrast, normalization}
     \label{fig:sample-norm-contrast-1}
   \end{minipage}
-  \begin{minipage}[b]{0.5\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_norm_contrast/16_DenseLinLinLadderVAE_textures_contrastNorm_contrast-stats-1_vector_comparisons_1.png}
     \caption{Contrast, normalization}
@@ -1041,7 +1145,7 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\par It seems that contrast and normalization further improved top down and bottom up approximations resulting n smaller top don deviations which should be extremely useful during sampling since the mean vector is approximated somewhat correctly.
+\par It seems that contrast and normalization further improved top down and bottom up approximations resulting n smaller top don deviations which should be extremely useful during sampling since the mean vector is approximated better than before.
 
 \newpage
 
