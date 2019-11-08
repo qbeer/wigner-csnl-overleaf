@@ -15,6 +15,7 @@
 
 \usepackage{listings}
 \usepackage{afterpage}
+\usepackage[font=small,labelfont=bf]{caption}
 \pagestyle{plain}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -439,10 +440,12 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\begin{gather*}
-    \hat{\sigma}_{1} = \frac{1}{\sigma_{bu}^{-2} + \sigma_{td}^{-2}} \\ \\
+\begin{gather}
+    \label{eq:z1-mean-sigma-1}
+    \hat{\sigma}_{1} = \frac{1}{\sigma_{bu}^{-2} + \sigma_{td}^{-2}} \\
     \hat{\mu}_{1} = \frac{\mu_{bu}\sigma_{bu}^{-2} + \mu_{td}\sigma_{td}^{-2}}{\sigma_{bu}^{-2} + \sigma_{td}^{-2}}
-\end{gather*}
+    \label{eq:z1-mean-sigma-2}
+\end{gather}
 
 \vspace{4mm}
 
@@ -450,9 +453,10 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\begin{equation*}
+\begin{equation}
     \hat{\sigma}_{1} = \sigma_{td}^{2} \quad \quad \hat{\mu_{1}} = \mu_{td}
-\end{equation*}
+    \label{eq:ladder-vae-sampling}
+\end{equation}
 
 \vspace{4mm}
 
@@ -519,6 +523,21 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 \vspace{4mm}
 
 \par In order to do this I implemented several sampling processes. On samples the prior distribution $N x N$ times where $N$ is a function parameter and plots the results on a grid. This shows whether the latent space became meaningful at all. I also implemented sweeping in the latent space where each component of the latent code can be chosen and by sampling from $p(\bm{\epsilon})$ once an changing only $\epsilon_{i}$ in a range one can visualize what each latent component does. Since they are not completely independent this method only provides an intuition, however, when combined with contrast one can find parameters which mostly encode that.
+
+\vspace{4mm}
+
+\begin{figure}[ht] 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.65\linewidth]{gen/generated_samples_mnist_dense_vae.png}
+    \caption{Sampled images} 
+  \end{minipage}%%
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.65\linewidth]{gen/generated_samples_fashion_mnist_dense_vae.png} 
+    \caption{Sampled images} 
+  \end{minipage} 
+\end{figure}
 
 \vspace{4mm}
 
@@ -647,7 +666,11 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \par This effect can be handled in a few different ways such as: restricting the encoders first layer to be linear and the decoder at the top to be linear as well, this results in forcing the models to use deeper layers since a very low level of abstraction can be achieved with such low complexity models. A higher $\beta_{max}$ can achieve similar effect since the KL-term can influence the overall loss more and could also force the model to use deeper representations in order to lower the KL-loss significantly. 
 
-\newpage
+\vspace{4mm}
+
+\par In the following sections I mostly used different architectures of LVAEs with constrained linear encoders and decoders, with dense and convolutional encoders and decoders as well.
+
+\vspace{7mm}
 
 \subsection{Understanding disentangled representations of contrast}
 
@@ -661,33 +684,36 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\begin{figure}[ht] 
-  \label{fig:contrast-generated} 
+\begin{figure}[H] 
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_noContrastNorm_noContrast.png} 
     \caption{No contrast - no normalization} 
+    \label{fig:contrast-generated-1} 
   \end{minipage}%%
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_noContrastNorm_contrast.png} 
     \caption{Contrast - no normalization} 
+    \label{fig:contrast-generated-2} 
   \end{minipage} 
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_contrastNorm_noContrast.png} 
     \caption{No contrast - normalization} 
+    \label{fig:contrast-generated-3} 
   \end{minipage}%% 
   \begin{minipage}[b]{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_contrastNorm_contrast.png} 
     \caption{Contrast - normalization} 
+    \label{fig:contrast-generated-4} 
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par What we can see in \ref{fig:contrast-generated} is not trivial to compare, however, just by looking at them we can see how contrast modifies training, since we can observe large variance in contrast amongst the generated textures and also normalization can be observed in contrast of images.
+\par What we can see in (\ref{fig:contrast-generated-1}, \ref{fig:contrast-generated-2}, \ref{fig:contrast-generated-3},\ref{fig:contrast-generated-4}) is not trivial to compare, however, just by looking at them we can see how contrast modifies training, since we can observe large variance in contrast amongst the generated textures and also normalization can be observed in contrast of images.
 
 \vspace{4mm}
 
@@ -709,25 +735,25 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
   \label{fig:contrast-correlation} 
   \begin{minipage}[b]{0.5\linewidth}
     \centering
-    \includegraphics[width=.72\linewidth]{contrast_to_latent/no_contrast_norm_no_contrast_contrast-to-z2-corr.png} 
+    \includegraphics[width=.72\linewidth]{contrast_to_latent/no_norm_contrast_z2_corr.png} 
     \caption{No contrast - no normalization} 
     \label{fig:no-contrast-no-norm}
   \end{minipage}%%
   \begin{minipage}[b]{0.5\linewidth}
     \centering
-    \includegraphics[width=.72\linewidth]{contrast_to_latent/no_contrast_norm_contrast_contrast-to-z2-corr.png} 
+    \includegraphics[width=.72\linewidth]{contrast_to_latent/no_norm_contrast_contrast_z2_corr.png} 
     \caption{Contrast - no normalization} 
     \label{fig:contrast-no-norm}
   \end{minipage} 
   \begin{minipage}[b]{0.5\linewidth}
     \centering
-    \includegraphics[width=.72\linewidth]{contrast_to_latent/contrast_norm_no_contrast_contrast-to-z2-corr.png} 
+    \includegraphics[width=.72\linewidth]{contrast_to_latent/norm_no_contrast_correlation.png} 
     \caption{No contrast - normalization} 
     \label{fig:no-contrast-norm}
   \end{minipage}%% 
   \begin{minipage}[b]{0.5\linewidth}
     \centering
-    \includegraphics[width=.72\linewidth]{contrast_to_latent/contrast_norm_contrast_contrast-to-z2-corr.png} 
+    \includegraphics[width=.72\linewidth]{contrast_to_latent/norm_contrast_correlation.png} 
     \caption{Contrast - normalization} 
     \label{fig:contrast-norm}
   \end{minipage} 
@@ -735,7 +761,7 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\par Here we can see that in (\ref{fig:no-contrast-no-norm}) that there is natural contrast in this type of dataset and it is disentangled in $5$th latent code component. I'll also analyze whether this is the case or the latent code represents a class that has high variability in contrast and only disentangles that class. Adding additional contrast (\ref{fig:contrast-no-norm}) to the textures made two variables to encode something like contrast.
+\par Here we can see that in (\ref{fig:no-contrast-no-norm}) there seems to be natural contrast in this type of dataset and it seems to be disentangled in the $4$th latent code component \footnote{indexing from $0$}. I'll also analyze whether this is the case or the latent code represents a class that has high variability in contrast and only disentangles that class. Adding additional contrast (\ref{fig:contrast-no-norm}) to the textures made two variables to encode something like contrast.
 
 \vspace{4mm}
 
@@ -743,7 +769,279 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 
 \vspace{4mm}
 
-\par 
+\par Observing the labels and their correlation with the deepest latent code $\bm{z}_{2}$ I found that the correlation in each variable with respect to the contrast or the one-hot-encoded $1$st label is almost the same in the non normalized setting:
+
+\vspace{4mm}
+
+\begin{figure}[H]
+\begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.72\linewidth]{label-contrast-corr/cat-1-to-z2-corr.png} 
+    \caption{$1$st one-hot encoded label to $\bm{z}_{2}$} 
+    \label{fig:label-contrast-corr-1}
+\end{minipage}%% 
+\begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.72\linewidth]{label-contrast-corr/contrast-to-z2-corr.png} 
+    \caption{Contrast to $\bm{z}_{2}$} 
+    \label{fig:label-contrast-corr-2}
+\end{minipage} 
+\end{figure}
+
+\par With the non-normalized setting when there is additional contrast there are also high correlations with some of the one-hot-encoded labels therefore no clean disentanglement is provided by the latent representation.
+
+\vspace{4mm}
+
+\par However, another observation can be made by checking that normalized setting. In this scenario the label correlations with $\bm{z}_{2}$ are negligible in both cases of no contrast and additional contrast during training. This leads me to believe that the parameter that correlates with the additional contrast during reconstruction is encoding the local contrast in the normalized scenario. To test this I mentioned earlier that I implemented latent sweep in my code base. Also I made sure that I the latent codes are used in the trained models by observing there means and standard deviations during reconstruction, if these are different from zero and one respectively, meaning that they are not unit Gaussians but some kind of learnt posteriors the models are actually using them for something.
+
+\vspace{4mm}
+
+\begin{figure}[H] 
+  \label{fig:contrast-correlation} 
+  \begin{minipage}[b]{0.33\linewidth}
+    \centering
+    \includegraphics[width=.72\linewidth]{sweep/no_norm_no_contrast_sweep_minus_two_to_one.png} 
+    \caption{No contrast, no \newline norm. sweep in $[-2, 1]$} 
+    \label{fig:no-contrast-no-norm-sweep}
+  \end{minipage}%%
+  \begin{minipage}[b]{0.33\linewidth}
+    \centering
+    \includegraphics[width=.72\linewidth]{sweep/no_norm_contrast_sweep_minus_two_to_two_3rd_param.png} 
+    \caption{Contrast, no norm. \newline sweep in $[-2, 2]$ $3$rd component} 
+    \label{fig:contrast-no-norm-sweep-3}
+  \end{minipage} 
+  \begin{minipage}[b]{0.33\linewidth}
+    \centering
+    \includegraphics[width=.72\linewidth]{sweep/no_norm_contrast_sweep_minus_two_to_two_5th_param.png} 
+    \caption{Contrast, no norm. \newline sweep in $[-2, 2]$ $5$th component} 
+    \label{fig:contrast-no-norm-sweep-5}
+  \end{minipage}
+  %% stats
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{sweep/no_contrast_no_norm_z2_stats.png} 
+    \caption{No contrast \newline no norm $\bm{z}_{2}$ statistics} 
+    \label{fig:no-contrast-no-norm-stats}
+  \end{minipage} 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{sweep/contrast_no_norm_z2_stats.png} 
+    \caption{Contrast, no norm. \newline $\bm{z}_{2}$ statistics} 
+    \label{fig:contrast-no-norm-stats}
+  \end{minipage}
+\end{figure}
+
+\vspace{4mm}
+
+\par With the non-normalized settings in (\ref{fig:no-contrast-no-norm-sweep}) the latent component $4$ is selected from (\ref{fig:no-contrast-no-norm}) with regard to its mean and deviation from (\ref{fig:no-contrast-no-norm-stats}), sweeping therefore in the almost $2\sigma$ range $[-2, 1]$ in the fourth component results in generated samples differing not mostly in contrast but at the bottom \footnote{since generation was done in row flattened order, this means that closer to the right end of the spectrum} of (\ref{fig:no-contrast-no-norm-sweep}) results in a class resembling the $1$st label what we expected (\ref{fig:label-contrast-corr-1}, \ref{fig:label-contrast-corr-2}). However, when contrast is introduced (\ref{fig:contrast-no-norm-sweep-3}, \ref{fig:contrast-no-norm-sweep-5}) still there are high correlations with the one-hot encoded labels, so we could not get a truly disentangled contrast representation in the latent components. On the other hand what we can see in these generated samples that the $3$rd and $5$th components that have high correlation with the random contrast (\ref{fig:contrast-no-norm}) resulted in high contrast images, especially in (\ref{fig:contrast-no-norm-sweep-5}).
+
+\vspace{4mm}
+
+\par Moving on to the normalized scenario:
+
+\vspace{4mm}
+
+\begin{figure}[H] 
+  \label{fig:contrast-correlation} 
+  \begin{minipage}[b]{0.4\linewidth}
+    \centering
+    \includegraphics[width=.8\linewidth]{sweep/norm_no_contrast_sweep_one_to_two_4th_param.png} 
+    \caption{No contrast, norm., sweep in $[1, 2]$, $4$th compoment} 
+    \label{fig:no-contrast-norm-sweep}
+  \end{minipage}%%
+  \begin{minipage}[b]{0.6\linewidth}
+    \centering
+    \includegraphics[width=1\linewidth]{sweep/norm_no_contrast_z2_stats.png} 
+    \caption{No contrast, norm.,  $\bm{z}_{2}$ statistics} 
+    \label{fig:no-contrast-no-norm-stats}
+  \end{minipage} 
+\end{figure}
+
+\vspace{4mm} 
+ 
+\par  These generated samples with sweeping suggests that the correlations of the $4$th component with the random contrast values in (\ref{fig:no-contrast-norm}) is not high enough, therefore it is not encoding contrast at all. In (\ref{fig:no-contrast-norm-sweep}) there are no trivial differences across the sweep so it is unknown what the component actually encodes. Adding additional contrast to normalized images results in:
+
+\vspace{4mm}
+ 
+\begin{figure}[H]
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_zero_to_one_0th_param.png} 
+    \caption{Contrast, norm., sweep in $[0, 1]$ \newline $0$th component} 
+    \label{fig:contrast-norm-sweep-0}
+  \end{minipage} 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_minus_two_to_one_2nd_param.png} 
+    \caption{Contrast, norm., sweep in $[-2, 1]$ \newline $2$nd component} 
+    \label{fig:contrast-norm-sweep-2}
+  \end{minipage}
+\end{figure}
+
+
+\begin{figure}[H]
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_minus_two_to_one_3rd_param.png} 
+    \caption{Contrast, norm., sweep in $[-2, 1]$ \newline  $3$rd component} 
+    \label{fig:contrast-norm-sweep-3}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_zero_to_two_6th_param.png} 
+    \caption{Contrast, norm., sweep in $[0, 2]$ \newline $6$th component} 
+    \label{fig:contrast-norm-sweep-6}
+  \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.85\linewidth]{sweep/norm_contrast_z2_stats.png} 
+    \caption{Contrast, norm., $\bm{z}_2$ statistics} 
+    \label{fig:contrast-norm-stats}
+\end{figure}
+
+\vspace{4mm}
+
+\par The components were selected from the corresponding contrast correlation plot (\ref{fig:contrast-norm}) and their ranges very selected from (\ref{fig:contrast-norm-stats}) to approximately cover $2\sigma$ range of the mean. We expect gradual contrast increment in row wise order but this can only be seen vaguely on (\ref{fig:contrast-norm-sweep-2}) but not in the others.
+
+\newpage
+
+\subsection{What is needed to disentangle contrast? Comparison of models}
+
+\vspace{5mm}
+
+\par First of all, it is crucial to properly analyze whether a deep, hierarchical architecture is actually hierarchical. In doing so we must observe the top (in our case the second) layer in our model to check whether the deepest stochastic layer has any effect on the reconstructions by validating means and standard deviations of the sampled distributions that were introduced in (\ref{eq:z1-mean-sigma-1}, \ref{eq:z1-mean-sigma-2}). This is crucial information as we are sampling our model from the deepest stochastic layer and without meaningful top down components (\ref{eq:ladder-vae-sampling}) becomes random noise added to the reconstructions that are encoded by the decoder model and not by stochastic parameters.
+
+\vspace{4mm}
+
+\par Remaining at first layer linear encoders and last layer linear decoders with the ladder VAE architecture and the same added or not added extra contrast, with or without normalization I present some vector visualizations of top down and bottom up mean and variation vectors compared to the $\mu_{z^{(1)}}$ and $\sigma_{z^{(1)}}$.
+
+\vspace{4mm}
+
+\begin{figure}[H]
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.6\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-1_TD_BU_COMPS_1.png}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.6\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-2_TD_BU_COMPS_1.png} 
+  \end{minipage}
+
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-1_vector_comparisons_1.png} 
+    \caption{No contrast, no normalization}
+    \label{fig:sample-no-norm-no-contrast-1}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-2_vector_comparisons_1.png}
+    \caption{No contrast, no normalization}
+    \label{fig:sample-no-norm-no-contrast-2}
+  \end{minipage}
+\end{figure}
+
+\par In (\ref{fig:sample-no-norm-no-contrast-1}) the first two rows of plots show the histograms of the top down, bottom up and actual means and standard deviations where we can observe that the model learns very small standard deviations around 0 (small blue bars). The plot of textures shows the input and the reconstruction of that input right next to it while the last row of plots visualizes the actual vectors with divergent color map to make the differences more pronounced. What we can observe from these is that the means and standard deviations are sparse therefore most of the variables are not encoding information at all meaning that they could be eliminated or smaller latent dimensions could be applied.
+
+\vspace{4mm}
+
+\par In one hand, we can also observe that the top down components are used as well as the bottom up components and the means of the top down components closely approximates the actual mean of $\bm{z}^{(1)}$. One the other hand, the deviation has components with very high values. This is the case in both examples (\ref{fig:sample-no-norm-no-contrast-1}, \ref{fig:sample-no-norm-no-contrast-2}).
+
+\vspace{4mm}
+
+\begin{figure}[H]
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_no_contrast_norm/17_DenseLinLinLadderVAE_contrastNorm-stats-1_TD_BU_COMPS_1.png}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_no_contrast_norm/17_DenseLinLinLadderVAE_contrastNorm-stats-2_TD_BU_COMPS_1.png} 
+  \end{minipage}
+
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_no_contrast_norm/17_DenseLinLinLadderVAE_contrastNorm-stats-1_vector_comparisons_1.png} 
+    \caption{No contrast, normalization}
+    \label{fig:sample-norm-no-contrast-1}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_no_contrast_norm/17_DenseLinLinLadderVAE_contrastNorm-stats-2_vector_comparisons_1.png}
+    \caption{No contrast, normalization}
+    \label{fig:sample-norm-no-contrast-2}
+  \end{minipage}
+\end{figure}
+
+\vspace{4mm}
+
+\par From these plots there is no evident effect of normalization on these results. Moving on to added contrast:
+
+\vspace{4mm}
+
+\begin{figure}[H]
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_contrast_no_norm/15_DenseLinLinLadderVAE_textures_noContrastNorm_contrast-stats-1_TD_BU_COMPS_1.png}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_contrast_no_norm/15_DenseLinLinLadderVAE_textures_noContrastNorm_contrast-stats-2_TD_BU_COMPS_1.png} 
+  \end{minipage}
+
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_contrast_no_norm/15_DenseLinLinLadderVAE_textures_noContrastNorm_contrast-stats-1_vector_comparisons_1.png} 
+    \caption{Contrast, no normalization}
+    \label{fig:sample-no-norm-contrast-1}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_contrast_no_norm/15_DenseLinLinLadderVAE_textures_noContrastNorm_contrast-stats-2_vector_comparisons_1.png}
+    \caption{Contrast, no normalization}
+    \label{fig:sample-no-norm-contrast-2}
+  \end{minipage}
+\end{figure}
+
+\vspace{4mm}
+
+\par We can observe in (\ref{fig:sample-no-norm-no-contrast-1}, \ref{fig:sample-no-norm-no-contrast-2}) that for some classes adding more contrast helps the bottom up and top down components to better approximate the actual values for the mean and standard deviation. This effect is evident from (\ref{fig:sample-no-norm-no-contrast-2}) where the bottom up values are close not just in the means but in the deviation as well and the top down values correctly approximate the mean vector.
+
+\vspace{4mm}
+
+\par Lastly, for the sake of completeness we present the same results for the normalized, contrasted case:
+
+\vspace{4mm}
+
+\begin{figure}[H]
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_norm_contrast/16_DenseLinLinLadderVAE_textures_contrastNorm_contrast-stats-1_TD_BU_COMPS_1.png}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.6\linewidth]{z1_vis/z1_vis_norm_contrast/16_DenseLinLinLadderVAE_textures_contrastNorm_contrast-stats-2_TD_BU_COMPS_1.png}
+  \end{minipage}
+
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_norm_contrast/16_DenseLinLinLadderVAE_textures_contrastNorm_contrast-stats-1_vector_comparisons_1.png}
+    \caption{Contrast, normalization}
+    \label{fig:sample-norm-contrast-1}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_norm_contrast/16_DenseLinLinLadderVAE_textures_contrastNorm_contrast-stats-1_vector_comparisons_1.png}
+    \caption{Contrast, normalization}
+    \label{fig:sample-norm-contrast-2}
+  \end{minipage}
+\end{figure}
+
+\vspace{4mm}
+
+\par It seems that contrast and normalization further improved top down and bottom up approximations resulting n smaller top don deviations which should be extremely useful during sampling since the mean vector is approximated somewhat correctly.
 
 \newpage
 
@@ -752,4 +1050,4 @@ changed and swapped to higher or lower capacity models with MLP or convolutional
 \addcontentsline{toc}{section}{\nameref{sec:references}}
 \printbibliography[heading=none]
 
-\end{document} 
+\end{document}
