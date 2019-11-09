@@ -13,6 +13,15 @@
 \usepackage{amssymb}
 \usepackage{mathrsfs}
 
+\usepackage{tocloft}
+
+\cftsetindents{section}{0em}{3em}
+\cftsetindents{subsection}{4em}{3em}
+\cftsetindents{subsubsection}{6em}{3em}
+
+\renewcommand\cfttoctitlefont{\hfill\Large\bfseries}
+\renewcommand\cftaftertoctitle{\hfill\mbox{}}
+
 \usepackage{listings}
 \usepackage{afterpage}
 \usepackage[font=small,labelfont=bf]{caption}
@@ -83,9 +92,15 @@ Wigner Research Center for Physics \\ Hungarian Academy of Sciences - \@date\\
 Alex Olar \\
 \end{large}
 \vfill
-Computational Systems Neuroscience Lab \\
-\vspace{2mm}
+\begin{small}
+Supervisors: \\
+\end{small}
+\vspace{1mm}
+Mihály Bányai, Gergő Orbán \\
+\vspace{4mm}
 \includegraphics[width=2cm]{logoFAC.png}
+\vspace{2mm}
+\\ Computational Systems Neuroscience Lab
 \end{center}
 \end{titlepage}
 
@@ -113,11 +128,11 @@ While it is important that the variables of such models are comparable to experi
 
 \vspace{4mm}
 
-\par Since the brain is capable of behaving generatively, such as imagining things that do not exist from memory, therefore we should aim for developing such models. In this aspect, the latent representational models proved to be very good candidates such as the actively researched variational autoencoders (VAE) from the domain of deep learning \cite{kingma2013auto}. This model attempts to represent high-dimensional images in a smaller vector space with auxiliary constraints on the latent representation using deep neural networks.
+\par Since the brain is capable of behaving generatively, such as imagining things that do not exist from memory, therefore we should aim for developing such models. In this aspect, the latent representational models proved to be very good candidates such as the actively researched variational auto-encoders (VAE) from the domain of deep learning \cite{kingma2013auto}. This model attempts to represent high-dimensional images in a smaller vector space with auxiliary constraints on the latent representation using deep neural networks.
 
 \vspace{4mm}
 
-\par There is a wealth of studies suggesting that the brain is doing probabilistic inference which requires that humans or other animals maintain an internal model of the world inside their brain, hence the latent code models. It is also suggested that this model is probabilistic. Since learning and inference in probabilistic models is only possible in constrained cases as most computations are intractable.
+\par There is a wealth of studies suggesting that the brain is doing probabilistic inference which requires that humans or other animals maintain an internal model of the world inside their brain, hence the latent code models. It is also suggested that this model is probabilistic. Since learning and inference in probabilistic models is only possible in constrained cases as most computations are intractable, methods are usually doing approximate inference.
 
 \vspace{7mm}
 
@@ -125,7 +140,7 @@ While it is important that the variables of such models are comparable to experi
 
 \vspace{7mm}
 
-\par The selection of this topic was motivated by the substantial development in neurobiology that could be achieved with the use and development of deep learning models. We could gather higher level information about the image-processing of the brain. It is important to mention that this research is on the border of different sciences such as information technology and neurobiology consequently it poses an exciting challenge to understand.
+\par The selection of this topic was motivated by the substantial development in neurobiology that could be achieved with the use and research of deep learning models. We could gather higher level information about the image-processing of the brain. It is important to mention that this research is on the border of different sciences such as information technology and neurobiology consequently it poses an exciting challenge to understand.
 
 \vspace{4mm}
 
@@ -137,7 +152,7 @@ While it is important that the variables of such models are comparable to experi
 
 \vspace{7mm}
 
-\par In the following essay we are going to present different models for understanding the visual cortex. Firstly, we will discuss early models such as sparse coding, since it was a breakthrough in getting a better insight on the V1. Moving on from this to current deep learning territory we are going to explain the details of auto-encoders, variational auto-encoders and ladder variational auto-encoders and their role in developing methods to understand the mammalian visual cortex. Variational inference used in VAEs and LVAEs is discussed in detail with the underlying theory and results. Moving on from theory we present details of the models used in this work heavily emphasizing that most components in the architectures can be freely swapped to lower or higher complexity ones. Additionally the main dataset is presented along with implementation details and nuances that made training of these deep neural networks successful in these settings. At last but not least in the results section contrast disentanglement is discussed in detail analyzing different models and input modifications in order to understand the acquired low-dimensional representations. 
+\par In the following essay we are going to present different models for understanding the visual cortex. Firstly, we will discuss early models such as sparse coding, since it was a breakthrough in getting a better insight on the V1. Moving on from this to current deep learning territory we are going to explain the details of auto-encoders, variational auto-encoders and ladder variational auto-encoders and their role in developing methods to understand the mammalian visual cortex. Variational inference used in VAEs and LVAEs is discussed in detail with the underlying theory and results. Moving on from theory we present details of the models used in this work heavily emphasizing that most components in the architectures can be freely swapped to lower or higher complexity ones. Additionally the main dataset is presented along with implementation details and nuances that made training of these deep neural networks successful in these settings. At last but not least in the results section contrast disentanglement is discussed in detail analyzing different models and input modifications in order to understand the acquired low-dimensional representations. Furthermore a section has been purposed to explain how these models can be analyzed. 
 
 \newpage
 
@@ -159,7 +174,7 @@ While it is important that the variables of such models are comparable to experi
 
 \vspace{4mm}
 
-\par Where the components $a_{i}$ are pairwise decorrelated $\E (a_i a_j) = \E a_i \E a_j$. These assumptions were made to satisfy three main point:
+\par Where the components $a_{i}$ are pairwise decorrelated $\E (a_i a_j) = \E a_i \E a_j$. These assumptions were made to satisfy three main points. These basis functions should be:
 
 \vspace{4mm}
 
@@ -171,7 +186,7 @@ While it is important that the variables of such models are comparable to experi
 
 \vspace{4mm}
 
-\par PCA \footnote{Pricipal Component Analysis} was not fit for this type of problem since it provides a good tool for describing data where pairwise linear correlations are the most important form of statistical dependence. However, it is not the case for high-order correlations in natural images. In order to capture this they proposed a solution that minimizes entropy while sparsely coding the natural images, meaning that they wanted to describe each via a small set of variables out of the large set. The method developed is called sparse coding and a special case of it is ICA \footnote{Independent Component Analysis - \url{https://redwood.berkeley.edu/wp-content/uploads/2018/08/sparse-coding-ICA.pdf}}.
+\par PCA \footnote{Pricipal Component Analysis} was not fit for this type of problem since it provides a good tool for describing data where pairwise linear correlations are the most important form of statistical dependence. However, it is not the case for high-order correlations in natural images. In order to capture this they proposed a solution that minimizes entropy while sparsely coding the natural images, meaning that they wanted to describe each via a small set of variables out of the large set. The method developed is called sparse coding and a special case of it is ICA \footnote{Independent Component Analysis - \url{https://redwood.berkeley.edu/wp-content/uploads/2018/08/sparse-coding-ICA.pdf}}. With this they could successfully describe the role of the V1.
 
 \vspace{5mm}
 
@@ -179,7 +194,7 @@ While it is important that the variables of such models are comparable to experi
 
 \vspace{5mm}
 
-\par Auto-encoders are mostly used to reduce dimensionality of data in an unsupervised manner. They consist of an encoder and a decoder model surrounding the reduced representation \ref{fig:auto_encoder_scheme}. 
+\par Auto-encoders are mostly used to reduce dimensionality of data in an unsupervised manner. They consist of an encoder and a decoder model surrounding the reduced representation as in (\ref{fig:auto_encoder_scheme}). 
 
 \vspace{4mm}
 
@@ -200,7 +215,7 @@ While it is important that the variables of such models are comparable to experi
 
 \vspace{4mm}
 
-\par Considering a dataset $\boldsymbol{X} = \big\{\boldsymbol{\bm{x}}^{(i)}\big\}_{i = 1}^{N}$ that consists of independently and identically distributed samples of an underlying distribution $p{\boldsymbol{X}}$ it can be assumed that the data has some underlying, unobserved variable $\boldsymbol{\bm{z}}$. The value $\boldsymbol{\bm{z}}^{(i)}$, corresponding to a sample $\boldsymbol{\bm{x}}^{(i)}$, is first generated from a prior distribution $p_{\boldsymbol{\vartheta_{real}}}(\boldsymbol{\bm{z}})$ and $\boldsymbol{\bm{x}}^{(i)}$ is then generated from a conditional distribution $p_{\vartheta_{real}}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}})$. Since the real model parameters $\vartheta_{real}$ are unknown we can only approximate them with the encoder and decoder parametric models. As we want to approximate the posterior probability:
+\par Considering a dataset $\boldsymbol{X} = \big\{\boldsymbol{\bm{x}}^{(i)}\big\}_{i = 1}^{N}$ that consists of independently and identically distributed samples of an underlying distribution $p(\boldsymbol{X})$. It can be assumed that the data has some underlying, unobserved variable $\boldsymbol{\bm{z}}$. The value $\boldsymbol{\bm{z}}^{(i)}$, corresponding to a sample $\boldsymbol{\bm{x}}^{(i)}$, is first generated from a prior distribution $p_{\boldsymbol{\vartheta_{real}}}(\boldsymbol{\bm{z}})$ and $\boldsymbol{\bm{x}}^{(i)}$ is then generated from a conditional distribution $p_{\vartheta_{real}}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}})$. Since the real model parameters $\vartheta_{real}$ are unknown we can only approximate them with the encoder and decoder parametric models. As we want to approximate the posterior probability:
 
 \vspace{4mm}
 
@@ -260,7 +275,7 @@ While it is important that the variables of such models are comparable to experi
 
 \vspace{4mm}
 
-\par The goal of the algorithm is to optimize the variational lower bound (ELBO) with respect to the parameters $\phi, \vartheta$. We also introduce $p_{\vartheta}(\bm{z} | \bm{x}^{(i)}) \equiv p_{\vartheta}(\bm{z})$, for all data points, as our prior distribution over the latent variables. Since the gradient of the ELBO is a bit problematic, especially requiring a large amount of computation w. r. t. $\phi$, Kingma and Welling came up with auto-encoding variational Bayes (AEVB) algorithm that makes the model trainable via stochastic gradient descent.
+\par The goal of the algorithm is to optimize the variational lower bound (ELBO) with respect to the parameters $\phi, \vartheta$. We also introduce $p_{\vartheta}(\bm{z} | \bm{x}^{(i)}) \equiv p(\bm{z})$, for all data points, as our prior distribution over the latent variables. Since the gradient of the ELBO is a bit problematic, especially requiring a large amount of computation w. r. t. $\phi$, Kingma and Welling came up with the auto-encoding variational Bayes (AEVB) algorithm that makes the model trainable via stochastic gradient descent.
 
 \vspace{4mm}
 
@@ -291,7 +306,7 @@ While it is important that the variables of such models are comparable to experi
 
 \vspace{4mm}
 
-\par As we can see in (\ref{fig:vae}) the variational autoencoder is outlined. The general intuition is that a neural network approximates $q_{\phi}(\bm{z} | \bm{x})$ over that dataset and it is assumed that it takes a multivariate Gaussian form for the true, intractable posterior $p_{\vartheta_{real}}(\bm{z} | \bm{x})$.
+\par As we can see in (\ref{fig:vae}) the variational auto-encoder is outlined. The general intuition is that a neural network approximates $q_{\phi}(\bm{z} | \bm{x})$ over that dataset and it is assumed that it takes a multivariate Gaussian form for the true, intractable posterior $p_{\vartheta_{real}}(\bm{z} | \bm{x})$.
 
 \vspace{4mm}
 
@@ -322,7 +337,7 @@ While it is important that the variables of such models are comparable to experi
 
 \vspace{4mm}
 
-\par I need to emphasise that the LVAE model only differs from the VAE in the inference model $q_{\phi} (z | x)$ by introducing more stochastic layers to provide better reconstruction results and to learn a more abstract latent representation oft the data. In \cite{sonderby2016ladder} they approximated $p_{\theta_{real}}$ by splitting it up two L layers:
+\par I need to emphasise that the LVAE model only differs from the VAE in the inference model $q_{\phi} (z | x)$ by introducing more stochastic layers to provide better reconstruction results and to learn a more abstract latent representation oft the data. In \cite{sonderby2016ladder} they approximated $p_{\theta_{real}}$ by splitting it up to L layers:
 
 \vspace{4mm}
 
@@ -447,7 +462,7 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \vspace{5mm}
 
-\par From the original LVAE article \cite{sonderby2016ladder} I used incremental $\beta$ learning, meaning that I raised my $\beta$ value incrementally during learning for 3/7ths of the epochs and kept on learning with $\beta = \beta_{max}$ for the remaining steps. From this article I also tested batch-normalization and built modular models that include convolution with batch-normalization as well. The value $\beta_{max}$ can be set before the start of the training, $\beta_{max} = 1$ is the case of the VAE but raising its value directly emphasizes the influence of the KL-term on the system during training.
+\par From the original LVAE article \cite{sonderby2016ladder} I used incremental $\beta$ learning, meaning that I raised my $\beta$ value incrementally during learning for 3/7ths of the epochs and kept on training with $\beta = \beta_{max}$ for the remaining steps. From this article I also tested batch-normalization and built modular models that include convolution with batch-normalization as well. The value $\beta_{max}$ can be set before the start of the training, $\beta_{max} = 1$ is the case of the VAE but raising its value directly emphasizes the influence of the KL-term on the system during training.
 
 \vspace{4mm}
 
@@ -547,7 +562,7 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \vspace{4mm}
 
-\par It can be heuristically explained why warm-up/incremental $\beta$-learning helps the process. Since with $\beta = 0$ the VAE becomes similar to simple auto-encoder, for which the primary goal is to reconstruct the given examples perfectly, we incrementally add the restriction to the latent space, therefore a better reconstruction is achieved with not randomly initialized weights by the time that the KL-term influences the latent space significantly. I examine the case where $\beta_{max}$ is high and therefore has a substantial influence on reconstruction quality and latent structure.
+\par It can be heuristically explained why warm-up/incremental $\beta$-learning helps the process. Since with $\beta = 0$ the VAE becomes similar to a simple auto-encoder for which the primary goal is to reconstruct the given examples perfectly, we incrementally add the restriction to the latent space, therefore a better reconstruction is achieved with not randomly initialized weights by the time that the KL-term influences the latent space significantly.
 
 \vspace{5mm}
 
@@ -555,11 +570,11 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \vspace{5mm}
 
-\par After training a model for several epochs we have an inference model which is not very interesting. Since in best conditions it reconstructs the images provided to it perfectly. We want to be able to sample from $p_{\bm{\epsilon}}$, pass the sampled value through the decoder and achieve previously unseen but visually pleasing images of the same sort as the used dataset. For this we use the generative or decoder model. 
+\par After training a model for several epochs we have an inference model which is not very interesting. Since in best conditions it reconstructs the images provided to it perfectly. We want to be able to sample from $p(\bm{\epsilon})$, pass the sampled value through the decoder and achieve previously unseen but visually pleasing images of the same sort as the used dataset. For this we use the generative or decoder model. 
 
 \vspace{4mm}
 
-\par In order to do this I implemented several sampling processes. One samples the prior distribution $N x N$ times where $N$ is a function parameter and plots the results on a grid. This shows whether the latent space became meaningful at all. I also implemented sweeping in the latent space where each component of the latent code can be chosen and by sampling from $p(\bm{\epsilon})$ once an changing only $\epsilon_{i}$ in a range one can visualize what each latent component does. Since they are not completely independent this method only provides an intuition, however, when combined with contrast one can hope to find parameters which mostly encode that.
+\par In order to do this I implemented several sampling processes. One samples the prior distribution $N x N$ times where $N$ is a function parameter and plots the results on a grid. This shows whether the latent space became meaningful at all. I also implemented sweeping in the latent space where each component of the latent code can be chosen and by sampling from $p(\bm{\epsilon})$ and changing only $\epsilon_{i}$ in a range one can visualize what each latent component does. Since they are not completely independent this method only provides an intuition, however, when combined with additional contrast one can hope to find parameters which mostly encode that.
 
 \vspace{4mm}
 
@@ -588,7 +603,7 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \vspace{4mm}
 
-\par For labeled data (MNIST, FashionMNIST, textures) I could also correlate the one hot encoded labels with the latent code for each class. With this method I could measure which latent components reacts to which class labels mostly. By changing its value I wanted to find out whether the texture-family or the corresponding digit features can be suppressed or not.
+\par For labeled data (MNIST, FashionMNIST, textures) I could also correlate the one hot encoded labels with the latent code for each class. With this method I could measure which latent components react to which class labels mostly. By changing its value I wanted to find out whether the texture-family or the corresponding digit features can be suppressed or not.
 
 \vspace{4mm}
 
@@ -678,7 +693,7 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \vspace{5mm}
 
-\par Auto-encoders are not generative models but non-linear functions that are learning to reconstruct unlabelled data by pushing it through a usually reduced dimensionality gate. This low-dimensional representation with the decoder architecture can be ported to everywhere and for large datasets it can save much more space than regular compression tools such as JPEG, JPEG-2000. It is important to mention that compression via auto-encoders is highly dataset specific so it cannot be used as conveniently as JPEG without training a neural network. Also, the compression is lossy so the images cannot be fully reconstructed without some information loss.
+\par Auto-encoders are not generative models but non-linear functions that are learning to reconstruct unlabelled data by pushing it through a usually reduced dimensionality gate. This low-dimensional representation with the decoder architecture can be ported to everywhere and for large datasets it can save much more space than regular compression tools such as JPEG. It is important to mention that compression via auto-encoders is highly dataset specific so it cannot be used as conveniently as JPEG without training a neural network. Also, the compression is lossy so the images cannot be fully reconstructed without some information loss.
 
 \vspace{4mm}
 
@@ -710,7 +725,7 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \vspace{5mm}
 
-\par Results are presented using the Fashion-MNIST dataset with continuous values in $[0, 1]$ and normal loss:
+\par Results are presented using the Fashion-MNIST dataset with continuous pixel values in $[0, 1]$ and normal loss the model used is presented in (\ref{fig:dense-variational-auto-encoder} - see appendix \ref{sec:vae}):
 
 \vspace{4mm}
 
@@ -734,7 +749,7 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \vspace{4mm}
 
-\par Using the same eight piece code and the same training iterations, the effect of the variational inference can be seen in the latent representation compared to the non-variational model:
+\par Using the same eight piece code and the same training iterations, the effect of the variational inference can be seen in the latent representation compared to the non-variational model (\ref{fig:dense-auto-encoder} - see appendix \ref{sec:auto-encoder}):
 
 \begin{figure}[ht] 
   \label{fig:auto_encoder_results} 
@@ -772,7 +787,7 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \vspace{4mm}
 
-\par In the following sections I mostly used different architectures of LVAEs with constrained linear encoders and decoders, with dense and convolutional encoders and decoders as well.
+\par In the following sections I mostly used different architectures of LVAEs with constrained linear encoders and decoders and with dense encoders and decoders.
 
 \vspace{7mm}
 
@@ -780,11 +795,15 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \vspace{5mm}
 
-\par As I mentioned previous I implemented random contrast learning, meaning that some random amount of contrast is added to the input images to make the model contrast independent by disentangling the contrast in the latent code. I looked into what is necessary in order to acquire such disentangled representation.
+\par As I mentioned previously, I implemented random contrast learning, meaning that some random amount of contrast is added to each batch of the input images to make the model contrast independent in order to disentangle the contrast in the latent code. I looked into what is necessary in order to acquire such disentangled representation in \cite{locatello2018challenging} researchers at Google did most of this work from a computer science perspective and they concluded that only inductive biases, such as architectural choice, different regularization and loss terms make disentangled representations possible. Here I attempt to understand what is needed to disentangle contrast from these textural images.
 
 \vspace{4mm}
 
-\par Here I present some results with linear modules at the first encoder and last decoder layer with and without contrast normalization with the same settings: $[\bm{z}_{1}] = 128, [\bm{z}_{2}] = 8$:
+\subsubsection{LVAE I.}
+
+\vspace{4mm}
+
+\par Here I present some results with linear modules at the first encoder and last decoder layer (\ref{fig:linlinladdervae} - see appendix \ref{sec:lvae1}) with and without contrast normalization with the same settings: $[\bm{z}_{1}] = 128, [\bm{z}_{2}] = 8$:
 
 \vspace{4mm}
 
@@ -1009,9 +1028,125 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \par The components were selected from the corresponding contrast correlation plot (\ref{fig:contrast-norm}) and their ranges very selected from (\ref{fig:contrast-norm-stats}) to approximately cover $2\sigma$ range of the mean. We expect gradual contrast increment in row wise order but this can only be seen vaguely on (\ref{fig:contrast-norm-sweep-2}) but not in the others.
 
+\vspace{4mm}
+
+\subsubsection{LVAE II.}
+
+\vspace{4mm}
+
+\par In the previous section we used a ladder variational auto-encoder with constrained linear encoder and decoder, here we use the same settings for training with the same data manipulations and attempt to see the differences.
+
+\vspace{4mm}
+
+\begin{figure}[H] 
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{lvae2/21_DenseLadderVAE_noNorm-generated_samples.png} 
+    \caption{No contrast - no normalization} 
+    \label{fig:lvae-2-contrast-generated-1} 
+  \end{minipage}%%
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{lvae2/20_DenseLadderVAE_noNorm_contrat-generated_samples.png} 
+    \caption{Contrast - no normalization} 
+    \label{fig:lvae-2-contrast-generated-2} 
+  \end{minipage} 
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{lvae2/18_DenseLadderVAE_contrastNorm-generated_samples.png} 
+    \caption{No contrast - normalization} 
+    \label{fig:lvae-2-contrast-generated-3} 
+  \end{minipage}%% 
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.75\linewidth]{lvae2/19_DenseLadderVAE_contrastNorm_contrast-generated_samples.png} 
+    \caption{Contrast - normalization} 
+    \label{fig:lvae-2-contrast-generated-4} 
+  \end{minipage} 
+\end{figure}
+
+\vspace{4mm}
+
+\par In (\ref{fig:lvae-2-contrast-generated-1}, \ref{fig:lvae-2-contrast-generated-2}, \ref{fig:lvae-2-contrast-generated-3},\ref{fig:lvae-2-contrast-generated-4}) we can see that without normalization the reconstructions are saturated. This might be due to the large complexity of the model since with approximately 7 million parameters the non-normalized results are massively overfitted. Moving on to Pearson-correlations as previously:
+
+\vspace{4mm}
+
+\begin{figure}[H] 
+  \label{fig:contrast-correlation} 
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.72\linewidth]{lvae2/21_DenseLadderVAE_noNorm-contrast-to-z2-corr.png} 
+    \caption{No contrast - no normalization} 
+    \label{fig:lvae-2-no-contrast-no-norm}
+  \end{minipage}%%
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.72\linewidth]{lvae2/20_DenseLadderVAE_noNorm_contrat-contrast-to-z2-corr.png} 
+    \caption{Contrast - no normalization} 
+    \label{fig:lvae-2-contrast-no-norm}
+  \end{minipage} 
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.72\linewidth]{lvae2/18_DenseLadderVAE_contrastNorm-contrast-to-z2-corr.png} 
+    \caption{No contrast - normalization} 
+    \label{fig:lvae-2-no-contrast-norm}
+  \end{minipage}%% 
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.72\linewidth]{lvae2/19_DenseLadderVAE_contrastNorm_contrast-contrast-to-z2-corr.png} 
+    \caption{Contrast - normalization} 
+    \label{fig:lave-2-contrast-norm}
+  \end{minipage} 
+\end{figure}
+
+\vspace{4mm}
+
+\par Here we must only make conclusions about (\ref{fig:lvae-2-no-contrast-norm}, \ref{fig:lave-2-contrast-norm}) since with the same setting as all models were trained the non contrast-normalized models were overfitted. We get similar results as with the previous model (\ref{fig:contrast-norm}, \ref{fig:contrast-no-norm}) but here the label correlations are not eliminated therefore therefore a lower level representation is achieved be the latent code.
+
+\vspace{4mm}
+
+\par Here we are presenting latent sweeps along the components which have the highest correlation with $\bm{R}_c$ in all scenarios:
+
+\vspace{4mm}
+
+\begin{figure}[H] 
+  \label{fig:contrast-correlation} 
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.62\linewidth]{lvae2/no_norm_no_contrast_sweep.png} 
+    \caption{No contrast - no normalization} 
+    \label{fig:no-contrast-no-norm-sweep}
+  \end{minipage}%%
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.62\linewidth]{lvae2/no_norm_contrast_sweep.png} 
+    \caption{Contrast - no normalization} 
+    \label{fig:contrast-no-norm-sweep}
+  \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.62\linewidth]{lvae2/contrast_norm_no_contrast_sweep.png} 
+    \caption{No contrast - normalization} 
+    \label{fig:no-contrast-norm-sweep}
+  \end{minipage}%% 
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.62\linewidth]{lvae2/contrast_norm_contrast_sweep.png} 
+    \caption{Contrast - normalization} 
+    \label{fig:contrast-norm-sweep}
+  \end{minipage} 
+\end{figure}
+
+\vspace{4mm}
+
+\par Here we can observe that non of the latent sweeps produced anything similar to (\ref{fig:contrast-no-norm-sweep-5}), however, there is some contrast gradient in (\ref{fig:contrast-norm-sweep}). This can be explained the following way. Since the previous model was restricted in the first encoder submodel and the last decoder submodel to be linear that ensured higher level abstraction in deeper layers therefore better latent representations. Here this constraint is eliminated and as a result we get massive overfitting in the non-normalized case and slight overfitting in the normalized scenario. We have shown that model complexity restriction is crucial on the shallow submodels to make high level abstraction possible. We will explore what else is needed to achieve disentangled representations in the following section.
+
 \newpage
 
-\subsection{What is needed to disentangle contrast? Comparison of models}
+\subsection{What is actually needed to disentangle contrast?}
 
 \vspace{5mm}
 
@@ -1145,7 +1280,31 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 
 \vspace{4mm}
 
-\par It seems that contrast and normalization further improved top down and bottom up approximations resulting n smaller top don deviations which should be extremely useful during sampling since the mean vector is approximated better than before.
+\par It seems that contrast and normalization further improved top down and bottom up approximations resulting n smaller top don deviations which should be extremely useful during sampling since the mean vector is approximated better than before. This may suggest that contrast normalization and additional contrast would help the representational efficiency, therefore enabling the model to properly disentangle contrast but we have seen in the previous section that this is not the case.
+
+\vspace{4mm}
+
+\par I also wanted to know whether there are first order correlations between $\bm{z}^{(1)}$ and $\bm{z}^{(2)}$ but there seems to be no such connections even though their correlation with the contrast is very high.
+
+\vspace{4mm}
+
+\par This section is mostly inconclusive since many models and different data settings have been tested but contrast could have not been completely disentangled from the latent representations. We could explain and show that the latent representations are used by the models and that they heavily rely on the deepest layer in the generative scenario as well while coding different and similar information in $\bm{z}^{(1)}$ and $\bm{z}^{(2)}$. It is evident that in some setting contrast was learned in some parameter but was not completely disentangled from label data. We would have like to acquire a model that disentangled contrast in the normalized scenario with added contrast and didn't disentangle any parameter in correlation with the contrast when training without. This seems to be a task of the future or if it cannot be done extensive testing and validation must be provided for answering why.
+
+\vspace{7mm}
+
+\section{Additional results}
+
+\vspace{7mm}
+
+\par The GitHub repository \footnote{\url{https://github.com/qbeer/wigner-csnl-textures}} of the current work contains tested scenarios with thousands of images that I did not include in the the appendix due to their large number. 
+
+\vspace{7mm}
+
+\section{Acknowledgements}
+
+\vspace{7mm}
+
+\par This work could not have been possible without the help and supervision of Mihály Bányai and Gergő Orbán. They made it possible for me to scratch the surface of this field and let me to progress in my own pace. Special thanks for Mihály for the corrections made to this essay.
 
 \newpage
 
@@ -1155,8 +1314,13 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
 \printbibliography[heading=none]
 
 \appendix
+\section*{Appendix}
+\label{sec:appendix}
+\addcontentsline{toc}{section}{\nameref{sec:appendix}}
 
-\section{Auto-encoder}
+\subsection*{Auto-encoder}
+\label{sec:auto-encoder}
+\addcontentsline{toc}{subsection}{\nameref{sec:auto-encoder}}
 
 \begin{figure}[H]
     \centering
@@ -1165,7 +1329,9 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
     \label{fig:dense-auto-encoder}
 \end{figure}
 
-\section{Variational auto-encoder}
+\subsection*{Variational auto-encoder}
+\label{sec:vae}
+\addcontentsline{toc}{subsection}{\nameref{sec:vae}}
 
 \begin{figure}[H]
     \centering
@@ -1174,7 +1340,9 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
     \label{fig:dense-variational-auto-encoder}
 \end{figure}
 
-\section{LVAE I.}
+\subsection*{LVAE I.}
+\label{sec:lvae1}
+\addcontentsline{toc}{subsection}{\nameref{sec:lvae1}}
 
 \begin{figure}[H]
     \centering
@@ -1183,7 +1351,9 @@ changed and swapped to higher or lower capacity and complexity modules with MLP 
     \label{fig:linlinladdervae}
 \end{figure}
 
-\section{LVAE II.}
+\subsection*{LVAE II.}
+\label{sec:lvae2}
+\addcontentsline{toc}{subsection}{\nameref{sec:lvae2}}
 
 \begin{figure}[H]
     \centering
