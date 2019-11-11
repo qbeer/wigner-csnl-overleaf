@@ -534,7 +534,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par I wanted to encode high level information in the latent code. In order to do so I implemented some random contrast factor on the training data while feeding it through my networks in batches. This mode could have been switched on and off by a function flag to apply additional contrast or not. All my datasets contained continuous values in the range $[0, 1]$. I applied the following non-deterministic function on each image of a batch:
+\par A cél az volt, hogy magas szintű információt kódoljunk a látens reprezentációban. Ahhoz, hogy ezt elérjük az implementáció része lett a hozzáadott kontraszt, mint lehetőség a tanítás során. Ez egy függvény paraméterrel állítható kapcsoló volt, így ezzel és enélkül is lehetett a tanítást végezni. Az összes adathalmaz folytonos pixelértékeket tartalmazott a $[0, 1]$ intervallumban és a következő nem determinisztikus kontraszt formulát alkalmaztuk minden képre a tanítás alatt:
 
 \vspace{4mm}
 
@@ -544,11 +544,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Where $I(x, y)$ is the original image, I approximated the global mean with $0.5$ therefore the multiplication by the random number $R$ for each image directly modified the standard deviation of the image, therefore its global contrast.
+\par Ahol $I(x, y)$ az eredeti kép, a képek átlagát $0.5$-el közelítettük így a random kontraszt paraméter $R$ minden képben célzottan a szórását növelte, azaz a globális kontrasztot.
 
 \vspace{4mm}
 
-\par With this method I wanted to encode a variable in the latent code that can directly disentangle contrast from images. This has been done with a factorized prior and researchers at Google had an immense success with it \cite{DBLP:journals/corr/abs-1811-12359}. My attempt here is to build a hierarchical model without the factorized restriction that resembles the visual cortex and exhibits almost disentangled behaviour in one or more hidden units.
+\par Ezzel a módszerrel próbáltuk kódolni a kontrasztot a látens reprezentációban és próbáltuk rákényszeríteni a modelleket, hogy ezt függetlenítsék is a többi paramétertől. Ebben az eljárásban a Google kutatói már több téren is sikereket értek el faktorizált VAE-kkal \cite{DBLP:journals/corr/abs-1811-12359}. A mi célunk itt az volt, hogy egy olyan hierarchikus modell állítsunk elő faktorizációs megszorítások nélkül amely hasonlít a vizuális kortexre és majdnem függetlenített paramétereket mutat egy vagy több látens változóban.
 
 \vspace{5mm}
 
@@ -556,11 +556,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par By incrementally changing the coefficient of the KL-term of the joint loss function in \cite{sonderby2016ladder} it is stated that - as they call it - warm-up results in more active units therefore a more distributed latent representation is achieved. I measure this in the results section when I compare correlations of latent code with random contrast values applied to images.
+\par Inkrementálisan változtatva a KL-tag együtthatójat, a növekvő $\beta$-tanulás vagy warmp-up, ahogy az eredeti cikkben \cite{sonderby2016ladder} szó említik jobban aktivált neuronokat eredményez a mélyebb rétegekben is így egy jobban eloszló látens reprezentációt eredményez. Ezt azáltal mérjük, hogy milyen mértékben korrelálnak az egyes látens kódok a random kontraszt értékekkel. Ezt egy későbbi szekcióban bővebben elővesszük.
 
 \vspace{4mm}
 
-\par It can be heuristically explained why warm-up/incremental $\beta$-learning helps the process. Since with $\beta = 0$ the VAE becomes similar to a simple auto-encoder for which the primary goal is to reconstruct the given examples perfectly, we incrementally add the restriction to the latent space, therefore a better reconstruction is achieved with not randomly initialized weights by the time that the KL-term influences the latent space significantly.
+\par Heurisztikusan is magyarázható, hogy miért segíti elő a tanulást a KL-tag inkrementális bekapcsolása. $\beta = 0$-ról indulva a variációs autoenkóder lényegében egy szimpla autenkóder struktúra a sztochasztikus rétegen való megszorítás nélkül, aminek az elsődleges célja a tökéletes rekonstrukció. Mivel növekbő $\beta$ mellett folyik a tanítás, így amikor a KL-tag kellő befolyással fog bírni, már egy jobb, nem random súlyokkal beállított modell alakítja ki a látens reprezentációt.  
 
 \vspace{5mm}
 
@@ -568,11 +568,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par After training a model for several epochs we have an inference model which is not very interesting. Since in best conditions it reconstructs the images provided to it perfectly. We want to be able to sample from $p(\bm{\epsilon})$, pass the sampled value through the decoder and achieve previously unseen but visually pleasing images of the same sort as the used dataset. For this we use the generative or decoder model. 
+\par A tanítási fázis után a rekonstrukciós modell kevésbé érdekes, hiszen legjobb esetben szinte tökéletes pontossággal rekonstruálja a képeket, ellenben minket a látens reprezentációk érdekelnek, amihez a generatív modell kell vizsgálnunk. $p(\bm{\epsilon})$ eloszlásból mintavételezve a dekóderen való rekonstrukcióknak először is hasonlítaniuk kell az adathalmazban szereplő mintákra. Továbba mivel nem egy adatbázisként működik a modell, hanem azt várjuk el tőle, hogy megtanulja az adott adathalmaz valószínűségi eloszlását így új, eddig nem látott mintákat várunk tőle.
 
 \vspace{4mm}
 
-\par In order to do this I implemented several sampling processes. One samples the prior distribution $N x N$ times where $N$ is a function parameter and plots the results on a grid. This shows whether the latent space became meaningful at all. I also implemented sweeping in the latent space where each component of the latent code can be chosen and by sampling from $p(\bm{\epsilon})$ and changing only $\epsilon_{i}$ in a range one can visualize what each latent component does. Since they are not completely independent this method only provides an intuition, however, when combined with additional contrast one can hope to find parameters which mostly encode that.
+\par Ahhoz, hogy ezt megvalósítsuk több mintavételőző eljárást implementáltunk. Az egyik $N x N$ alkalommal mintavételezi a prior eloszlást, ahol $N$ egy függvény paraméter és ezt egy rácson megjeleníti, amiből képet kaphatunk arról, hogy a generatív modell vizuálisan kielégítő képeket generál-e, amely hasonlít az adathalmaz elemeire. Implementáltunk továbbá a látens reprezentáció komponensei menténk folytonos mintavételezést, amely során előállítottunk egy random mintát a priorbor és az egyik dimenziója mentén, a tanulított modellre jellemző komponens tartományban változtattuk annak értékét, ezzel lehetővé téve, hogy intuíciót kapjunk arról, hogy mit reprezentál az adott komponens a rekonstrukciókban. Ha sikerül függetlenített paramétereket létrehozni, akkor ettől várjuk a kontrasztot megjelenni inkrementálisan a rekonstrukciókban.
 
 \vspace{4mm}
 
@@ -580,20 +580,20 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_mnist_dense_vae.png}
-    \caption{Sampled images from a trained generative model on the MNIST dataset with dense encoder/decoder and $\beta$-VAE architecture}
+    \caption{Mintavételezett képek egy betanított $\beta$-VAE modellből, dense enkóder és dekóder architektúrával az MNIST adathalmazon}
     \label{fig:sampled-images-1}
   \end{minipage}\hfill
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_fashion_mnist_dense_vae.png} 
-    \caption{Sampled images from a trained generative model on the FashionMNIST dataset with dense encoder/decoder and $\beta$-VAE architecture} 
+    \caption{Mintavételezett képek egy betanított $\beta$-VAE modellből, dense enkóder és dekóder architektúrával a FashionMNIST} 
     \label{fig:sampled-images-2}
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par But how can the contrast component be found in the latent code? In order to answer this question I implemented correlation analysis of latent codes. In the case of the VAE architecture I only correlated the latent code with the random contrast values that I applied to images. In the case of the LVAE architecture I did this for both stochastic set of units. However, this is not enough to find out the sweeping range but the component index that encodes contrast. I also analyzed the average value of hidden units and their standard deviation in order to shed light on these things.
+\par Hogyan találhatunk rá egyáltalán a kontrasztot kódoló komponensre a látens kódban? Ahhoz, hogy ez lehetésgessé váljon korreláltuk a random kontraszt értékeket már a tanítás után a látensekkel és megnéztük, hogy még komponens korrelál a legjobban. Abszolútértékben 0.4 feletti korrelációnál már számítottunk arra, hogy sikerül függetleníteni a kontrasztot, mint látens komponens. Az LVAE architektúrában két látens kód is van, vizsgáltuk mindkettő korrelációját a kontrasztal és egymással is, hogy megtudjuk, hogy ugyanarra a stimulusra reagálnak-e a neuronok. Természetesen elsősorban lineáris korrelációkat vizsgáltunk, így ha magasabbrendű, nem lineáris összefüggés van a komponensek között, azt nem tudtuk ezzel dekódolni.
 
 \vspace{4mm}
 
@@ -601,19 +601,19 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par For labeled data (MNIST, FashionMNIST, textures) I could also correlate the one hot encoded labels with the latent code for each class. With this method I could measure which latent components react to which class labels mostly. By changing its value I wanted to find out whether the texture-family or the corresponding digit features can be suppressed or not.
+\par Mivel ez egy nem felügyelt technika, de néhány adathalmaz tartalmazott címkéket így azok korrelációját is tudtuk vizsgálni a legmélyebb látens reprezentációkkal. Ilyen adathalmazok voltak például az MNIST, FashionMNIST az általunk főként vizsgált textúrák. Ezzel a módszerrel evidenssé vált, hogy melyik vált, hogy néhány címkére érzékenyebbek a modellek, mint másokra.
 
 \vspace{4mm}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{17_DenseLinLinLadderVAE_contrastNorm-cat-4-to-z2-corr.png}
-    \caption{Linear + dense encoders and dense + linear decoders LVAE architecture with contrast normalization, showing the $4$th category pairwise correlation for a large, representative batch with $\bm{z^{(2)}}$}
+    \caption{Lineáris és dense enkóderek, dense és lineáris dekóderek - LVAE moell kontraszt normalizációval - a $4.$ komponens páronkénti korralációja $\bm{z^{(2)}}$-vel}
 \end{figure}
 
 \vspace{4mm}
 
-\par For the LVAE architecture, there are two different levels where stochastic sampling is implemented. The deepest latent is sampled from our prior but the intermediate layer that contains bottom up information during training from the input image, and top down information from the deepest latent space contains crucial information during latent vector sampling. I already mentioned this previously but it is crucial to examine whether the top down information is used at all or resembles the resulting mean and standard deviations. As it can be the case that during training only the first latent layer is used, that deepest layer only adds noise but the capacity of the models results in good reconstructions. However, the goal here is not pristine reconstruction quality but representational learning. I implemented histogram analysis of vector values both for the means and standard deviations during a full reconstruction through the system. I also implemented visualizations to actually see how similar these vectors are with diverging colors for the vector values.
+\par Az LVAE architektúrában két sztochasztikus réteg van, ahol mintavételezni kell. A legmélyebb réteg a priorból mintavételezett, míg a köztes már tanult paraméterek alapján. Rendkíbül fontos vizsgálni, hogy ténylegesen megtörténik-e a hierarchikus reprezentáció, mert kellő komplexitású modellek segítségével a legmélyebb réteg elhagyható lehet, és csak zajt eredményez a rekonstrukciókon és nem kap értelmet a látens tér. Mivel a cél nem a rekonstrukciós pontosság, hanem ténylegesen az értelmes kódolás, erre külön figyelmet fordítottunk. Az implementációban hisztogrammokon lehet vizsgálni az átlagok és szórások eloszlását, amelyek a látens változók mintavételezéséhez szükségesek, továbbá divergáló színekkel a tényleges vektorok vizuális reprezentációját is megvalósítottuk, hogy lokalizáltan is követni lehessen, hogy hasonlóak-e a bennük tárolt értékek.
 
 \vspace{4mm}
 
@@ -621,7 +621,7 @@ Mihály Bányai, Gergő Orbán \\
     \centering
     \includegraphics[width=0.3\textwidth]{diverging_color.png}
     \label{fig:diverging_colors}
-    \caption{Diverging colors used for latent code visualization}
+    \caption{Divergens színek a vektor vizualizációkhoz}
 \end{figure}
 
 \vspace{4mm}
@@ -630,26 +630,26 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par I also experimented with UMAP \cite{mcinnes2018umap} and  t-SNE \cite{maaten2008visualizing} embeddings on the latent code(s) and reconstructed data to see whether the image/texture classes are decomposed in the embedding space. It is also crucial to see whether in the case of the LVAE if $\bm{z}^{(2)}$ contains more, less or the same information as $\bm{z}^{(1)}$. This question is motivated by the fact that in \cite{ZiembaV2} they suggest that the V2 codes different information as the V1 and hierarchical models use different information in different levels in the mammalian brain from the same input. For computational efficiency I used UMAP since it is significantly faster and produces visually similar results to t-SNE.
+\par Vizsgáltuk még az UMAP \cite{mcinnes2018umap} és t-SNE \cite{maaten2008visualizing} beágyazásokat a látens reprezentációkon, hogy felmérjük, hogy vajon elválnak-e a textúra családok a látens térben. Fontos volt továbbá vizsgálnunk, hogy a hierarchikus reprezentáció különböző szintjein különböző, vagy ugyan az az információ van-e. Ezt a kérdést motiválja a \cite{ZiembaV2} cikk, ahol azt állítják, hogy a V2 más információt kódol, mint a V1. A számolási gyorsasága miatt az UMAP módszert alkalmaztam főkent, ami a t-SNE-hez hasonló beágyazásokat produkál, lényegesen gyorsabban. Különböző modelleket vizsgálva az LVAE architektúrában arra jutottunk, hogy látható, hogy különböző csoportok válnak el a két reprezentációban és más információ tárolódik:
 
 \begin{figure}[H] 
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.7\linewidth]{umap_z1_dense_lin_lin_no_norm.png}
-    \caption{UMAP decomposition of $\bm{z^{(1)}}$ from a trained LVAE architecture with linear + dense encoders and dense + linear decoders}
+    \caption{UMAP beagyazás $\bm{z^{(1)}}$-ből egy betanított LVAE architektúra lineáris és dense enkóderekkel, valamint dense és lineáris dekóderekkel}
     \label{fig:umap-z1}
   \end{minipage}\hfill
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.7\linewidth]{umap_z2_dense_lin_lin_no_norm.png} 
-    \caption{UMAP decomposition of $\bm{z^{(2)}}$ from a trained LVAE architecture with linear + dense encoders and dense + linear decoders} 
+    \caption{UMAP beagyazás $\bm{z^{(2)}}$-ből egy betanított LVAE architektúra lineáris és dense enkóderekkel, valamint dense és lineáris dekóderekkel} 
     \label{fig:umap-z2}
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par With the same decomposition I present here the corresponding textures not just their labels what we can notice in the following figures is that the UMAP embedding suggests that some information is lost and some information is gained from $\bm{z}^{(1)}$ to $\bm{z}^{(2)}$, since in (\ref{fig:umap-z1}, \ref{fig:umap-z1-text}) categories $5$, $6$ are properly separated into two distinct groups while label $5$ is separated into 3 folds in (\ref{fig:umap-z2}, \ref{fig:umap-z2-text}) and is even mixing with $3$. On the other hand, two mixed groups are separated in the deepest latent code.
+\par A dekompozíciók mellé, ahol a címkék láthatók elhelyezem a vizulálisan elkülöníthető képeket is a különböző textúrákről az UMAP beágyazásban. Az a tanulság szűrhető le ebből, hogy valamennyi információt a második enkóder almodell után sikerült elérni $\bm{z}^{(2)}$-ben, hiszen (\ref{fig:umap-z1}, \ref{fig:umap-z1-text}) láthatjuk az $5$, $6$ kategóriákat amelyek ténylegeen elkülönülnek két csoportba, míg az $5$ csoport három részre oszlott (\ref{fig:umap-z2}, \ref{fig:umap-z2-text})-n és már $3$-assal is elegyedett. Ezzel szemben, a legmélyebb rétegben már három csoport szeparálódik.
 
 \vspace{4mm}
 
@@ -657,20 +657,20 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.7\linewidth]{umap_z1_dense_lin_lin_no_norm_textures.png}
-    \caption{UMAP decomposition of $\bm{z^{(1)}}$ from a trained LVAE architecture with linear + dense encoders and dense + linear decoders, each point is represented with the reconstruction from the corresponding texture family}
+    \caption{UMAP beagyazás $\bm{z^{(1)}}$-ből egy betanított LVAE architektúra lineáris és dense enkóderekkel, valamint dense és lineáris dekóderekkel - a címkék helyett képek}
     \label{fig:umap-z1-text}
   \end{minipage}\hfill
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.7\linewidth]{umap_z2_dense_lin_lin_no_norm_textures.png} 
-    \caption{UMAP decomposition of $\bm{z^{(2)}}$ from a trained LVAE architecture with linear + dense encoders and dense + linear decoders, each point is represented with the reconstruction from the corresponding texture family} 
+    \caption{UMAP beagyazás $\bm{z^{(2)}}$-ből egy betanított LVAE architektúra lineáris és dense enkóderekkel, valamint dense és lineáris dekóderekkel - címkék helyett képek} 
     \label{fig:umap-z2-text}
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par We also measured pairwise linear correlation - Pearson-correlation - between $\bm{z}^{(1)}$ and $\bm{z}^{(2)}$.
+\par Páronkénti Pearson korrelációt is mértünk $\bm{z}^{(1)}$ és $\bm{z}^{(2)}$ között, amit úgy értünk el, hogy több ezer mintát korreláltattunk össze adott komponens aktivációra így kapva egy mátrixot, amiből azt találtuk, hogy lineáris korrelációk semmilyen esetben sincsenek a két látens kód között.
 
 \vspace{4mm}
 
@@ -678,7 +678,7 @@ Mihály Bányai, Gergő Orbán \\
     \centering
     \includegraphics[width=0.3\textwidth]{z1_z2_correlation.png}
     \label{fig:pearson-matrix}
-    \caption{Pearson-correlation between $\bm{z}^{(1)}$ and $\bm{z}^{(2)}$}
+    \caption{Pearson-korreláció $\bm{z}^{(1)}$ és $\bm{z}^{(2)}$ között}
 \end{figure}
 
 \newpage
