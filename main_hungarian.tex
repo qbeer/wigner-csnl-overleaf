@@ -8,6 +8,7 @@
 
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{soul}
 \usepackage{mathtools}
 \usepackage{eucal}
 \usepackage{amssymb}
@@ -510,7 +511,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Az implementáció főként `dense` rétegeket \footnote{lényegében mátrix szorzás és eltolás} valamint ReLU \footnote{rectified linear unit} aktivációkat használ a különböző modellekben. Lényegében a két egységből álló enkóder és dekóder modellek az LVAE implementációban úgynevezett MLP \footnote{multilayer perceptron} almodellek, ugyan ez elmondható az egy egységes VAE implementációkról. Néhol ReLU helyett PReLU \footnote{parametric rectified linear unit} aktivációk vannak. Nem csak variációs modelljeink vannak, mivel a megfelelő összehasonlítás érdekében szimpla autoenkódert is implementáltunk amin megfigyelhető a látens reprezentáció gyengesége. A jelen munkában nem szerepel, de az implementáció részeként vannak konvolúciós és dekonvoluciós architektúrál, ahol \cite{odena2016deconvolution} alapján bilineáris felülmintavételezés és azutáni konvolúció helyettesíti az inverz konvolúciót. 
+\par Az implementáció főként `sűrű` rétegeket \footnote{lényegében mátrix szorzás és eltolás} valamint ReLU \footnote{rectified linear unit} aktivációkat használ a különböző modellekben. Lényegében a két egységből álló enkóder és dekóder modellek az LVAE implementációban úgynevezett MLP \footnote{multilayer perceptron} almodellek, ugyan ez elmondható az egy egységes VAE implementációkról. Néhol ReLU helyett PReLU \footnote{parametric rectified linear unit} aktivációk vannak. Nem csak variációs modelljeink vannak, mivel a megfelelő összehasonlítás érdekében szimpla autoenkódert is implementáltunk amin megfigyelhető a látens reprezentáció gyengesége. A jelen munkában nem szerepel, de az implementáció részeként vannak konvolúciós és dekonvoluciós architektúrál, ahol \cite{odena2016deconvolution} alapján bilineáris felülmintavételezés és azutáni konvolúció helyettesíti az inverz konvolúciót. 
 
 \vspace{4mm}
 
@@ -548,7 +549,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Ezzel a módszerrel próbáltuk kódolni a kontrasztot a látens reprezentációban és próbáltuk rákényszeríteni a modelleket, hogy ezt függetlenítsék is a többi paramétertől. Ebben az eljárásban a Google kutatói már több téren is sikereket értek el faktorizált VAE-kkal \cite{DBLP:journals/corr/abs-1811-12359}. A mi célunk itt az volt, hogy egy olyan hierarchikus modell állítsunk elő faktorizációs megszorítások nélkül amely hasonlít a vizuális kortexre és majdnem függetlenített paramétereket mutat egy vagy több látens változóban.
+\par Ezzel a módszerrel próbáltuk kódolni a kontrasztot a látens reprezentációban és próbáltuk rákényszeríteni a modelleket, hogy ezt függetlenítsék is a többi paramétertől. Ebben az eljárásban a Google kutatói már több téren is sikereket értek el faktorizált VAE-kkal \cite{locatello2018challenging}. A mi célunk itt az volt, hogy egy olyan hierarchikus modell állítsunk elő faktorizációs megszorítások nélkül amely hasonlít a vizuális kortexre és majdnem függetlenített paramétereket mutat egy vagy több látens változóban.
 
 \vspace{5mm}
 
@@ -580,13 +581,13 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_mnist_dense_vae.png}
-    \caption{Mintavételezett képek egy betanított $\beta$-VAE modellből, dense enkóder és dekóder architektúrával az MNIST adathalmazon}
+    \caption{Mintavételezett képek egy betanított $\beta$-VAE modellből, sűrű enkóder és dekóder architektúrával az MNIST adathalmazon}
     \label{fig:sampled-images-1}
   \end{minipage}\hfill
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_fashion_mnist_dense_vae.png} 
-    \caption{Mintavételezett képek egy betanított $\beta$-VAE modellből, dense enkóder és dekóder architektúrával a FashionMNIST} 
+    \caption{Mintavételezett képek egy betanított $\beta$-VAE modellből, sűrű enkóder és dekóder architektúrával a FashionMNIST} 
     \label{fig:sampled-images-2}
   \end{minipage} 
 \end{figure}
@@ -608,7 +609,7 @@ Mihály Bányai, Gergő Orbán \\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{17_DenseLinLinLadderVAE_contrastNorm-cat-4-to-z2-corr.png}
-    \caption{Lineáris és dense enkóderek, dense és lineáris dekóderek - LVAE moell kontraszt normalizációval - a $4.$ komponens páronkénti korralációja $\bm{z^{(2)}}$-vel}
+    \caption{Lineáris és sűrű enkóderek, sűrű és lineáris dekóderek - LVAE moell kontraszt normalizációval - a $4.$ komponens páronkénti korralációja $\bm{z^{(2)}}$-vel}
 \end{figure}
 
 \vspace{4mm}
@@ -636,13 +637,13 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.7\linewidth]{umap_z1_dense_lin_lin_no_norm.png}
-    \caption{UMAP beagyazás $\bm{z^{(1)}}$-ből egy betanított LVAE architektúra lineáris és dense enkóderekkel, valamint dense és lineáris dekóderekkel}
+    \caption{UMAP beagyazás $\bm{z^{(1)}}$-ből egy betanított LVAE architektúra lineáris és sűrű enkóderekkel, valamint sűrű és lineáris dekóderekkel}
     \label{fig:umap-z1}
   \end{minipage}\hfill
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.7\linewidth]{umap_z2_dense_lin_lin_no_norm.png} 
-    \caption{UMAP beagyazás $\bm{z^{(2)}}$-ből egy betanított LVAE architektúra lineáris és dense enkóderekkel, valamint dense és lineáris dekóderekkel} 
+    \caption{UMAP beagyazás $\bm{z^{(2)}}$-ből egy betanított LVAE architektúra lineáris és sűrű enkóderekkel, valamint sűrű és lineáris dekóderekkel} 
     \label{fig:umap-z2}
   \end{minipage} 
 \end{figure}
@@ -657,13 +658,13 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.7\linewidth]{umap_z1_dense_lin_lin_no_norm_textures.png}
-    \caption{UMAP beagyazás $\bm{z^{(1)}}$-ből egy betanított LVAE architektúra lineáris és dense enkóderekkel, valamint dense és lineáris dekóderekkel - a címkék helyett képek}
+    \caption{UMAP beagyazás $\bm{z^{(1)}}$-ből egy betanított LVAE architektúra lineáris és sűrű enkóderekkel, valamint sűrű és lineáris dekóderekkel - a címkék helyett képek}
     \label{fig:umap-z1-text}
   \end{minipage}\hfill
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.7\linewidth]{umap_z2_dense_lin_lin_no_norm_textures.png} 
-    \caption{UMAP beagyazás $\bm{z^{(2)}}$-ből egy betanított LVAE architektúra lineáris és dense enkóderekkel, valamint dense és lineáris dekóderekkel - címkék helyett képek} 
+    \caption{UMAP beagyazás $\bm{z^{(2)}}$-ből egy betanított LVAE architektúra lineáris és sűrű enkóderekkel, valamint sűrű és lineáris dekóderekkel - címkék helyett képek} 
     \label{fig:umap-z2-text}
   \end{minipage} 
 \end{figure}
@@ -691,11 +692,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par Auto-encoders are not generative models but non-linear functions that are learning to reconstruct unlabelled data by pushing it through a usually reduced dimensionality gate. This low-dimensional representation with the decoder architecture can be ported to everywhere and for large datasets it can save much more space than regular compression tools such as JPEG. It is important to mention that compression via auto-encoders is highly dataset specific so it cannot be used as conveniently as JPEG without training a neural network. Also, the compression is lossy so the images cannot be fully reconstructed without some information loss.
+\par Az autoenkóderek nem generatív modellek önmagukban, hanem nem lineáris, általános függvény approximátorok amik megtanulják rekonstruálni a nem címkézett adatokat egy alacsony dimenziós kapunk keresztül átfolyatni. Ez az alacsony dimenziós reprezentáció aztán a dekóder architektúrával visszaállítható és tömörített formátumban tárolható. A gyakori kompressziós algoritmusoknál, mint például a JPEG tömörítés, ez sokkal alacsonyabb dimeznión képes tárolni ugyanazt az adatot. Fontos megemlíteni, hogy az autoenkóderek tömörítés adatspecifikus, tehát minden adathalmazhoz más modellt kell használni és nem olyan támogatott, mint a hagyományos módszerek. A kompresszió itt is veszteséges, nem lehet tökéletesen visszaállítani az eredeti képeket.
 
 \vspace{4mm}
 
-\par Results are presented using the well-known MNIST dataset with binarized values and Bernoulli-loss:
+\par A következőkben az autoenkóder implementációnkból a jól ismert MNIST adathalmazon mutatunk eredményeket, amely binarizálva volt, így a Bernoulli célfüggvényt kellett használnunk a KL-tag mellett:
 
 \vspace{4mm}
 
@@ -704,26 +705,26 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_mnist_auto_encoder.png} 
-    \caption{Sampled images} 
+    \caption{Mintavételezett képek} 
   \end{minipage}\hfill
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{reco/reconstrunction_samples_mnist_auto_encoder.png} 
-    \caption{Reconstructed images} 
+    \caption{Rekonstruált képek} 
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par The latent representation contained length two vectors and it can be seen that such low complexity data is well represented even without constraint on the code.
+\par A látens reprezentáció ebben az esetben két komponensű vektorokból állt. Jól látható, hogy a nem megszorított, alacsony dimenziós térből mintavételezett képek is jól megfogták ezt a nagyon egyszerű adathalamzt. Magasabb komplexitású adatnál természetesen nem ilyen struktúrált a látens kód mindenféle megszorítás nélkül.
 
 \newpage
 
-\subsection{Variációs autoenkóderek}
+\subsection{Variációs atuoenkóderek}
 
 \vspace{5mm}
 
-\par Results are presented using the Fashion-MNIST dataset with continuous pixel values in $[0, 1]$ and normal loss the model used is presented in (\ref{fig:dense-variational-auto-encoder} - see appendix \ref{sec:vae}):
+\par Az itteni eredmények a FashionMNIST adathalmazon végzett kísérletek alapján egy variációs autoenkódert mutatnak be. A mintavételezés a látens térből az adathalmazra jellemző képi elemeket produkál. Az adathalmaz folytonos pixelértékeket tartalmaz a $[0, 1]$ intervallumban így egy Gaussi célfüggvényt kell használnunk a KL-tag mellett. Az allábi ábrákon (\ref{fig:sűrű-variational-auto-encoder}) az appendixben található VAE modellt \ref{sec:vae} taníotttuk:
 
 \vspace{4mm}
 
@@ -732,40 +733,39 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_fashion_mnist_dense_vae.png} 
-    \caption{Sampled images} 
+    \caption{Mintavételezett képek a priorból} 
   \end{minipage}%%
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{reco/reconstrunction_samples_fashion_mnist_dense_vae.png} 
-    \caption{Reconstructed images} 
+    \caption{Rekonstruált képek} 
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par The latent representation contained length eight vectors and it was trained with $\beta = 1$.
-
+\par A látens reprezentáció nyolc komponensű vektor volt, míg $\beta = 1$ mellett végeztük a modell tanítást az Adam \cite{kingma2014adam} optimalizációs algoritmussal végeztük.
 \vspace{4mm}
 
-\par Using the same eight piece code and the same training iterations, the effect of the variational inference can be seen in the latent representation compared to the non-variational model (\ref{fig:dense-auto-encoder} - see appendix \ref{sec:auto-encoder}):
+\par Ugyanazt a nyolc komponensű látens beágyazást alkalmazva, ugyannyi iterációban a variációs inferencia hatása jól látható a mintavételezésben, hiszen ha összehasonlítjuk a nem variációs modellel (\ref{fig:sűrű-auto-encoder} - see appendix \ref{sec:auto-encoder}):
 
 \begin{figure}[ht] 
   \label{fig:auto_encoder_results} 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_fashion_mnist_auto_encoder.png} 
-    \caption{Sampled images} 
+    \caption{Mintavételezett képek az autoenkóderből} 
   \end{minipage}%%
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{reco/reconstrunction_samples_fashion_mnist_auto_encoder.png} 
-    \caption{Reconstructed images} 
+    \caption{Rekonsturált képek} 
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par In the reconstructions the effect cannot be seen but it is easily observed in the latent representation since it is less pronounced in the non-variational model.
+\par A rekonstrukciókban nem látszik a variációs inferencia hatása, ellenben a mintavételezésben jól látható, hogy az előbbi variációs modellben a képek sokkal jobban reprezentálják az adathalmaz struktúráját ellenben az autoenkóder modellel.
 
 \newpage
 
@@ -773,19 +773,19 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par The ladder architecture introduces an additional layer of abstraction into our variational model. Better latent representations are expected using this as our model.
+\par A létra architektúra egy extra komputációs réteget vezet be a variációs modellben. Jobb látens reprezentációkat várunk ettől a modell családtól.
 
 \vspace{4mm}
 
-\par Training a deeper model poses difficulties since training it efficiently is much harder and usually many more iterations are needed. Since randomly initialized weights might provide a very bad spot on the loss landscape the deviation in the KL-term can be very high and latent representations are basically non-existent. The connection between the bottom up and top down components at the intermediate layer also poses a threat since information sharing provides a loophole to the model not to abstract information and just leave the deeper stochastic code out of the process. 
+\par A mélyebb modell tanítása sokkal nehezebb feladat és sokszor sokkal több iterációban lehetséges, hiszen a random súlyok nagyon rossz helyről indíthajták a tanítást, ahol a KL-tag magas és később sem tud kellően alacsony lenni ahhoz, hogy látens reprezentációk jelenjenek meg. A bottom up és a top down komponensek utána, közbeeső rétegben való infromációcsere a létra architektúrában szintén megnehezíti a tanítást, hiszen kellő komplexitású modellek mellett a legmélyebb rétegek lehetséges, hogy nem tanulnak semmit és egyszerűen egylépcsőben visszaállítják a képeket.
 
 \vspace{4mm}
 
-\par This effect can be handled in a few different ways such as: restricting the encoders first layer to be linear and the decoder at the top to be linear as well, this results in forcing the models to use deeper layers since a very low level of abstraction can be achieved with such low complexity models. A higher $\beta_{max}$ can achieve similar effect since the KL-term can influence the overall loss more and could also force the model to use deeper representations in order to lower the KL-loss significantly. 
+\par Az utóbbi hatás több módon is elkerülhető. A létra architektúrában lecsökkenthetjük az bemeneti és kimeneti képekhez közelebbi enkóder és dekóder modelleket ezzel kényszerítva a modell arra, hogy használja a mélyebb rétegeket is. Magasabb $\beta_{max}$ hasonló hatást válthat ki, mivel ekkor a KL-tag nagyobb mértékben hat a teljes célfüggényre és ahhoz, hogy az csökkenjen a mélyebb rétegeben is optimalizálni kell arra.
 
 \vspace{4mm}
 
-\par In the following sections I mostly used different architectures of LVAEs with constrained linear encoders and decoders and with dense encoders and decoders.
+\par A következő szekciókban főként létra variációs autoenkódereket használtam megszerított lineáris enkóder és dekóder almodellekkel valamint sűrű enkóder és dekóder modellekkel.
 
 \vspace{7mm}
 
@@ -793,7 +793,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par As I mentioned previously, I implemented random contrast learning, meaning that some random amount of contrast is added to each batch of the input images to make the model contrast independent in order to disentangle the contrast in the latent code. I looked into what is necessary in order to acquire such disentangled representation in \cite{locatello2018challenging} researchers at Google did most of this work from a computer science perspective and they concluded that only inductive biases, such as architectural choice, different regularization and loss terms make disentangled representations possible. Here I attempt to understand what is needed to disentangle contrast from these textural images.
+\par Korábban említettük, hogy az implementáció része a tanítás közbeni random kontraszt hozzáadása, ahol lényegében minden képet bizonyos mértékben perturbálunk, hogy elérjük, hogy a modell ettől független reprezentációt tanuljon a látens kódban. Az irodalomban már próbálkoztak hasonlókkal a korábann már említett Google cikk \cite{locatello2018challenging} informatikai oldalról közelíti meg a problémát és arra jutottak, hogy bizonyos megszorítások nélkül nem lehetséges sem látens reprezentációkat, sem függetlenített komponenseket létrehozni. Ilyen például az architektúrálás választas, különböző regularizációs tagok és célfüggvények használata. Itt megpróbáltuk vizsgálni, hogy mi szükséges a kontraszt függetlenítéséhez.
 
 \vspace{4mm}
 
@@ -801,7 +801,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Here I present some results with linear modules at the first encoder and last decoder layer (\ref{fig:linlinladdervae} - see appendix \ref{sec:lvae1}) with and without contrast normalization with the same settings: $[\bm{z}_{1}] = 128, [\bm{z}_{2}] = 8$:
+\par Itt az appendixben látható (\ref{fig:linlinladdervae} - see appendix \ref{sec:lvae1}) létra VAE modellben végeztünk kísérleteket, ahol lineáris megszórítás van az első enkóderre és a végső dekóderre. A kísérleteket kontraszt normalizáció mellett és nélkül végeztük el, további kontraszt mellett és hiányában, a két látens kód mérete $[\bm{z}_{1}] = 128, [\bm{z}_{2}] = 8$:
 
 \vspace{4mm}
 
@@ -809,36 +809,36 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_noContrastNorm_noContrast.png} 
-    \caption{No contrast - no normalization} 
+    \caption{\st{Kontraszt} - \st{normalizáció}} 
     \label{fig:contrast-generated-1} 
   \end{minipage}%%
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_noContrastNorm_contrast.png} 
-    \caption{Contrast - no normalization} 
+    \caption{Kontraszt - \st{normalizáció}} 
     \label{fig:contrast-generated-2} 
   \end{minipage} 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_contrastNorm_noContrast.png} 
-    \caption{No contrast - normalization} 
+    \caption{\st{Kontraszt} - normalizáció} 
     \label{fig:contrast-generated-3} 
   \end{minipage}%% 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{contrast/generated_samples_contrastNorm_contrast.png} 
-    \caption{Contrast - normalization} 
+    \caption{Kontraszt - normalizáció} 
     \label{fig:contrast-generated-4} 
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par What we can see in (\ref{fig:contrast-generated-1}, \ref{fig:contrast-generated-2}, \ref{fig:contrast-generated-3},\ref{fig:contrast-generated-4}) is not trivial to compare, however, just by looking at them we can see how contrast modifies training, since we can observe large variance in contrast amongst the generated textures and also normalization can be observed in contrast of images.
+\par A fentebbi ábrákon (\ref{fig:contrast-generated-1}, \ref{fig:contrast-generated-2}, \ref{fig:contrast-generated-3},\ref{fig:contrast-generated-4}) nehéz összehasonlítani a különböző beállítások hatását, de jól látható, hogy a kontrasztos tanítás szaturáltabb mintákat állít elő és a normalizáció pedig lecsökkente a mintavételek közötti varinciát.
 
 \vspace{4mm}
 
-\par A more thorough and systematic comparison can be gained by comparing contrast correlation with the latent codes. This can be done by generating random contrast values. Assuming a batch size $B_{s}$ and latent code dimension $d$ we can correlate the latent code at index $i$ of each element in the batch $z^{(i)}_{\{j\}_{j = 1}^{B_{s}}}$ with the random contrast values of the batch. Calculating simple Pearson-correlation:
+\par Egy alaposabb és szisztematikusabb áttekintés nyerhető abból, ha korreláltattuk a látens kódokat a random kontraszt értékekkel. Ezt azáltal értül el, hogy megperturbáltuk a képeket $B_{s}$ ismert kontraszt értékkel. A $d$ dimenziós kódot minden komponensében $z^{(i)}_{\{j\}_{j = 1}^{B_{s}}}$ tudjuk korreláltatni a random kontraszt értékekkel az egyes képeken. Ebből egyszerű Pearson-korrelációt számolva:
 
 \vspace{4mm}
 
@@ -848,7 +848,9 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par In this form both the random contrast $\bm{R_{c}}$ and the $i$th component of the latent code for each element in the batch $\bm{z}^{(i)}$ have size $B_{s}$, so comparing these for each of the contrast-normalization models:
+
+
+\par Itt $\bm{R_{c}}$ a random kontraszt értéke az adott képhalmaz minden elemére a látens kód $i.$ komponensével korrelálva $\bm{z}^{(i)}$.
 
 \vspace{4mm}
 
@@ -857,40 +859,40 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{contrast_to_latent/no_norm_contrast_z2_corr.png} 
-    \caption{No contrast - no normalization} 
+    \caption{\st{Kontraszt} - \st{normalizáció}} 
     \label{fig:no-contrast-no-norm}
   \end{minipage}%%
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{contrast_to_latent/no_norm_contrast_contrast_z2_corr.png} 
-    \caption{Contrast - no normalization} 
+    \caption{Kontraszt - \st{normalizáció}} 
     \label{fig:contrast-no-norm}
   \end{minipage} 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{contrast_to_latent/norm_no_contrast_correlation.png} 
-    \caption{No contrast - normalization} 
+    \caption{\st{Kontraszt} - normalizáció} 
     \label{fig:no-contrast-norm}
   \end{minipage}%% 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{contrast_to_latent/norm_contrast_correlation.png} 
-    \caption{Contrast - normalization} 
+    \caption{Kontraszt - normalizáció} 
     \label{fig:contrast-norm}
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par Here we can see that in (\ref{fig:no-contrast-no-norm}) there seems to be natural contrast in this type of dataset and it seems to be disentangled in the $4$th latent code component \footnote{indexing from $0$}. I'll also analyze whether this is the case or the latent code represents a class that has high variability in contrast and only disentangles that class. Adding additional contrast (\ref{fig:contrast-no-norm}) to the textures made two variables to encode something like contrast.
+\par Láthajuk (\ref{fig:no-contrast-no-norm}), hogy hozzáadott kontraszt nélkül is, mintha a természeteskontrasztot is ki tudná transzformálni a modell ebből az adathalmazból a $4.$ komponensben \footnote{$0$-tól indexelve}. Megvizsgáljuk, hogy valóban ez-e a helyzet vagy a látens kód inkább egy bizonyos textúra családra érzékeny a kontrasztot változtatva, aminek nagy a variabilitása. Hozzáadott kontraszt esetén (\ref{fig:contrast-no-norm}) függetlenített paraméter nem lett, hiszen két komponens is magas korrelációt mutat a kontraszttal.
 
 \vspace{4mm}
 
-\par The case is very similar with contrast normalization (\ref{fig:no-contrast-norm}, \ref{fig:contrast-norm}) although this is not expected. This could mean that contrast normalization failed or that the parameter that is seemingly encodes contrast \footnote{has high correlation with what we call contrast} actually encodes a class that has high variability locally even though it was globally normalized.
+\par Nagyon hasonló a helyzet a kontraszt normalizált felállásban (\ref{fig:no-contrast-norm}, \ref{fig:contrast-norm}) annak ellenéré, hogy ez nem várt viselkedés. Ez jelentheti azt, hogy a normalizáció hibás \footnote{ez nem jelent jelentős problámát} vagy a paraméter ami a kontrasztot kódolja (magas korrelációja van a kontraszztal) magas lokális variabilitású osztályokra jellemző kontrasztra érzékeny, mivel a globális kontrasztot kitranszformáltuk.
 
 \vspace{4mm}
 
-\par Observing the labels and their correlation with the deepest latent code $\bm{z}_{2}$ I found that the correlation in each variable with respect to the contrast or the one-hot-encoded $1$st label is almost the same in the non normalized setting:
+\par Megfigyelve a címkéket és a korrelációjukat a legmélyebb látens kóddal $\bm{z}_{2}$ azt találtuk, hogy a korreláció minden komponensben közel megegyezik az $1.$ címke és a kontraszt korreláció között a nem normalizált beállításokban:
 
 \vspace{4mm}
 
@@ -898,22 +900,22 @@ Mihály Bányai, Gergő Orbán \\
 \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{label-contrast-corr/cat-1-to-z2-corr.png} 
-    \caption{$1$st one-hot encoded label to $\bm{z}_{2}$} 
+    \caption{$1.$ one-hot enkódolt címke és $\bm{z}_{2}$ közötti korreláció} 
     \label{fig:label-contrast-corr-1}
 \end{minipage}%% 
 \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{label-contrast-corr/contrast-to-z2-corr.png} 
-    \caption{Contrast to $\bm{z}_{2}$} 
+    \caption{Kontraszt és $\bm{z}_{2}$ közötti korreláció} 
     \label{fig:label-contrast-corr-2}
 \end{minipage} 
 \end{figure}
 
-\par With the non-normalized setting when there is additional contrast there are also high correlations with some of the one-hot-encoded labels therefore no clean disentanglement is provided by the latent representation.
+\par A nem normalizált képhalmazon, hozzáadott kontraszt mellett szintén hasonló a helyzet több textúra családra is, így nem mondható el, hogy tisztán függetlenített kontraszt paraméter lenne a modellben.
 
 \vspace{4mm}
 
-\par However, another observation can be made by checking that normalized setting. In this scenario the label correlations with $\bm{z}_{2}$ are negligible in both cases of no contrast and additional contrast during training. This leads me to believe that the parameter that correlates with the additional contrast during reconstruction is encoding the local contrast in the normalized scenario. To test this I mentioned earlier that I implemented latent sweep in my code base. Also I made sure that I the latent codes are used in the trained models by observing there means and standard deviations during reconstruction, if these are different from zero and one respectively, meaning that they are not unit Gaussians but some kind of learnt posteriors the models are actually using them for something.
+\par Ellenben, a normalizált adathalmazon megfigyelhető, hogy a címke korrelációkat lényegében eliminálta a globális kontraszt normalizáció $\bm{z}_{2}$-vel, mintkét esetben (kontraszt és kontraszt nélkül). Ez arra enged következtetni minket, hogy valamiféle lokális kontrasztot kódolhat a magas korrelációjú paraméter(ek). Ahhoz, hogy ezeket a hatásokat vizsgáljuk látens bejárással generálunk mintákat a tanított modellekből, ahol az adott neuronra jellemző aktivációkat használtuk. Ezt azáltal értük el, hogy nagy mennyiségű mintára kiszámoltuk az aktivációk átlagértékét mindkét látens kódban. Ha a legmélyebb kód eltért egy 0 közepű 1 szórású ábrától az azt is jelentett, hogy használva voltak a tanult átlag és szórás paraméterek és nem csak a $p(\epsilon)$ prior generálta a zajt. 
 
 \vspace{4mm}
 
@@ -922,43 +924,43 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.33\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{sweep/no_norm_no_contrast_sweep_minus_two_to_one.png} 
-    \caption{No contrast, no \newline norm. sweep in $[-2, 1]$} 
+    \caption{\st{Kontraszt}, \st{norm.} \newline bejárás $[-2, 1]$ intervallumban} 
     \label{fig:no-contrast-no-norm-sweep}
   \end{minipage}%%
   \begin{minipage}{0.33\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{sweep/no_norm_contrast_sweep_minus_two_to_two_3rd_param.png} 
-    \caption{Contrast, no norm. \newline sweep in $[-2, 2]$ $3$rd component} 
+    \caption{Kontraszt, \st{norm.} \newline bejárás $[-2, 2]$ intervallumban $3.$ komponens} 
     \label{fig:contrast-no-norm-sweep-3}
   \end{minipage} 
   \begin{minipage}{0.33\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{sweep/no_norm_contrast_sweep_minus_two_to_two_5th_param.png} 
-    \caption{Contrast, no norm. \newline sweep in $[-2, 2]$ $5$th component} 
+    \caption{Kontraszt, \st{norm.} \newline bejárás $[-2, 2]$ intervallumban $5.$ komponens} 
     \label{fig:contrast-no-norm-sweep-5}
   \end{minipage}
   %% stats
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{sweep/no_contrast_no_norm_z2_stats.png} 
-    \caption{No contrast \newline no norm $\bm{z}_{2}$ statistics} 
+    \caption{\st{Kontraszt} \newline \st{norm.} $\bm{z}_{2}$ statisztika} 
     \label{fig:no-contrast-no-norm-stats}
   \end{minipage} 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.95\linewidth]{sweep/contrast_no_norm_z2_stats.png} 
-    \caption{Contrast, no norm. \newline $\bm{z}_{2}$ statistics} 
+    \caption{Kontraszt, \st{norm.} \newline $\bm{z}_{2}$ statisztika} 
     \label{fig:contrast-no-norm-stats}
   \end{minipage}
 \end{figure}
 
 \vspace{4mm}
 
-\par With the non-normalized settings in (\ref{fig:no-contrast-no-norm-sweep}) the latent component $4$ is selected from (\ref{fig:no-contrast-no-norm}) with regard to its mean and deviation from (\ref{fig:no-contrast-no-norm-stats}), sweeping therefore in the almost $2\sigma$ range $[-2, 1]$ in the fourth component results in generated samples differing not mostly in contrast but at the bottom \footnote{since generation was done in row flattened order, this means that closer to the right end of the spectrum} of (\ref{fig:no-contrast-no-norm-sweep}) results in a class resembling the $1$st label what we expected (\ref{fig:label-contrast-corr-1}, \ref{fig:label-contrast-corr-2}). However, when contrast is introduced (\ref{fig:contrast-no-norm-sweep-3}, \ref{fig:contrast-no-norm-sweep-5}) still there are high correlations with the one-hot encoded labels, so we could not get a truly disentangled contrast representation in the latent components. On the other hand what we can see in these generated samples that the $3$rd and $5$th components that have high correlation with the random contrast (\ref{fig:contrast-no-norm}) resulted in high contrast images, especially in (\ref{fig:contrast-no-norm-sweep-5}).
+\par A normalizált felállásban (\ref{fig:no-contrast-no-norm-sweep}) a $4.$ látens komponenst valáasztottuk (\ref{fig:no-contrast-no-norm}) alapján figyelve az átalágára és szórására (\ref{fig:no-contrast-no-norm-stats})-ből. A látens bejárást nagyjából $2\sigma$ tartományban végeztük el mindenhol. Az itt generált mintákon látható, hogy részben változik a kontraszt, ahogy a $[-2, 1]$ tartományt bejárjuk, de ahogy az ábra alja felé közeledünk (\ref{fig:no-contrast-no-norm-sweep}) kivehető, hogy a rekonstrukciók egyre jobban hasonlítanak az $1.$ textúra családhoz, amire számítottunk (\ref{fig:label-contrast-corr-1}, \ref{fig:label-contrast-corr-2}) alapján. Ellenben amikor hozzáadott kontraszttal végeztük a tanítást (\ref{fig:contrast-no-norm-sweep-3}, \ref{fig:contrast-no-norm-sweep-5}) továbbra is magas címke korrelációk figyelhetők meg, tehát teljesen függetleníteni nem lehetett a modell a kontraszttól. Más szempontból viszont a $3.$ és $5.$ komponensben történő látens bejárásból jól kivehető hogy a kontraszt inkrementálisan hozzáadodik a képekhez (\ref{fig:contrast-no-norm}) főkét (\ref{fig:contrast-no-norm-sweep-5}).
 
 \vspace{4mm}
 
-\par Moving on to the normalized scenario:
+\par A normlizált beállításban:
 
 \vspace{4mm}
 
@@ -967,20 +969,20 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.4\linewidth}
     \centering
     \includegraphics[width=.8\linewidth]{sweep/norm_no_contrast_sweep_one_to_two_4th_param.png} 
-    \caption{No contrast, norm., sweep in $[1, 2]$, $4$th compoment} 
+    \caption{\st{Kontraszt}, norm., bejárás $[1, 2]$ intervallumban, $4.$ komponens} 
     \label{fig:no-contrast-norm-sweep}
   \end{minipage}%%
   \begin{minipage}{0.6\linewidth}
     \centering
     \includegraphics[width=1\linewidth]{sweep/norm_no_contrast_z2_stats.png} 
-    \caption{No contrast, norm.,  $\bm{z}_{2}$ statistics} 
+    \caption{\st{Kontraszt}, norm.,  $\bm{z}_{2}$ statisztika} 
     \label{fig:no-contrast-no-norm-stats}
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm} 
  
-\par  These generated samples with sweeping suggests that the correlations of the $4$th component with the random contrast values in (\ref{fig:no-contrast-norm}) is not high enough, therefore it is not encoding contrast at all. In (\ref{fig:no-contrast-norm-sweep}) there are no trivial differences across the sweep so it is unknown what the component actually encodes. Adding additional contrast to normalized images results in:
+ \par A fentebbi ábrák azt mutatják, hogy a $4.$ komponens korrelációja a kontraszttal a magas értek ellenére (\ref{fig:no-contrast-norm}) nem elég magas ebben a beállításban, így lényegében nem kódol kontraszot egyáltalán. A (\ref{fig:no-contrast-norm-sweep}) ábrán nincsenek triviálisan kivehető külöbségek a látens bejárás alatt, így nem tudjuk, hogy mit kódol ez a komponens. A normalizált képekhez hozzáadott kontrasztot keverve:
 
 \vspace{4mm}
  
@@ -988,13 +990,13 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_zero_to_one_0th_param.png} 
-    \caption{Contrast, norm., sweep in $[0, 1]$ \newline $0$th component} 
+    \caption{Kontraszt, norm., bejárás $[0, 1]$ \newline intervallumban, $0.$ komponens} 
     \label{fig:contrast-norm-sweep-0}
   \end{minipage} 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_minus_two_to_one_2nd_param.png} 
-    \caption{Contrast, norm., sweep in $[-2, 1]$ \newline $2$nd component} 
+    \caption{Kontraszt, norm., bejárás $[-2, 1]$ \newline intervallumban $2.$ komponens} 
     \label{fig:contrast-norm-sweep-2}
   \end{minipage}
 \end{figure}
@@ -1004,13 +1006,13 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_minus_two_to_one_3rd_param.png} 
-    \caption{Contrast, norm., sweep in $[-2, 1]$ \newline  $3$rd component} 
+    \caption{Kontraszt, norm., bejárás $[-2, 1]$ \newline  intervallumban, $3.$ komponens} 
     \label{fig:contrast-norm-sweep-3}
   \end{minipage}
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.85\linewidth]{sweep/norm_contrast_sweep_zero_to_two_6th_param.png} 
-    \caption{Contrast, norm., sweep in $[0, 2]$ \newline $6$th component} 
+    \caption{Kontraszt, norm., bejárás $[0, 2]$ \newline intervallumban $6.$ komponens} 
     \label{fig:contrast-norm-sweep-6}
   \end{minipage}
 \end{figure}
@@ -1018,13 +1020,13 @@ Mihály Bányai, Gergő Orbán \\
 \begin{figure}[H]
     \centering
     \includegraphics[width=.85\linewidth]{sweep/norm_contrast_z2_stats.png} 
-    \caption{Contrast, norm., $\bm{z}_2$ statistics} 
+    \caption{Kontraszt, norm., $\bm{z}_2$ statisztika} 
     \label{fig:contrast-norm-stats}
 \end{figure}
 
 \vspace{4mm}
 
-\par The components were selected from the corresponding contrast correlation plot (\ref{fig:contrast-norm}) and their ranges very selected from (\ref{fig:contrast-norm-stats}) to approximately cover $2\sigma$ range of the mean. We expect gradual contrast increment in row wise order but this can only be seen vaguely on (\ref{fig:contrast-norm-sweep-2}) but not in the others.
+\par A komponensek a hozzájuk tartozó korrelációk ábráról (\ref{fig:contrast-norm}) lettek választva és a hozzájuk tartozó intervallumokat pedig (\ref{fig:contrast-norm-stats})-ról határoztuk meg. A bejárás során nagyjából $2\sigma$ tartományban változtattuk az értékeket, hiszen bármelyik komponens szaturálva, szaturált képhez tudunk jutni, de ez nem tanult tulajdonság, hanem határeset. Inkrementális kontrasztnövekményt várunk soronként, de ez csak enyhén látható (\ref{fig:contrast-norm-sweep-2}) esetben és a többi ábrán egyáltalán nem.
 
 \vspace{4mm}
 
@@ -1032,7 +1034,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par In the previous section we used a ladder variational auto-encoder with constrained linear encoder and decoder, here we use the same settings for training with the same data manipulations and attempt to see the differences.
+\par Az előző szekcióban olyan létra VAE architektúrát használtunk, amiben megszorítottuk a első enkódert és az utolsó dekódert lineáris modellekre. Itt ugyanazon beállítások mellett ezt a megszorítást megszüntetjük és vizsgáljuk a különbségeket.
 
 \vspace{4mm}
 
@@ -1040,32 +1042,32 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{lvae2/21_DenseLadderVAE_noNorm-generated_samples.png} 
-    \caption{No contrast - no normalization} 
+    \caption{\st{Kontraszt} - \st{normalizáció}} 
     \label{fig:lvae-2-contrast-generated-1} 
   \end{minipage}%%
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{lvae2/20_DenseLadderVAE_noNorm_contrat-generated_samples.png} 
-    \caption{Contrast - no normalization} 
+    \caption{Kontraszt - \st{normalizáció}}
     \label{fig:lvae-2-contrast-generated-2} 
   \end{minipage} 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{lvae2/18_DenseLadderVAE_contrastNorm-generated_samples.png} 
-    \caption{No contrast - normalization} 
+    \caption{\st{Kontraszt} - normalizáció} 
     \label{fig:lvae-2-contrast-generated-3} 
   \end{minipage}%% 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{lvae2/19_DenseLadderVAE_contrastNorm_contrast-generated_samples.png} 
-    \caption{Contrast - normalization} 
+    \caption{Kontrast - normalizáció} 
     \label{fig:lvae-2-contrast-generated-4} 
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par In (\ref{fig:lvae-2-contrast-generated-1}, \ref{fig:lvae-2-contrast-generated-2}, \ref{fig:lvae-2-contrast-generated-3},\ref{fig:lvae-2-contrast-generated-4}) we can see that without normalization the reconstructions are saturated. This might be due to the large complexity of the model since with approximately 7 million parameters the non-normalized results are massively overfitted. Moving on to Pearson-correlations as previously:
+\par A (\ref{fig:lvae-2-contrast-generated-1}, \ref{fig:lvae-2-contrast-generated-2}, \ref{fig:lvae-2-contrast-generated-3},\ref{fig:lvae-2-contrast-generated-4}) ábrákon láthatjuk, hogy normalizáció nélkül a mintavételek szarturáltak. Ez a magas komplexitásnak köszönhető, mivel ez a modell nagyjából 7 millió paramétert tartalmazott és a nem normalizált esetben a tanító halmazt túlillesztettük ennyi iterációban. A normalizált esetben ez sokkal kisebb mértékben áll fenn. A Pearson-korrelációk a kontraszttal az előző esethez hasonlóan:
 
 \vspace{4mm}
 
@@ -1074,36 +1076,36 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{lvae2/21_DenseLadderVAE_noNorm-contrast-to-z2-corr.png} 
-    \caption{No contrast - no normalization} 
+    \caption{\st{Kontraszt} - \st{normalizáció}} 
     \label{fig:lvae-2-no-contrast-no-norm}
   \end{minipage}%%
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{lvae2/20_DenseLadderVAE_noNorm_contrat-contrast-to-z2-corr.png} 
-    \caption{Contrast - no normalization} 
+    \caption{Kontraszt - \st{normalizáció}} 
     \label{fig:lvae-2-contrast-no-norm}
   \end{minipage} 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{lvae2/18_DenseLadderVAE_contrastNorm-contrast-to-z2-corr.png} 
-    \caption{No contrast - normalization} 
+    \caption{\st{Kontraszt} - normalization} 
     \label{fig:lvae-2-no-contrast-norm}
   \end{minipage}%% 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.72\linewidth]{lvae2/19_DenseLadderVAE_contrastNorm_contrast-contrast-to-z2-corr.png} 
-    \caption{Contrast - normalization} 
+    \caption{Kontraszt - normalizáció} 
     \label{fig:lave-2-contrast-norm}
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par Here we must only make conclusions about (\ref{fig:lvae-2-no-contrast-norm}, \ref{fig:lave-2-contrast-norm}) since with the same setting as all models were trained the non contrast-normalized models were overfitted. We get similar results as with the previous model (\ref{fig:contrast-norm}, \ref{fig:contrast-no-norm}) but here the label correlations are not eliminated therefore therefore a lower level representation is achieved be the latent code.
+\par Itt csak (\ref{fig:lvae-2-no-contrast-norm}, \ref{fig:lave-2-contrast-norm}) ábrákról szárhetünk le használható információt, hiszen a nem kontrasztnormalizált esetben a túlillesztés miatt nem bízhatunk az eredményekben, mivel azok nem reprezentatívak a teljes adathalmazra. Az előző modellhez hasonló eredményeket kapunk viszont (\ref{fig:contrast-norm}, \ref{fig:contrast-no-norm}), de ebben a modellben a címke korrelációkat nem sikerült eliminálni így alacsonyabb szintű reprezentációkat kaptunk, mint korábban.
 
 \vspace{4mm}
 
-\par Here we are presenting latent sweeps along the components which have the highest correlation with $\bm{R}_c$ in all scenarios:
+\par Itt is látens bejárásokat vizsgálunk a legnagyobb korrelációjú komponensek mentén a random kontraszttal $\bm{R}_c$:
 
 \vspace{4mm}
 
@@ -1112,13 +1114,13 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.62\linewidth]{lvae2/no_norm_no_contrast_sweep.png} 
-    \caption{No contrast - no normalization} 
+    \caption{\st{Kontraszt} - \st{normalizáció}} 
     \label{fig:no-contrast-no-norm-sweep}
   \end{minipage}%%
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.62\linewidth]{lvae2/no_norm_contrast_sweep.png} 
-    \caption{Contrast - no normalization} 
+    \caption{Kontraszt - \st{normalizáció}} 
     \label{fig:contrast-no-norm-sweep}
   \end{minipage}
 \end{figure}
@@ -1127,20 +1129,20 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.62\linewidth]{lvae2/contrast_norm_no_contrast_sweep.png} 
-    \caption{No contrast - normalization} 
+    \caption{\st{Kontraszt} - normalizáció} 
     \label{fig:no-contrast-norm-sweep}
   \end{minipage}%% 
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.62\linewidth]{lvae2/contrast_norm_contrast_sweep.png} 
-    \caption{Contrast - normalization} 
+    \caption{Kontraszt - normalizáció} 
     \label{fig:contrast-norm-sweep}
   \end{minipage} 
 \end{figure}
 
 \vspace{4mm}
 
-\par Here we can observe that non of the latent sweeps produced anything similar to (\ref{fig:contrast-no-norm-sweep-5}), however, there is some contrast gradient in (\ref{fig:contrast-norm-sweep}). This can be explained the following way. Since the previous model was restricted in the first encoder submodel and the last decoder submodel to be linear that ensured higher level abstraction in deeper layers therefore better latent representations. Here this constraint is eliminated and as a result we get massive overfitting in the non-normalized case and slight overfitting in the normalized scenario. We have shown that model complexity restriction is crucial on the shallow submodels to make high level abstraction possible. We will explore what else is needed to achieve disentangled representations in the following section.
+\par Itt megfigyelhető, hogy semelyik látens bejárás sem produkált még hasonlót sem (\ref{fig:contrast-no-norm-sweep-5}), annak ellenére, hogy van valami féle kontraszt gradiens (\ref{fig:contrast-norm-sweep})-ben. Ez a következő képpen magyarázható, mivel az előbbi modellen lineáris megszorítások voltak, amik elősegítették a magasabb rendű absztrakciót - a mélyebb rétegek használatát - itt ezt a megszororítás feloldva túlillesztjük a problémát minden esetben - kontraszt normalizáció nélkül súlyosan. Ezzel megmutattuk, hogy az alacsony komplexitású almodellek szükségesek a jó látens reprezentáció kialakításához. A későbbiekben tovább vizsgáljuk, hogy mi szókséges a reprezentációk javításához.
 
 \newpage
 
@@ -1148,11 +1150,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par First of all, it is crucial to properly analyze whether a deep, hierarchical architecture is actually hierarchical. In doing so we must observe the top (in our case the second) layer in our model to check whether the deepest stochastic layer has any effect on the reconstructions by validating means and standard deviations of the sampled distributions that were introduced in (\ref{eq:z1-mean-sigma-1}, \ref{eq:z1-mean-sigma-2}). This is crucial information as we are sampling our model from the deepest stochastic layer and without meaningful top down components (\ref{eq:ladder-vae-sampling}) becomes random noise added to the reconstructions that are encoded by the decoder model and not by stochastic parameters.
+\par Először is elengedhetetlen, hogy megfelelően tudjuk mérni, hogy vajon a mély, hierarchikus architektúra ténylegesen hiearchikus-e. Ehhez a legmélyebb - jelen esetben a második - sztochasztikus réteget kell vizsgálnunk, hogy annak milyen hatása van a rekonstrukciókra és a generatív modellben. Ezt azáltal érhetjük el, hogy vizsgáljuk a top down, bottom up közepeket és szórásokat, amiket összehasonlítunk az előállított (\ref{eq:z1-mean-sigma-1}, \ref{eq:z1-mean-sigma-2}),  második előtt mintavételezett középpel és szórással. Ez fontos információt hordoz, hiszen jelentéssel bíró top down komponensek nélkül, generatív irányban (\ref{eq:ladder-vae-sampling}) a modell nem lehet jó, hiszen a legmélyebb réteg csak zajt tesz a rekonstrukciókra és nem működik hieararchikus modellként.
 
 \vspace{4mm}
 
-\par Remaining at first layer linear encoders and last layer linear decoders with the ladder VAE architecture and the same added or not added extra contrast, with or without normalization I present some vector visualizations of top down and bottom up mean and variation vectors compared to the $\mu_{z^{(1)}}$ and $\sigma_{z^{(1)}}$.
+\par Itt is a lineáris megszorításokkal ellátott LVAE modellt használva a korábbi beállítások mellett bemutatunk néhány ábrát amellyel vizsgálható a top down és a bottom up értékek közötti különbség a tényleges mintavételezési átlaghoz és szóráshoz képest $\mu_{z^{(1)}}$, $\sigma_{z^{(1)}}$. Mindenzt hisztogrammokon és ténylegese vektor vizualizáción keresztül mutatjuk be.
 
 \vspace{4mm}
 
@@ -1169,22 +1171,22 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-1_vector_comparisons_1.png} 
-    \caption{No contrast, no normalization}
+    \caption{\st{Kontraszt}, \st{normalizáció}}
     \label{fig:sample-no-norm-no-contrast-1}
   \end{minipage}
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-2_vector_comparisons_1.png}
-    \caption{No contrast, no normalization}
+    \caption{\st{Kontraszt}, \st{normalizáció}}
     \label{fig:sample-no-norm-no-contrast-2}
   \end{minipage}
 \end{figure}
 
-\par In (\ref{fig:sample-no-norm-no-contrast-1}) the first two rows of plots show the histograms of the top down, bottom up and actual means and standard deviations where we can observe that the model learns very small standard deviations around 0 (small blue bars). The plot of textures shows the input and the reconstruction of that input right next to it while the last row of plots visualizes the actual vectors with divergent color map to make the differences more pronounced. What we can observe from these is that the means and standard deviations are sparse therefore most of the variables are not encoding information at all meaning that they could be eliminated or smaller latent dimensions could be applied.
+\par A (\ref{fig:sample-no-norm-no-contrast-1}) ábrán az első két sorban hisztogrammak vannak amik a bottom up és a top down átlagokat hasonlítják össze a mintavételezett átlaggal és szórással. Itt megfigyelhetjük, hogy a modell szórásban eltér, de átlagban közelíti a mintavételezettek mindkét komponensben. A textura képek a bemenetet és a visszaállított képet mutatják a harmadik sorban. Az utolsó sorban az átlagok és szórások vektorvizualizációja látható, ahol divergáló színekent használtunk, hogy kiemeljük a különbségeket. Amit ebből kivehetünk, hogy az áltagok és szórások is ritkák és hasonló helyeken hasonló értékeket vesznek fel, azaz valóban értelmes reprezentációt tanultak. A ritkaság azt is jelenti továbbá, hogy kisebb dimenziójú látens kód is megfelelő lett volna a közbeeső rétegben a használt $128$ dimenzió ellenében.
 
 \vspace{4mm}
 
-\par In one hand, we can also observe that the top down components are used as well as the bottom up components and the means of the top down components closely approximates the actual mean of $\bm{z}^{(1)}$. One the other hand, the deviation has components with very high values. This is the case in both examples (\ref{fig:sample-no-norm-no-contrast-1}, \ref{fig:sample-no-norm-no-contrast-2}).
+\par Láthatjuk, hogy a top down komponensek is nagyon jól közelítik $\bm{z}^{(1)}$ közepét, ellenben a szórással, aminek nagyon nagy komponensei is vannak mindkét esetben (\ref{fig:sample-no-norm-no-contrast-1}, \ref{fig:sample-no-norm-no-contrast-2}).
 
 \vspace{4mm}
 
@@ -1201,20 +1203,20 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_no_contrast_norm/17_DenseLinLinLadderVAE_contrastNorm-stats-1_vector_comparisons_1.png} 
-    \caption{No contrast, normalization}
+    \caption{\st{Kontraszt}, normalizáció}
     \label{fig:sample-norm-no-contrast-1}
   \end{minipage}
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_no_contrast_norm/17_DenseLinLinLadderVAE_contrastNorm-stats-2_vector_comparisons_1.png}
-    \caption{No contrast, normalization}
+    \caption{\st{Kontraszt}, normalizáció}
     \label{fig:sample-norm-no-contrast-2}
   \end{minipage}
 \end{figure}
 
 \vspace{4mm}
 
-\par From these plots there is no evident effect of normalization on these results. Moving on to added contrast:
+\par Ezekből az eredményekből nem szűrhető le egyértelműen, hogy a kontraszt normalizáció segíti-e a tanulást a mélyebb rétegekben. Továbblépve a hozzáadott kontraszttal:
 
 \vspace{4mm}
 
@@ -1231,24 +1233,24 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_contrast_no_norm/15_DenseLinLinLadderVAE_textures_noContrastNorm_contrast-stats-1_vector_comparisons_1.png} 
-    \caption{Contrast, no normalization}
+    \caption{Kontraszt, \st{normalizáció}}
     \label{fig:sample-no-norm-contrast-1}
   \end{minipage}
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_contrast_no_norm/15_DenseLinLinLadderVAE_textures_noContrastNorm_contrast-stats-2_vector_comparisons_1.png}
-    \caption{Contrast, no normalization}
+    \caption{Kontraszt, \st{normalization}}
     \label{fig:sample-no-norm-contrast-2}
   \end{minipage}
 \end{figure}
 
 \vspace{4mm}
 
-\par We can observe in (\ref{fig:sample-no-norm-no-contrast-1}, \ref{fig:sample-no-norm-no-contrast-2}) that for some classes adding more contrast helps the bottom up and top down components to better approximate the actual values for the mean and standard deviation. This effect is evident from (\ref{fig:sample-no-norm-no-contrast-2}) where the bottom up values are close not just in the means but in the deviation as well and the top down values correctly approximate the mean vector.
+\par A (\ref{fig:sample-no-norm-no-contrast-1}, \ref{fig:sample-no-norm-no-contrast-2}) ábrákon láthatjuk, hogy néhány textúra család esetében a kontraszt segíti a bottom up és top down komponenseket, hiszen egyszerűbb lesz az adott mintát felismerni, így jobban approximálják a tényleges szórás és átlag értékeket. Ez a hatás evidensen leszűrhtő (\ref{fig:sample-no-norm-no-contrast-2})-ről ahol a bottom up komenensek nem csak az átlagban, de a szórásban is nagyon közel vannak a mintavételezendő értékekhez.
 
 \vspace{4mm}
 
-\par Lastly, for the sake of completeness we present the same results for the normalized, contrasted case:
+\par Utoljára pedig a normalizált eset kontraszttal a teljesség kedvéért:
 
 \vspace{4mm}
 
@@ -1265,28 +1267,28 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_norm_contrast/16_DenseLinLinLadderVAE_textures_contrastNorm_contrast-stats-1_vector_comparisons_1.png}
-    \caption{Contrast, normalization}
+    \caption{Kontraszt, normalizáció}
     \label{fig:sample-norm-contrast-1}
   \end{minipage}
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{z1_vis/z1_vis_norm_contrast/16_DenseLinLinLadderVAE_textures_contrastNorm_contrast-stats-1_vector_comparisons_1.png}
-    \caption{Contrast, normalization}
+    \caption{Kontraszt, normalizáció}
     \label{fig:sample-norm-contrast-2}
   \end{minipage}
 \end{figure}
 
 \vspace{4mm}
 
-\par It seems that contrast and normalization further improved top down and bottom up approximations resulting n smaller top don deviations which should be extremely useful during sampling since the mean vector is approximated better than before. This may suggest that contrast normalization and additional contrast would help the representational efficiency, therefore enabling the model to properly disentangle contrast but we have seen in the previous section that this is not the case.
+\par Úgy tűnik, hogy a kontraszt és a normalizáció tovább javított a komponensek közelítésén aminek nagyon hasznosnak kée lennie mintavételezés során. Ezek az eredmények azt sugallják, hogy a reprezentációs hatékonyságot növeli a kontraszt és a normalizáció és ezáltal lehetővé teszi, hogy a modell függetlenítse a kontrasztot, ellenben láttuk, hogy nem ez a helyzet. A minták jól reprezentálták az adathalmazt, de a kontrasztot nem sikerült függetleníteni a normalizált esetben és a nem normalizált esetben is csak részben.
 
 \vspace{4mm}
 
-\par I also wanted to know whether there are first order correlations between $\bm{z}^{(1)}$ and $\bm{z}^{(2)}$ but there seems to be no such connections even though their correlation with the contrast is very high.
+\par Ki akartuk deríteni, hogy van-e $\bm{z}^{(1)}$ és $\bm{z}^{(2)}$ között elsőrendű korreláció, de úgy tűnik, hogy ez sem kontraszttal, sem kontraszt nélkül nem figyelhető meg, annak ellenére, hogy esetben mindkét rétegben nagy lehet a kontraszttal vett korreláció.
 
 \vspace{4mm}
 
-\par This section is mostly inconclusive since many models and different data settings have been tested but contrast could have not been completely disentangled from the latent representations. We could explain and show that the latent representations are used by the models and that they heavily rely on the deepest layer in the generative scenario as well while coding different and similar information in $\bm{z}^{(1)}$ and $\bm{z}^{(2)}$. It is evident that in some setting contrast was learned in some parameter but was not completely disentangled from label data. We would have like to acquire a model that disentangled contrast in the normalized scenario with added contrast and didn't disentangle any parameter in correlation with the contrast when training without. This seems to be a task of the future or if it cannot be done extensive testing and validation must be provided for answering why.
+\par Azt mondhatjuk, hogy ezek a megfigyelések nem döntőek a témakörben, hiszen sok modell és adatmanipulációs módszert tesztelve sem jártunk teljes sikerrel a kontraszt függetlenítésére tett kísérletekben. Megtudtuk magyarázni és bemutattuk, hogy a látens reprezentációk ténylegesen használva vannak a modell által és, hogy nagy mértékben támaszkodik a generatív modell a legmélyebb rétegben tanultakra is, mivel  $\bm{z}^{(1)}$ és $\bm{z}^{(2)}$ hasonló és különböző információt is tárol az UMAP beágyazások alapján. Jól látható, hogy bizonyos paraméterekkel tanulható volt a kontraszt, de nem volt teljesen függetleníthető. Olyan modellt szerettünk volna látni, ami kontraszt normalizáció mellett, a címkékkel nem korreláló látens reprezentációt hoz létre és függetlenedik benne a kontraszt. Ez a feladat a jövőben is nyitott marad, hiszen nem egyértelmű, hogy ezt miért nem lehetett megvalósítani. Ehhez további tesztelés és modell analízis szükséges.
 
 \vspace{7mm}
 
@@ -1294,7 +1296,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{7mm}
 
-\par The GitHub repository \footnote{\url{https://github.com/qbeer/wigner-csnl-textures}} of the current work contains tested scenarios with thousands of images that I did not include in the the appendix due to their large number. 
+\par A jelenlegi munka GitHub repository-jában \footnote{\url{https://github.com/qbeer/wigner-csnl-textures}} még jelentős mennyiségű itt be nem mutattott teszt beállítás és futtatás található, több ezer képpel, ami terjedelmére való tekintettel nem került bele az esszébe.
 
 \vspace{7mm}
 
@@ -1302,7 +1304,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{7mm}
 
-\par This work could not have been possible without the help and supervision of Mihály Bányai and Gergő Orbán. They made it possible for me to scratch the surface of this field and let me to progress in my own pace. Special thanks for Mihály for the corrections made to this essay.
+\par Ez a munka nem jöhetett volna létre Bányai Mihály és Orbán Gergő vezetése nélkül. Ők ahoz, akik lehetővé tették nekem, hogy megismerjem ezt a tudományterületet és a saját tempómban haladhassak. Külön köszönet Bányai Mihálynak a sok-sok korrekcióért amit ehhez az esszéhez hozzáadott. 
 
 \newpage
 
@@ -1323,8 +1325,8 @@ Mihály Bányai, Gergő Orbán \\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.12\linewidth]{DenseAutoEncoder_vertical.png} 
-    \caption{Complete graph of the model with all submodels expanded and dimensions shown for clarity} 
-    \label{fig:dense-auto-encoder}
+    \caption{Az autoenkóder struktúra teljes gráfja a használt almodellekkel együtt} 
+    \label{fig:sűrű-auto-encoder}
 \end{figure}
 
 \subsection*{Variációs autoenkóder}
@@ -1334,8 +1336,8 @@ Mihály Bányai, Gergő Orbán \\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.2\linewidth]{DenseVAE_vertical.png} 
-    \caption{Complete graph of the model with all submodels expanded and dimensions shown for clarity} 
-    \label{fig:dense-variational-auto-encoder}
+    \caption{Az variációs autoenkóder struktúra teljes gráfja a használt almodellekkel együtt} 
+    \label{fig:sűrű-variational-auto-encoder}
 \end{figure}
 
 \subsection*{LVAE I.}
@@ -1345,7 +1347,7 @@ Mihály Bányai, Gergő Orbán \\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{DenseLinLinLadderVAE_vertical.png} 
-    \caption{Complete graph of the model with all submodels expanded and dimensions shown for clarity} 
+    \caption{Az lineárisan megszorított lére variácis autoenkóder struktúra teljes gráfja a használt almodellekkel együtt} 
     \label{fig:linlinladdervae}
 \end{figure}
 
@@ -1356,7 +1358,7 @@ Mihály Bányai, Gergő Orbán \\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\linewidth]{DenseLadderVAE_vertical.png} 
-    \caption{Complete graph of the model with all submodels expanded and dimensions shown for clarity} 
+    \caption{Az sűrű létre variációs autoenkóder struktúra teljes gráfja a használt almodellekkel együtt} 
     \label{fig:denseladdervae}
 \end{figure}
 
