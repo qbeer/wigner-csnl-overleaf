@@ -123,15 +123,15 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{7mm}
 
-\par A vizuális kortex egy hierarchikusan felépített egység az emlősök agyában, amelyben az első komputációs réteg (primer vizuális kortex - V1) éleket detektál vizuális stimulusok hatására \cite{hubel1968receptive}. Mivel a vizuális hiearchia végső soron olyan magas szintű reprezentációkért felelős, mint a tárgyak kódolása, így erősen megalapozott azt gondolnunk, hogy a második komputációs réteg a vizuális kéregben (V2) olyan tulajdonságokat von ki a, amelyek az élek kompozíciói, azaz texturák \cite{ZiembaV2}. A V2 beli reprezentációk közel sem olyan alaposan felderítettek, mint a V1 beliek és további felderítése szükséges a mélyek rétegeknek is, melyekről még csekély tudásunk van. Ahhoz, hogy a megértésünket elősegítsük szükségünk van komputációs modellek megalkotására, amelyek képekből tesztelhető predikciókat adnak különböző, mérhető neurális aktivációkra az emlősök agyában \cite{yamins2014performance}. Míg nyilvánvalóan fontos, hogy olyan a modellek változói a valóságban is mérhetőek legyenek, mind emellett szükséges, hogy kellően elabsztrahálják a biofizikai részleteit a neurális csatolásoknak. Ezek miatt az okok miatt a gépi tanulásban kifejlesztett modellek felé fordulunk, hogy ezeket alkalmazva betekintést nyerjünk az emlősök agyában végbemenő számítási modellre. 
+\par A vizuális kortex egy hierarchikusan felépített egység az emlősök agyában, amelyben az első komputációs réteg (primer vizuális kortex - V1) éleket detektál vizuális stimulusok hatására \cite{hubel1968receptive}. Mivel a vizuális hiearchia végső soron olyan magas szintű reprezentációkért felelős, mint a tárgyak kódolása, így erősen megalapozott azt gondolnunk, hogy a második komputációs réteg a vizuális kéregben (V2) olyan tulajdonságokat von ki a stimulusokból, amelyek az élek kompozíciói, azaz texturák \cite{ZiembaV2}. A V2 beli reprezentációk közel sem olyan alaposan felderítettek, mint a V1 beliek és további expoláricója szükséges a mélyebb rétegeknek is, melyekről még csekély tudásunk van. Ahhoz, hogy a megértésünket elősegítsük szükségünk van komputációs modellek megalkotására, amelyek képekből tesztelhető predikciókat adnak különböző, mérhető neurális aktivációkra az emlősök agyában \cite{yamins2014performance}. Míg nyilvánvalóan fontos, hogy a modellek változói a valóságban is mérhetőek legyenek, mind emellett szükséges, hogy kellően elabsztrahálják a biofizikai részleteit a neurális csatolásoknak. Ezek miatt az okok miatt a gépi tanulásban kifejlesztett modellek felé fordulunk, hogy ezeket alkalmazva betekintést nyerjünk az emlősök agyában végbemenő számítási modellre. 
 
 \vspace{4mm}
 
-\par Mivel az agy képes generatívan müködni - úgy mint elképzelni dolgokat, amelyek nem létezni, vagy álmodni - így szemelőtt kell tartanunk az ilyen modellek fejlesztését. Ebben a tekintetben a látens reprezentációs modellek bizonyosodtak a legjobb komputációs modelleknek. Ezek közül jelentős a variációs autoenkóder, a mély tanulás egyik aktívan kutatott módszere \cite{kingma2013auto}. Ez a modell magas dimenziós képeket próbal egy alacsony dimenziós vektortérbe beágyazni bizonyos megszorításokkal élve erre a beágyazásra neurális hálók segítségével.
+\par Mivel az agy képes generatívan müködni - úgy mint elképzelni dolgokat, amelyek nem léteznek, vagy álmodni - így szemelőtt kell tartanunk az ilyen modellek fejlesztését. Ebben a tekintetben a látens reprezentációs modellek bizonyosodtak a legjobb komputációs modelleknek. Ezek közül jelentős a variációs autoenkóder, a mély tanulás egyik aktívan kutatott módszere \cite{kingma2013auto}. Ez a modell magas dimenziós képeket próbal egy alacsony dimenziós vektortérbe beágyazni bizonyos megszorításokkal élve erre a beágyazásra neurális hálók segítségével.
 
 \vspace{4mm}
 
-\par Elméletek sokasága állítja azt, hogy az agy valószínűségi inferenciát csinál, amihez szükséges, hogy az emberek és egyéb állatok tároljanak az agyukban egy világról alkotott modellt. Ez erősen megalapozza a látens kódot tartalmazó modellek felderítését. Mivel a valószínűségi modellekben való tanulás és inferencia általában nem megvalósítható, így a fejlesztett módszerek általában közelítő eljárások.
+\par Elméletek sokasága állítja azt, hogy az agy valószínűségi inferenciát csinál, amihez szükséges, hogy az emberek és egyéb állatok tároljanak az agyukban egy világról alkotott modellt. Ez erősen megalapozza a látens kódot tartalmazó modellek felderítését. Mivel a valószínűségi modellekben való tanulás és inferencia általában nem megvalósítható, így a fejlesztett módszerek közelítő eljárások.
 
 \vspace{7mm}
 
@@ -143,7 +143,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Az elmúlt évek beli gyors ütemű fejlődés a gépi tanulásban hasznos eszközöket biztosít arra, hogy vizsgálni lehessen a variációs/probabilisztikus inferenciát, hiszen a variációs autoenkóderek is ezt hajtják végre. Biológia ötletek is segíthetik a fejlesztést, hiszen inspirálódni lehet a vizuális kortex hierarchikus struktúrájából. Célünk, hogy megértsük, hogyan lehet VAE-kkal hierarchikus modelleket építeni és néhány alapvető, de nem triviális tulajdonságát vizsgálunk majd, úgy mint a kontraszt. Ezek a meglátások teszik lehetővé majd a későbbiekben, hogy teljesebb képet kaphassunk az agyi képfeldolgozásról.
+\par Az elmúlt évekbeli gyors ütemű fejlődés a gépi tanulásban hasznos eszközöket biztosít arra, hogy vizsgálni lehessen a variációs/probabilisztikus inferenciát, hiszen a variációs autoenkóderek is ezt hajtják végre. Biológia ötletek is segíthetik a fejlesztést, hiszen inspirálódni lehet a vizuális kortex hierarchikus struktúrájából. Célunk, hogy megértsük, hogyan lehet VAE-kkal hierarchikus modelleket építeni és néhány alapvető, de nem triviális tulajdonságát vizsgáljuk majd, úgy mint a kontrasztot. Ezek a meglátások teszik lehetővé majd a későbbiekben, hogy teljesebb képet kapjunk az agyi képfeldolgozásról.
 
 \vspace{7mm}
 
@@ -151,7 +151,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{7mm}
 
-\par Az elkövetkező néhány fejezetben bemutatunk néhány különbözp modell amivel a vizuális kortex egyes rétegeit modellezték. Először korai komputációs modellek kerülnek szóva, úgy mint a ritka kódolás \footnote{sparse coding}, mivel ez egy áttörést jelentett a V1 megértésében és leírásában. Errőr áttérünk a jelenlegi mély tanulási modellekre és leírjuk az autoenkóderek, variációs autóenkóderek és létre variációs autoenkóderek működését és a szerepüket abban, hogy jobban megértsük az emlősök vizuális kortexének működését. A VAE és LVAE architektúrák variációs inferenciát hajtanak végre, ez részletesek tárgyalva van matematikailag is. Az elméletről áttérünk majd az modell implementációk részleteire amelyek lehetővé tették a mély neurális hálók tanítását, kiemelve az architektúrák moduláris megvalósítását, amely lehetővé teszi, hogy rengeteg féle különböző komplexitású almodell használatát. A továbbiakban bemutatjuk a használt adathalmazokat és azokat a részleteket amelyeket az analízishez szükségesek. Végül de nem utolsó sorban prezentáljuk az eredményeket, amely során vizsgáljuk adott adathalmaz mellett milyen szerepe van a kontrasztnak különböző adatmanipuláció mellett és, hogy hogyan lehetne ezt független változóként kinyerni a látens kódban. Egy alegység lett annak szentelve, hogy megpróbálja magyarázni, hogy mi szükséges a kontraszt függetlenítéséhez és, hogyan mérhető ez.
+\par Az elkövetkező néhány fejezetben bemutatunk néhány különböző modellt amivel a vizuális kortex egyes rétegeit modellezték. Először korai komputációs modellek kerülnek szóba, úgy mint a ritka kódolás \footnote{sparse coding}, mivel ez egy áttörést jelentett a V1 megértésében és leírásában. Erről áttérünk a jelenlegi mély tanulási modellekre és leírjuk az autoenkóderek, variációs autóenkóderek és létra variációs autoenkóderek működését, valamint szerepüket abban, hogy jobban megértsük az emlősök vizuális kortexének működését. A VAE és LVAE architektúrák variációs inferenciát hajtanak végre, ez részletesek tárgyalva van matematikailag is. Az elméletről áttérünk majd a modell implementációk részleteire amelyek lehetővé tették a mély neurális hálók tanítását, kiemelve az architektúrák moduláris megvalósítását, amely elősegíti rengeteg féle, különböző komplexitású almodell használatát. A továbbiakban bemutatjuk a használt adathalmazokat és azokat a részleteket amelyeket az analízishez szükségesek. Végül, de nem utolsó sorban prezentáljuk az eredményeket, amely során vizsgáljuk adott adathalmaz mellett milyen szerepe van a kontrasztnak, valmint a kontrasztnormlaizációnak és hogy hogyan lehetne ezt független változóként kinyerni a látens kódban. Egy alegység lett annak szentelve, hogy megpróbáljuk magyarázni, mi is szükséges a kontraszt függetlenítéséhez és hogyan mérhető ez.
 
 \newpage
 
@@ -194,7 +194,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par Az autoenkódereket általában dimenzióredukciós  módszerként használják, nem felügyelt módszerként. Egy enkóder és egy dekóder struktúrát tartalmaznak amik körülveszik a beágyazott reprezentációt (\ref{fig:auto_encoder_scheme}). .
+\par Az autoenkódereket általában dimenzióredukciós módszerként használják, nem felügyelt tanulási paradigmaként. Egy enkóder és egy dekóder struktúrát tartalmaznak amik körülveszik a beágyazott reprezentációt (\ref{fig:auto_encoder_scheme}). .
 
 \vspace{4mm}
 
@@ -207,7 +207,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Az autoenkóder modelleket általában neurális hálókként realizálják azok általános függvény approximátor jellege miatt. Fontos eszközei az adattömörítésnek, mivel sokkal jobb eredményeket lehet velük elérni, mint a hagyományos módszerekkel (JPEG) \cite{theis2017lossy}. A variációs autoenkóderek hasonló módon mőködnek amellett, hogy van egy megszorítás a látens kódra. Ez természetesen ront a rekonstrukciós pontosságán magasabb reprezentációs készség reményében.
+\par Az autoenkóder modelleket általában neurális hálókként realizálják azok általános függvény approximátor jellege miatt. Fontos eszközei az adattömörítésnek, mivel sokkal jobb eredményeket lehet velük elérni, mint a hagyományos módszerekkel (JPEG) \cite{theis2017lossy}. A variációs autoenkóderek hasonló módon mőködnek amellett, hogy van egy megszorítás a látens kódra. Ez természetesen ront a rekonstrukciós pontosságon magasabb reprezentációs készség reményében.
 
 \vspace{4mm}
 
@@ -215,7 +215,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Véve egy adathalmazt $\boldsymbol{X} = \big\{\boldsymbol{\bm{x}}^{(i)}\big\}_{i = 1}^{N}$ ami független és azonosan mintavételezett egy ismeretlen $p(\boldsymbol{X})$ eloszlásból. Feltőtelezhető, hogy az adatnak van egy ismeretlen, nem megfigyelt $\boldsymbol{\bm{z}}$ változója. Feltesszük, hogy ennek értéke $\boldsymbol{\bm{z}}^{(i)}$ egy mintához $\boldsymbol{\bm{x}}^{(i)}$ először egy prior eloszlásból lett véve $p_{\vartheta_{real}}(\boldsymbol{\bm{z}})$ és ezután mintavételezzük $\bm{x}^{(i)}$-t egy feltételes valószínűségi eloszlásból  $p_{\vartheta_{real}}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}})$. Mivel a valódi modell paraméterek $\vartheta_{real}$ ismeretlenek, így csak a parametrikus enkóder és dekóder modellekkel közelíthetjük őket. Mivel a poszterior valószínűségeket akarjuk közelíteni:
+\par Véve egy adathalmazt $\boldsymbol{X} = \big\{\boldsymbol{\bm{x}}^{(i)}\big\}_{i = 1}^{N}$ amiről feltesszük, hogy független és azonosan mintavételezett egy $p(\boldsymbol{X})$ eloszlásból. Feltételezhető, hogy az adatnak van egy ismeretlen, nem megfigyelt $\boldsymbol{\bm{z}}$ változója. Feltesszük továbbá, hogy ennek értéke $\boldsymbol{\bm{z}}^{(i)}$ egy mintához $\boldsymbol{\bm{x}}^{(i)}$ először egy prior eloszlásból lett véve $p_{\vartheta_{real}}(\boldsymbol{\bm{z}})$ és ezután mintavételezzük $\bm{x}^{(i)}$-t egy feltételes valószínűségi eloszlásból  $p_{\vartheta_{real}}(\boldsymbol{\bm{x}} | \boldsymbol{\bm{z}})$. Mivel a valódi modell paraméterek $\vartheta_{real}$ ismeretlenek, így csak a parametrikus enkóder és dekóder modellekkel közelíthetjük őket. Mivel a poszterior valószínűségeket akarjuk közelíteni:
 
 \vspace{4mm}
 
@@ -229,7 +229,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Kingme és Welling cikkében \cite{kingma2013auto} bemutatnak egy olyan variációs modellt ami stochasztikus gradiens módszerrel tanítható, amellett, hogy nem determinisztikus paramétereket is tartalmaz. Ez természetesen nem egyértemű, hiszen a gradiensek propagációja \footnote{back-propagation} sztochasztikus rétegeken keresztül nem megoldott általános esetben. A továbbiakban a módszer leírását prezentáljuk:
+\par Kingma és Welling cikkében \cite{kingma2013auto} bemutatnak egy olyan variációs modellt ami stochasztikus gradiens módszerrel tanítható, amellett, hogy nem determinisztikus paramétereket is tartalmaz. Ez természetesen nem egyértemű, hiszen a gradiensek propagációja \footnote{back-propagation} sztochasztikus rétegeken keresztül nem megoldott általános esetben. A továbbiakban a módszer leírását prezentáljuk:
 
 \vspace{4mm}
 
@@ -240,7 +240,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Mivel az egyes minták függetlenek $p(\bm{x}^{(1)}, \bm{x}^{(2)}, ..., \bm{x}^{(N)}) = p(\bm{x}^{(1)})p(\bm{x}^{(2)})\cdot ... \cdot p(\bm{x}^{(N)})$ így számolhatunk $p(\bm{x}^{(i)})$-n mindent, közelítőleg $p(\bm{x}^{(i)})$:
+\par Mivel az egyes minták függetlenek $p(\bm{x}^{(1)}, \bm{x}^{(2)}, ..., \bm{x}^{(N)}) = p(\bm{x}^{(1)})p(\bm{x}^{(2)})\cdot ... \cdot p(\bm{x}^{(N)})$ így számolhatunk $p(\bm{x}^{(i)})$-n mindent, közelítőleg $p(\bm{x}^{(i)})$-re:
 
 \vspace{4mm}
 
@@ -254,7 +254,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Konvex függvényekre alkalmaztük a Jensen-egyenlőtlenséget. Alkalmazva, hogy $p(\bm{x}, \bm{z}) = p(\bm{x} | \bm{z})p(\bm{z})$ és észrevéve, hogy mi az enkóder/rekogníciós modellt használjuk $q(\bm{z})$ közelítésére $q_{\phi}(\bm{z} | \bm{x})$:
+\par Konvex függvényekre alkalmaztuk a Jensen-egyenlőtlenséget. Alkalmazva, hogy $p(\bm{x}, \bm{z}) = p(\bm{x} | \bm{z})p(\bm{z})$ és észrevéve, hogy mi az enkóder/rekogníciós modellt használjuk $q(\bm{z})$ közelítésére $q_{\phi}(\bm{z} | \bm{x})$:
 
 \vspace{4mm}
 
@@ -275,7 +275,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Az algoritmus célja, hogy optimalizálja az ELBO \footnote{variational lower bound} függvényt $\phi, \vartheta$ változókban. Bevezetjük még $p_{\vartheta}(\bm{z} | \bm{x}^{(i)}) \equiv p(\bm{z})$ feltételezett priort minden adatpontra a látensek felett. Mivel az ELBO gradiense $\phi$ változókban problémás és túlzottan számításigényes, így Kingam és Welling megalkották rá a AEVB \footnote{auto-encoding variational Bayes} algoritmust ami lehetővé teszi a gyors gradiens propagációt a neurális hálón keresztül a sztochasztikus réteggel.
+\par Az algoritmus célja, hogy optimalizálja az ELBO \footnote{variational/evidence lower bound} függvényt $\phi, \vartheta$ változókban. Bevezetjük még $p_{\vartheta}(\bm{z} | \bm{x}^{(i)}) \equiv p(\bm{z})$ feltételezett priort minden adatpontra a látensek felett. Mivel az ELBO gradiense $\phi$ változókban problémás és túlzottan számításigényes, így Kingma és Welling megalkották rá a AEVB \footnote{auto-encoding variational Bayes} algoritmust ami lehetővé teszi a gyors gradiens propagációt a neurális hálón keresztül a sztochasztikus réteggel. Ahhoz, hogy megoldják a gyors gradiens számítást, a reparametrizáicós trükköt alkalmazták.
 
 \vspace{4mm}
 
@@ -283,7 +283,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Legyen $\bm{z}$ a valószínűségi változó amit$   q_{\phi}(\bm{z} | \bm{x})$-ból mintavételeztünk. Bizonyos gyakori esetekben egy ilyen változó kifejezhető \footnote{1. kiszámolható kumulatív eloszlás, 2. norm-scale függvény, 3. függvény kompozíció} egy determiniszitkus függvénnyel $\bm{z} = g_{\phi}(\bm{\epsilon}, \bm{x})$ ahol $\bm{\epsilon}$ egy független valószínűségi változó $p(\bm{\epsilon})$ eloszlással. Mivel valószínűségi eloszlásokra, melyek egymás függvényei $q_{\phi}(\bm{z} | \bm{x})|d\bm{z}| = p(\bm{\epsilon})|d\bm{\epsilon}|$, így $f(\bm{z})$ várható értéke:
+\par Legyen $\bm{z}$ a valószínűségi változó amit $q_{\phi}(\bm{z} | \bm{x})$-ból mintavételeztünk. Bizonyos esetekben egy ilyen változó kifejezhető \footnote{1. kiszámolható kumulatív eloszlás, 2. norm-scale függvény, 3. függvény kompozíció} egy determiniszitkus függvénnyel $\bm{z} = g_{\phi}(\bm{\epsilon}, \bm{x})$ ahol $\bm{\epsilon}$ egy független valószínűségi változó $p(\bm{\epsilon})$ eloszlással. Mivel valószínűségi eloszlásokra, melyek egymás függvényei $q_{\phi}(\bm{z} | \bm{x})|d\bm{z}| = p(\bm{\epsilon})|d\bm{\epsilon}|$, így $f(\bm{z})$ várható értéke:
 
 \vspace{4mm}
 
@@ -325,24 +325,22 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par A gyakorlatban ez azt jelenti, hogy a KL-tag könnyen és gyorsan számolható a beagyazás után. Ahhoz, hogy a tanító folyamatot felgyorsuljon és ne kelljen többször átadni a dekóder modellnek a reparametrizált tagot így $L = 1$ a szokásos választás. Folytonos pixelértékek esetén az ELBO függvény második tagja egy többdimenziós Gauss-függvénnyel közelíthető, míg bináris pixelértékek esetén egy Bernoulli-eloszlással.
-
-\vspace{5mm}
+\par A gyakorlatban ez azt jelenti, hogy a KL-tag könnyen és gyorsan számolható a beagyazás után. Ahhoz, hogy a tanító folyamat felgyorsuljon és ne kelljen többször átadni a dekóder modellnek a mintavételezett, majd reparametrizált tagot így $L = 1$ a szokásos választás. Folytonos pixelértékek esetén az ELBO függvény második tagja egy többdimenziós Gauss-eloszlással közelíthető, míg bináris pixelértékek esetén egy Bernoulli-eloszlással.
 
 \subsection{Létra variációs autoenkóder - LVAE}
 
 \vspace{5mm}
 
-\par A létra variációs autoenkódert 2016-ban fejleszették \cite{sonderby2016ladder} egy évvel az orvosi alkalmazásokban híres UNET \cite{ronneberger2015u} architektúra után, amely hasonló létra szerű kapcsolatokat használ a tanítás során az információ átadására. A létra szerű modellek 2015 után futottak fel a mély tanulás sok területén.
+\par A létra variációs autoenkódert 2016-ban fejleszették \cite{sonderby2016ladder} egy évvel az orvosi alkalmazásokban elhíresült UNET \cite{ronneberger2015u} architektúra után, amely hasonló létra szerű kapcsolatokat használ a tanítás során az információ átadására. A létra szerű modellek 2015 után futottak fel a mély tanulás sok területén.
 
 \vspace{4mm}
 
-\par Az LVAE modell lényegileg csak az enkóder modellben különbözik $q_{\phi} (z | x)$ a variációs autoenkódertől azáltal, hogy több sztochasztikus réteget vezet be, hogy pontosabb rekonstrukciókat érjen el és, hogy a mélyebb rétegek által egy magasabb szintű reprezentációt produkáljon. A \cite{sonderby2016ladder} cikkben a valós poszterior eloszlást $p_{\theta_{real}}$  úgy közelítették, hogy szétszedték azt L rétegre:
+\par Az LVAE modell lényegileg csak az enkóder modellben különbözik $q_{\phi} (z | x)$ a variációs autoenkódertől azáltal, hogy több sztochasztikus réteget vezet be, hogy pontosabb rekonstrukciókat érjen el és, hogy a mélyebb rétegek által egy magasabb szintű reprezentációt produkáljon. A \cite{sonderby2016ladder} cikkben a valós poszterior eloszlást $p_{\vartheta_{real}}$  úgy közelítették, hogy szétszedték azt L rétegre:
 
 \vspace{4mm}
 
 \begin{equation}
-    p_{\theta_{real}}(\bm{z}) =  p_{\theta}(\bm{z}_{L})\prod_{i = 1}^{L - 1}p_{\theta}(\bm{z}_i | \bm{z}_{i+1})
+    p_{\vartheta_{real}}(\bm{z}) =  p_{\vartheta}(\bm{z}_{L})\prod_{i = 1}^{L - 1}p_{\vartheta}(\bm{z}_i | \bm{z}_{i+1})
 \end{equation}
 
 \vspace{4mm}
@@ -352,8 +350,8 @@ Mihály Bányai, Gergő Orbán \\
 \vspace{4mm}
 
 \begin{gather*}
-    p_{\theta}(\bm{z}_L) = N(\bm{z}_L  ~ | ~ 0, 1) \quad called\ \epsilon\ previously\\
-    p_{\theta}(\bm{z}_i ~ | ~ \bm{z}_{i+1}) = N(\bm{z}_i ~ |  ~ \mu_{p,i}(\bm{z}_{i+1}), \sigma_{p, i}(\bm{z}_{i+1}))
+    p_{\vartheta}(\bm{z}_L) = N(\bm{z}_L  ~ | ~ 0, 1) \quad called\ \epsilon\ previously\\
+    p_{\vartheta}(\bm{z}_i ~ | ~ \bm{z}_{i+1}) = N(\bm{z}_i ~ |  ~ \mu_{p,i}(\bm{z}_{i+1}), \sigma_{p, i}(\bm{z}_{i+1}))
 \end{gather*}
 
 \vspace{4mm}
@@ -374,11 +372,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{7mm}
 
-\par Főkent szintetikusan generált textura családokat használtnunk a modellek kiértékelése során \footnote{\url{www.rmki.kfki.hu/~banmi/textures/}} amelyek hasonlítanak a  Simonchelli-Portilla textúra családokra \cite{portilla2003image}, de néhány kisérletet végeztünk az MNIST, Fashion-MNIST \cite{xiao2017fashion}, CIFAR-10 és dSprites adathalmazokon \cite{matthey2017dsprites} is. A kísérletek célja volt kideríteni, hogy függetleníteni lehet-e a kontrasztot a látens paraméterekben a tanult képi adatok alapján.
+\par Főkent szintetikusan generált textúra családokat használtnunk a modellek kiértékelése során \footnote{\url{www.rmki.kfki.hu/~banmi/textures/}} amelyek hasonlítanak a  Simonchelli-Portilla textúra családokra \cite{portilla2003image}, de néhány kisérletet végeztünk az MNIST, Fashion-MNIST \cite{xiao2017fashion}, CIFAR-10 és dSprites adathalmazokon \cite{matthey2017dsprites} is. A kísérletek célja volt kideríteni, hogy függetleníteni lehet-e a kontrasztot a látens paraméterekben a tanult képi adatok alapján.
 
 \vspace{4mm}
 
-\par A szintetikus textura család hét különböző textúra fajtát tartalmaz. Az implementációban globális kontraszt normalizációt használtunk, amely megkeresi az adott osztályok középértéket, eltávolítja, majd az osztályokhoz tartozó szórásokat is kiegyenlíti. Ezáltal biztosítható, hogy az osztályok között ne legyen globális kontraszt imbalansz. Ezen felül tanítási időben manipulálni lehet az egyes képeket extra kontraszttal, hogy az egyes struktúrák könnyebben vagy nehezebben felismerhetőek legyenek.
+\par A szintetikus textúra család hét különböző textúra fajtát tartalmaz. Az implementációban globális kontraszt normalizációt használtunk, amely megkeresi az adott osztályok középértéket és eltávolítja azt, majd az osztályokhoz tartozó szórásokat is kiegyenlíti. Ezáltal biztosítható, hogy az osztályok között ne legyen globális kontraszt imbalansz. Ezen felül tanítási időben manipulálni lehet az egyes képeket extra kontraszttal, hogy az egyes struktúrák könnyebben vagy nehezebben felismerhetőek legyenek.
 
 \vspace{4mm}
 
@@ -414,7 +412,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{7mm}
 
-\par Főként $\beta-$VAE és ($\beta-$)LVAE architektúrákat használtunk, a korábban levezett célfüggvénnyel, amiben a $\beta$ változó értéke állítja be a Kullback-Leibler-divergencia erősségét:
+\par Főként $\beta-$VAE \cite{burgess2018understanding} és ($\beta-$)LVAE architektúrákat használtunk, a korábban levezett célfüggvénnyel, amiben a $\beta$ változó értéke állítja be a Kullback-Leibler-divergencia erősségét:
 
 \vspace{4mm}
 
@@ -440,7 +438,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Egy kicsit zavaró lehet, hogy a grafikus modellekkel ellentétben itt a nyilak paraméterátadásokat jelentenek, míg a gráf pontjai almodelljei a gráfnak és nem valószínűségi változók. Tovább lépve az LVAE implementációra:
+\par Egy kicsit zavaró lehet, hogy a grafikus modellekkel ellentétben itt a nyilak paraméter átadásokat jelentenek, míg a gráf pontjai almodelljei a gráfnak és nem valószínűségi változók. Tovább lépve az LVAE implementációra:
 
 \vspace{4mm}
 
@@ -453,7 +451,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par A Keras segítségével magas szintű modularitás volt eléhető, így az előbbi két ábrán látható `Model` feliratú blokkok szabaton cserélhetőek akármilyen gépi tanulásban használt architektrúrára. 
+\par A Keras segítségével magas szintű modularitás volt elérhető, így az előbbi két ábrán látható `Model` feliratú blokkok szabadon cserélhetőek akármilyen gépi tanulásban használt architektúrára. 
 
 \vspace{5mm}
 
@@ -461,7 +459,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par Az LVAE cikkből \cite{sonderby2016ladder} átvéve mi is használtuk a növekvő $\beta$ tanulást, ami alatt azt kell érteni, hogy az összes iteráció 3/7-éig inkrementálisan növelve volt a $\beta$ értéke $\beta = \beta_{max}$-ig, ezután a maximális értekkel tovább folyt a tanítás, hogy konvergáljon a modell. A $\beta_{max}$ érték a tanítás elkezdése előtt függvény paraméterként megadható is direkt módon hatással van a tanulásra, hiszen a KL-tagot befolyásolja.
+\par Az LVAE cikkből \cite{sonderby2016ladder} átvéve mi is használtuk a növekvő $\beta$-tanulást, ami alatt azt kell érteni, hogy az összes iteráció 3/7-éig inkrementálisan növelve volt a $\beta$ értéke $\beta = \beta_{max}$-ig, ezután a maximális értekkel tovább folyt a tanítás, hogy konvergáljon a modell. A $\beta_{max}$ érték a tanítás megkezdése előtt függvény paraméterként megadható és direkt módon hatással van a tanulásra, hiszen a KL-tagot befolyásolja.
 
 \vspace{4mm}
 
@@ -475,7 +473,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Ahol $\boldsymbol{\bm{\epsilon}}^{(l)} \sim \boldsymbol{N}(0, 1)$. Ahhoz, hogy generatív irányban használjuk a modelljeinket csak ebből a prior eloszlásból kell mintavételeznünk és átadnunk a dekóder modellnek, hogy új, addig nem látott mintákat generálhasson a közelítőleg megtanult $p_{\vartheta_{real}}(x | z)$ eloszlásból.
+\par Ahol $\boldsymbol{\bm{\epsilon}}^{(l)} \sim \boldsymbol{N}(0, 1)$. Ahhoz, hogy generatív irányban használjuk a modelljeinket csak ebből a prior eloszlásból kell mintavételeznünk és átadnunk a dekóder modellnek, hogy új, addig nem látott mintákat generálhasson a közelítőleg megtanult $p_{\vartheta_{real}}(\bm{x} | \bm{z})$ eloszlásból.
 
 \vspace{5mm}
 
@@ -483,7 +481,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par Mindkét modellben (VAE, LVAE) lehetséges tanítás után a mintavételezés. Míg ez a VAE esetében egyértelmű \footnote{random vektor mintavételezése $\p(\epsilon)$-ból, majd dekódolás} ellenben az LVAE esetén a dekóder modellben a bemeneti képből származó információ is jelen van, mivel a második sztochasztikus réteg átlaga és szórása a legmélyebb sztaochasztikus rétegből és a bemeneti képből származtatható. Ezeket bottom up - $\bm{bu}$ és top down $\bm{td}$ komponenseknek nevezzük és generatív irányban a $\bm{bu}$ tag nincs jelen. Nem generatív irányban, a tanítás során determiniszitkusan számolandó:
+\par Mindkét modellben (VAE, LVAE) lehetséges tanítás után a mintavételezés. Míg ez a VAE esetében egyértelmű \footnote{random vektor mintavételezése $\p(\epsilon)$-ból, majd dekódolás}, az LVAE esetén a dekóder modellben a bemeneti képből származó információ is jelen van, mivel a második sztochasztikus réteg átlaga és szórása a legmélyebb sztochasztikus rétegből és a bemeneti képből származtatható. Ezeket bottom up - $\bm{bu}$ és top down $\bm{td}$ komponenseknek nevezzük és generatív irányban a $\bm{bu}$ tag nincs jelen. Nem generatív irányban, a tanítás során determiniszitkusan számolandó:
 
 \vspace{4mm}
 
@@ -507,15 +505,15 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Ez lehetővé teszi azt, hogy ellenőrizzük a tanított modellt. Egy teljes rekonstrukció során össze tudjuk hasonlítani a $\bm{td}$ és a $\bm{bu}$ komponenseket a tényleges szórás és átlag paraméterekkel amiket a rendszer tanul. Ha a $\bm{bu}$ csak zajt tesz a rekonstrukciókra, azaz a szórása és átlaga is nagyon eltér, akkor lényegileg nem kaptunk hierarchikus reprezentációt, míg ha kellően hasonló, generatív irányban is megfelelően tud működni. Ezt egy kősbbi szekcióban tárgyaljuk.
+\par Ez lehetővé teszi azt, hogy ellenőrizzük a tanított modellt. Egy teljes rekonstrukció során össze tudjuk hasonlítani a $\bm{td}$ és a $\bm{bu}$ komponenseket a tényleges szórás és átlag paraméterekkel, amiket a rendszer tanul. Ha a $\bm{bu}$ csak zajt tesz a rekonstrukciókra, azaz a szórása és átlaga is nagyon eltér, akkor lényegileg nem kaptunk hierarchikus reprezentációt, míg ha kellően hasonló, generatív irányban is megfelelően tud működni. Ezt egy kősbbi szekcióban tárgyaljuk.
 
 \vspace{4mm}
 
-\par Az implementáció főként `sűrű` rétegeket \footnote{lényegében mátrix szorzás és eltolás} valamint ReLU \footnote{rectified linear unit} aktivációkat használ a különböző modellekben. Lényegében a két egységből álló enkóder és dekóder modellek az LVAE implementációban úgynevezett MLP \footnote{multilayer perceptron} almodellek, ugyan ez elmondható az egy egységes VAE implementációkról. Néhol ReLU helyett PReLU \footnote{parametric rectified linear unit} aktivációk vannak. Nem csak variációs modelljeink vannak, mivel a megfelelő összehasonlítás érdekében szimpla autoenkódert is implementáltunk amin megfigyelhető a látens reprezentáció gyengesége. A jelen munkában nem szerepel, de az implementáció részeként vannak konvolúciós és dekonvoluciós architektúrál, ahol \cite{odena2016deconvolution} alapján bilineáris felülmintavételezés és azutáni konvolúció helyettesíti az inverz konvolúciót. 
+\par Az implementáció főként `sűrű` rétegeket \footnote{lényegében mátrix szorzás és eltolás} valamint ReLU \footnote{rectified linear unit} aktivációkat használ a különböző modellekben. Lényegében a két egységből álló enkóder és dekóder modellek az LVAE implementációban úgynevezett MLP \footnote{multilayer perceptron} almodellek, ugyan ez elmondható a VAE implementációkról is. Néhol ReLU helyett PReLU \footnote{parametric rectified linear unit} aktivációk vannak. Nem csak variációs modelljeink vannak, mivel a megfelelő összehasonlítás érdekében szimpla autoenkódert is implementáltunk amin megfigyelhető a látens reprezentáció gyengesége. A jelen munkában nem szerepel, de az implementáció részeként vannak konvolúciós és dekonvoluciós architektúrák, ahol \cite{odena2016deconvolution} alapján bilineáris felülmintavételezés és azutáni konvolúció helyettesíti az inverz konvolúciót. 
 
 \vspace{4mm}
 
-\par Az (\ref{fig:vae}), (\ref{fig:keras_lvae}) ábrákon megfigyelhető, hogy van egy köztes lépés a a szórások és átlagok generálása során. Mivel lineáris rétegek gyártják le az átlagokat is szórásokat így azok negatív értékeket is felvehetnek. Ez az áltagok esetében nem gond, de a szórásokat exponencializálni kell. Természetesen ez nem probléma, hiszen a modell ekkor a szórások logaritmusára kell rátanuljon.
+\par Az (\ref{fig:vae}), (\ref{fig:keras_lvae}) ábrákon megfigyelhető, hogy van egy köztes lépés a szórások és átlagok generálása során. Mivel lineáris rétegek gyártják le az átlagokat és szórásokat is így azok negatív értékeket is felvehetnek. Ez az áltagok esetében nem gond, de a szórásokat exponencializálni kell. Természetesen ez nem probléma, hiszen a modell ekkor a szórások logaritmusára kell rátanuljon.
 
 \vspace{5mm}
 
@@ -523,7 +521,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par Ahogy a modellek leírásakor már említettük a vizsgálatokat a Keras nevű keretrendszerben végeztük és erősen támaszkodtunk a $\bm{tensorflow\_probability}$  csomagra, amely lehetőve tette a statisztikai módszerek alkalmazását a mély tanulási környezetben. Így lehetett különböző eloszlásokból mintavételezni. Ki kell emelnünk, hogy az általunk implementált rendszer elérhető $\bm{pip}$ \footnote{\url{https://pypi.org/project/csnl-vae-olaralex/}} csomagként és a hozzátartozó adathalmazokat pedig a Kaggle nevű gépi tanulás versenyeket szerevező oldalon tettük közzé \footnote{\url{https://www.kaggle.com/dumbo666/wigner-csnl-textures-mnist-format}} a megfelelő formátumban. Az általunk implementált keretrendszer lehetőve teszi különböző fajta megvalósításban implementált VAEk és LVAEk tesztelését és statisztikai kiértékelését.
+\par Ahogy a modellek leírásakor már említettük a vizsgálatokat a Keras nevű keretrendszerben végeztük és erősen támaszkodtunk a $\bm{tensorflow\_probability}$  csomagra, amely lehetőve tette a statisztikai módszerek alkalmazását a mély tanulási környezetben. Így lehetett különböző eloszlásokból mintavételezni. Ki kell emelnünk, hogy az általunk implementált rendszer elérhető $\bm{pip}$ \footnote{\url{https://pypi.org/project/csnl-vae-olaralex/}} csomagként és a hozzátartozó adathalmazokat pedig a Kaggle nevű gépi tanulás versenyeket szervező oldalon tettük közzé \footnote{\url{https://www.kaggle.com/dumbo666/wigner-csnl-textures-mnist-format}} a megfelelő formátumban. Az általunk implementált keretrendszer lehetőve teszi különböző fajta megvalósításban implementált VAE-k és LVAE-k tesztelését és statisztikai kiértékelését.
 
 \newpage
 
@@ -545,11 +543,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Ahol $I(x, y)$ az eredeti kép, a képek átlagát $0.5$-el közelítettük így a random kontraszt paraméter $R$ minden képben célzottan a szórását növelte, azaz a globális kontrasztot.
+\par Ahol $I(x, y)$ az eredeti kép, a képek átlagát $0.5$-el közelítettük így a random kontraszt paraméter $R_c$ minden képen, annak célzottan a szórását növelte, azaz a globális kontrasztot.
 
 \vspace{4mm}
 
-\par Ezzel a módszerrel próbáltuk kódolni a kontrasztot a látens reprezentációban és próbáltuk rákényszeríteni a modelleket, hogy ezt függetlenítsék is a többi paramétertől. Ebben az eljárásban a Google kutatói már több téren is sikereket értek el faktorizált VAE-kkal \cite{locatello2018challenging}. A mi célunk itt az volt, hogy egy olyan hierarchikus modell állítsunk elő faktorizációs megszorítások nélkül amely hasonlít a vizuális kortexre és majdnem függetlenített paramétereket mutat egy vagy több látens változóban.
+\par Ezzel a módszerrel próbáltuk kódolni a kontrasztot a látens reprezentációban és igykeztünk rákényszeríteni a modelleket, hogy ezt függetlenítsék is a többi paramétertől. Ebben az eljárásban a Google kutatói már több téren is sikereket értek el faktorizált VAE-kkal \cite{locatello2018challenging}. A mi célunk itt az volt, hogy egy olyan hierarchikus modell állítsunk elő faktorizációs megszorítások nélkül amely hasonlít a vizuális kortexre és majdnem függetlenített paramétereket mutat egy vagy több látens változóban.
 
 \vspace{5mm}
 
@@ -557,7 +555,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par Inkrementálisan változtatva a KL-tag együtthatójat, a növekvő $\beta$-tanulás vagy warmp-up, ahogy az eredeti cikkben \cite{sonderby2016ladder} szó említik jobban aktivált neuronokat eredményez a mélyebb rétegekben is így egy jobban eloszló látens reprezentációt eredményez. Ezt azáltal mérjük, hogy milyen mértékben korrelálnak az egyes látens kódok a random kontraszt értékekkel. Ezt egy későbbi szekcióban bővebben elővesszük.
+\par Inkrementálisan változtatva a KL-tag együtthatójat, a növekvő $\beta$-tanulás vagy warmp-up, ahogy az eredeti cikkben \cite{sonderby2016ladder} említik, jobban aktivált neuronokat eredményez a mélyebb rétegekben is így egy jobban eloszló látens reprezentációt eredményez. Ezt azáltal mérjük, hogy milyen mértékben korrelálnak az egyes látens kódok a random kontraszt értékekkel. Ezt egy későbbi szekcióban bővebben kifejtjük.
 
 \vspace{4mm}
 
@@ -565,19 +563,19 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\subsection{Statisztika analízis}
+\subsection{Statisztikai analízis}
 
 \vspace{5mm}
 
-\par A tanítási fázis után a rekonstrukciós modell kevésbé érdekes, hiszen legjobb esetben szinte tökéletes pontossággal rekonstruálja a képeket, ellenben minket a látens reprezentációk érdekelnek, amihez a generatív modell kell vizsgálnunk. $p(\bm{\epsilon})$ eloszlásból mintavételezve a dekóderen való rekonstrukcióknak először is hasonlítaniuk kell az adathalmazban szereplő mintákra. Továbba mivel nem egy adatbázisként működik a modell, hanem azt várjuk el tőle, hogy megtanulja az adott adathalmaz valószínűségi eloszlását így új, eddig nem látott mintákat várunk tőle.
+\par A tanítási fázis után a rekonstrukciós modell kevésbé érdekes, hiszen legjobb esetben szinte tökéletes pontossággal rekonstruálja a képeket, ellenben minket a látens reprezentációk érdekelnek, amihez a generatív modellt kell vizsgálnunk. $p(\bm{\epsilon})$ eloszlásból mintavételezve a dekóderen való rekonstrukcióknak először is hasonlítaniuk kell az adathalmazban szereplő mintákra. Továbba mivel nem egy adatbázisként működik a modell, hanem azt várjuk el tőle, hogy megtanulja az adott adathalmaz valószínűségi eloszlását így új, eddig nem látott mintákat kell kapjunk.
 
 \vspace{4mm}
 
-\par Ahhoz, hogy ezt megvalósítsuk több mintavételőző eljárást implementáltunk. Az egyik $N x N$ alkalommal mintavételezi a prior eloszlást, ahol $N$ egy függvény paraméter és ezt egy rácson megjeleníti, amiből képet kaphatunk arról, hogy a generatív modell vizuálisan kielégítő képeket generál-e, amely hasonlít az adathalmaz elemeire. Implementáltunk továbbá a látens reprezentáció komponensei menténk folytonos mintavételezést, amely során előállítottunk egy random mintát a priorbor és az egyik dimenziója mentén, a tanulított modellre jellemző komponens tartományban változtattuk annak értékét, ezzel lehetővé téve, hogy intuíciót kapjunk arról, hogy mit reprezentál az adott komponens a rekonstrukciókban. Ha sikerül függetlenített paramétereket létrehozni, akkor ettől várjuk a kontrasztot megjelenni inkrementálisan a rekonstrukciókban.
+\par Ahhoz, hogy ezt megvalósítsuk több mintavételőző eljárást implementáltunk. Az egyik $N x N$ alkalommal mintavételezi a prior eloszlást, ahol $N$ egy függvény paraméter és ezt egy rácson megjeleníti, amiből képet kaphatunk arról, hogy a generatív modell vizuálisan kielégítő képeket generál-e, amelyek hasonlít az adathalmaz elemeire. Implementáltunk továbbá a látens reprezentáció komponensei mentén folytonos mintavételezést, amely során előállítottunk egy random mintát a priorból és az egyik dimenziója mentén, a tanított modellre jellemző komponens tartományban változtattuk annak értékét, ezzel lehetővé téve, hogy intuíciót kapjunk arról, hogy mit reprezentál az adott komponens a rekonstrukciókban. Ha sikerül függetlenített paramétereket létrehozni, akkor ettől várjuk a kontrasztot megjelenni inkrementálisan a rekonstrukciókban.
 
 \vspace{4mm}
 
-\begin{figure}[ht] 
+\begin{figure}[H] 
   \begin{minipage}{0.48\linewidth}
     \centering
     \includegraphics[width=.65\linewidth]{gen/generated_samples_mnist_dense_vae.png}
@@ -594,7 +592,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Hogyan találhatunk rá egyáltalán a kontrasztot kódoló komponensre a látens kódban? Ahhoz, hogy ez lehetésgessé váljon korreláltuk a random kontraszt értékeket már a tanítás után a látensekkel és megnéztük, hogy még komponens korrelál a legjobban. Abszolútértékben 0.4 feletti korrelációnál már számítottunk arra, hogy sikerül függetleníteni a kontrasztot, mint látens komponens. Az LVAE architektúrában két látens kód is van, vizsgáltuk mindkettő korrelációját a kontrasztal és egymással is, hogy megtudjuk, hogy ugyanarra a stimulusra reagálnak-e a neuronok. Természetesen elsősorban lineáris korrelációkat vizsgáltunk, így ha magasabbrendű, nem lineáris összefüggés van a komponensek között, azt nem tudtuk ezzel dekódolni.
+\par Hogyan találhatunk rá egyáltalán a kontrasztot kódoló komponensre a látens kódban? Ahhoz, hogy ez lehetségessé váljon korreláltuk a random kontraszt értékeket már a tanítás után a látensekkel és megnéztük, hogy melyik komponens korrelál a legjobban. Abszolútértékben 0.4 feletti korrelációnál már számítottunk arra, hogy sikerül függetleníteni a kontrasztot, mint látens komponens. Az LVAE architektúrában két látens kód is van, vizsgáltuk mindkettő korrelációját a kontrasztal és egymással is, hogy megtudjuk, hogy ugyanarra a stimulusra reagálnak-e a neuronok. Természetesen elsősorban lineáris korrelációkat vizsgáltunk, így ha magasabbrendű, nem lineáris összefüggés van a komponensek között, azt nem tudtuk ezzel dekódolni.
 
 \vspace{4mm}
 
@@ -602,7 +600,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Mivel ez egy nem felügyelt technika, de néhány adathalmaz tartalmazott címkéket így azok korrelációját is tudtuk vizsgálni a legmélyebb látens reprezentációkkal. Ilyen adathalmazok voltak például az MNIST, FashionMNIST az általunk főként vizsgált textúrák. Ezzel a módszerrel evidenssé vált, hogy melyik vált, hogy néhány címkére érzékenyebbek a modellek, mint másokra.
+\par Mivel ez egy nem felügyelt technika, de néhány adathalmaz tartalmazott címkéket így azok korrelációját is tudtuk vizsgálni a legmélyebb látens reprezentációkkal. Ilyen adathalmazok voltak például az MNIST, FashionMNIST és az általunk főként vizsgált textúrák. Ezzel a módszerrel evidenssé vált, hogy néhány címkére érzékenyebbek a modellek, mint másokra.
 
 \vspace{4mm}
 
@@ -614,7 +612,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Az LVAE architektúrában két sztochasztikus réteg van, ahol mintavételezni kell. A legmélyebb réteg a priorból mintavételezett, míg a köztes már tanult paraméterek alapján. Rendkíbül fontos vizsgálni, hogy ténylegesen megtörténik-e a hierarchikus reprezentáció, mert kellő komplexitású modellek segítségével a legmélyebb réteg elhagyható lehet, és csak zajt eredményez a rekonstrukciókon és nem kap értelmet a látens tér. Mivel a cél nem a rekonstrukciós pontosság, hanem ténylegesen az értelmes kódolás, erre külön figyelmet fordítottunk. Az implementációban hisztogrammokon lehet vizsgálni az átlagok és szórások eloszlását, amelyek a látens változók mintavételezéséhez szükségesek, továbbá divergáló színekkel a tényleges vektorok vizuális reprezentációját is megvalósítottuk, hogy lokalizáltan is követni lehessen, hogy hasonlóak-e a bennük tárolt értékek.
+\par Az LVAE architektúrában két sztochasztikus réteg van, ahol mintavételezni kell. A legmélyebb réteg a priorból mintavételezett, míg a köztes már tanult paraméterek alapján. Rendkívül fontos vizsgálni, hogy ténylegesen megtörténik-e a hierarchikus reprezentáció, mert kellő komplexitású modellek segítségével a legmélyebb réteg elhagyható lehet, és csak zajt eredményez a rekonstrukciókon és nem kap értelmet a látens tér. Mivel a cél nem a rekonstrukciós pontosság, hanem ténylegesen az értelmes kódolás, erre külön figyelmet fordítottunk. Az implementációban hisztogrammokon lehet vizsgálni az átlagok és szórások eloszlását, amelyek a látens változók mintavételezéséhez szükségesek, továbbá divergáló színekkel a tényleges vektorok vizuális reprezentációját is megvalósítottuk, hogy lokalizáltan is követni lehessen, hogy hasonlóak-e a bennük tárolt értékek.
 
 \vspace{4mm}
 
@@ -627,11 +625,17 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
+\newpage
+
+\section{Eredmények}
+
+\vspace{7mm}
+
 \subsection{UMAP beágyazás}
 
 \vspace{4mm}
 
-\par Vizsgáltuk még az UMAP \cite{mcinnes2018umap} és t-SNE \cite{maaten2008visualizing} beágyazásokat a látens reprezentációkon, hogy felmérjük, hogy vajon elválnak-e a textúra családok a látens térben. Fontos volt továbbá vizsgálnunk, hogy a hierarchikus reprezentáció különböző szintjein különböző, vagy ugyan az az információ van-e. Ezt a kérdést motiválja a \cite{ZiembaV2} cikk, ahol azt állítják, hogy a V2 más információt kódol, mint a V1. A számolási gyorsasága miatt az UMAP módszert alkalmaztam főkent, ami a t-SNE-hez hasonló beágyazásokat produkál, lényegesen gyorsabban. Különböző modelleket vizsgálva az LVAE architektúrában arra jutottunk, hogy látható, hogy különböző csoportok válnak el a két reprezentációban és más információ tárolódik:
+\par Vizsgáltuk az UMAP \cite{mcinnes2018umap} és t-SNE \cite{maaten2008visualizing} beágyazásokat a látens reprezentációkon, hogy felmérjük, hogy vajon elválnak-e a textúra családok a látens térben. Fontos volt továbbá vizsgálnunk, hogy a hierarchikus reprezentáció különböző szintjein különböző, vagy ugyanaz az információ van-e. Ezt a kérdést motiválja a \cite{ZiembaV2} cikk, ahol azt állítják, hogy a V2 más információt kódol, mint a V1. A számolási gyorsasága miatt az UMAP módszert alkalmaztam főkent, ami a t-SNE-hez hasonló beágyazásokat produkál, lényegesen gyorsabban. Különböző modelleket vizsgálva az LVAE architektúrában arra jutottunk, hogy látható, hogy különböző csoportok válnak el a két reprezentációban és más információ tárolódik:
 
 \begin{figure}[H] 
   \begin{minipage}{0.48\linewidth}
@@ -650,7 +654,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par A dekompozíciók mellé, ahol a címkék láthatók elhelyezem a vizulálisan elkülöníthető képeket is a különböző textúrákről az UMAP beágyazásban. Az a tanulság szűrhető le ebből, hogy valamennyi információt a második enkóder almodell után sikerült elérni $\bm{z}^{(2)}$-ben, hiszen (\ref{fig:umap-z1}, \ref{fig:umap-z1-text}) láthatjuk az $5$, $6$ kategóriákat amelyek ténylegeen elkülönülnek két csoportba, míg az $5$ csoport három részre oszlott (\ref{fig:umap-z2}, \ref{fig:umap-z2-text})-n és már $3$-assal is elegyedett. Ezzel szemben, a legmélyebb rétegben már három csoport szeparálódik.
+\par A dekompozíciók mellé, ahol a címkék láthatók elhelyeztük a vizulálisan elkülöníthető képeket is a különböző textúrákről az UMAP beágyazásban. Az a tanulság szűrhető le ebből, hogy valamennyi extra információt a második enkóder almodell után sikerült kinyerni $\bm{z}^{(2)}$-ben, hiszen (\ref{fig:umap-z1}, \ref{fig:umap-z1-text}) láthatjuk az $5$, $6$ kategóriákat amelyek ténylegeen elkülönülnek két csoportba, míg az $5$ csoport három részre oszlott (\ref{fig:umap-z2}, \ref{fig:umap-z2-text})-n és már $3$-assal is elegyedett. Ezzel szemben, a legmélyebb rétegben már három csoport szeparálódik.
 
 \vspace{4mm}
 
@@ -682,17 +686,13 @@ Mihály Bányai, Gergő Orbán \\
     \caption{Pearson-korreláció $\bm{z}^{(1)}$ és $\bm{z}^{(2)}$ között}
 \end{figure}
 
-\newpage
-
-\section{Eredmények}
-
 \vspace{7mm}
 
 \subsection{Autoenkóderek}
 
 \vspace{5mm}
 
-\par Az autoenkóderek nem generatív modellek önmagukban, hanem nem lineáris, általános függvény approximátorok amik megtanulják rekonstruálni a nem címkézett adatokat egy alacsony dimenziós kapunk keresztül átfolyatni. Ez az alacsony dimenziós reprezentáció aztán a dekóder architektúrával visszaállítható és tömörített formátumban tárolható. A gyakori kompressziós algoritmusoknál, mint például a JPEG tömörítés, ez sokkal alacsonyabb dimeznión képes tárolni ugyanazt az adatot. Fontos megemlíteni, hogy az autoenkóderek tömörítés adatspecifikus, tehát minden adathalmazhoz más modellt kell használni és nem olyan támogatott, mint a hagyományos módszerek. A kompresszió itt is veszteséges, nem lehet tökéletesen visszaállítani az eredeti képeket.
+\par Az autoenkóderek nem generatív modellek önmagukban, hanem nem lineáris, általános függvény approximátorok amik megtanulják rekonstruálni a nem címkézett adatokat egy alacsony dimenziós kapun keresztül átfolyatni. Ez az alacsony dimenziós reprezentáció aztán a dekóder architektúrával visszaállítható és tömörített formátumban tárolható. A gyakori kompressziós algoritmusoknál, mint például a JPEG tömörítés, ez sokkal alacsonyabb dimenzión képes tárolni ugyanazt az adatot. Fontos megemlíteni, hogy az autoenkóderes tömörítés adat specifikus, tehát minden adathalmazhoz más modellt kell használni és nem olyan támogatott, mint a hagyományos módszerek. A kompresszió itt is veszteséges, nem lehet tökéletesen visszaállítani az eredeti képeket.
 
 \vspace{4mm}
 
@@ -716,7 +716,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par A látens reprezentáció ebben az esetben két komponensű vektorokból állt. Jól látható, hogy a nem megszorított, alacsony dimenziós térből mintavételezett képek is jól megfogták ezt a nagyon egyszerű adathalamzt. Magasabb komplexitású adatnál természetesen nem ilyen struktúrált a látens kód mindenféle megszorítás nélkül.
+\par A látens reprezentáció ebben az esetben két komponensű vektorokból állt. Jól látható, hogy a nem megszorított, alacsony dimenziós térből mintavételezett képek is jól megfogták ezt a nagyon egyszerű adathalamazt. Magasabb komplexitású adatnál természetesen nem ilyen struktúrált a látens kód megszorítások nélkül.
 
 \newpage
 
@@ -724,11 +724,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par Az itteni eredmények a FashionMNIST adathalmazon végzett kísérletek alapján egy variációs autoenkódert mutatnak be. A mintavételezés a látens térből az adathalmazra jellemző képi elemeket produkál. Az adathalmaz folytonos pixelértékeket tartalmaz a $[0, 1]$ intervallumban így egy Gaussi célfüggvényt kell használnunk a KL-tag mellett. Az allábi ábrákon (\ref{fig:sűrű-variational-auto-encoder}) az appendixben található VAE modellt \ref{sec:vae} taníotttuk:
+\par Az itteni eredmények a FashionMNIST adathalmazon végzett kísérletek alapján egy variációs autoenkódert mutatnak be. A mintavételezés a látens térből az adathalmazra jellemző képi elemeket produkál. Az adathalmaz folytonos pixelértékeket tartalmaz a $[0, 1]$ intervallumban így egy Gaussi célfüggvényt kell használnunk a KL-tag mellett. Az alábbi ábrákon (\ref{fig:suru-variational-auto-encoder}) az appendixben található VAE modellt \ref{sec:vae} taníotttuk:
 
 \vspace{4mm}
 
-\begin{figure}[ht] 
+\begin{figure}[H] 
   \label{fig:auto_encoder_results} 
   \begin{minipage}{0.5\linewidth}
     \centering
@@ -744,12 +744,12 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par A látens reprezentáció nyolc komponensű vektor volt, míg $\beta = 1$ mellett végeztük a modell tanítást az Adam \cite{kingma2014adam} optimalizációs algoritmussal végeztük.
+\par A látens reprezentáció nyolc komponensű vektor volt, míg $\beta = 1$ mellett végeztük a modell tanítást az Adam \cite{kingma2014adam} optimalizációs algoritmussal.
 \vspace{4mm}
 
-\par Ugyanazt a nyolc komponensű látens beágyazást alkalmazva, ugyannyi iterációban a variációs inferencia hatása jól látható a mintavételezésben, hiszen ha összehasonlítjuk a nem variációs modellel (\ref{fig:sűrű-auto-encoder} - see appendix \ref{sec:auto-encoder}):
+\par Ugyanazt a nyolc komponensű látens beágyazást alkalmazva, ugyannyi iterációban a variációs inferencia hatása jól látható a mintavételezésben, hiszen ha összehasonlítjuk a nem variációs modellel (\ref{fig:suru-auto-encoder} - see appendix \ref{sec:auto-encoder}):
 
-\begin{figure}[ht] 
+\begin{figure}[H] 
   \label{fig:auto_encoder_results} 
   \begin{minipage}{0.5\linewidth}
     \centering
@@ -777,15 +777,15 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par A mélyebb modell tanítása sokkal nehezebb feladat és sokszor sokkal több iterációban lehetséges, hiszen a random súlyok nagyon rossz helyről indíthajták a tanítást, ahol a KL-tag magas és később sem tud kellően alacsony lenni ahhoz, hogy látens reprezentációk jelenjenek meg. A bottom up és a top down komponensek utána, közbeeső rétegben való infromációcsere a létra architektúrában szintén megnehezíti a tanítást, hiszen kellő komplexitású modellek mellett a legmélyebb rétegek lehetséges, hogy nem tanulnak semmit és egyszerűen egylépcsőben visszaállítják a képeket.
+\par A mélyebb modell tanítása sokkal nehezebb feladat és sokszor sokkal több iterációban lehetséges, hiszen a random súlyok nagyon rossz helyről indíthajták a tanítást, ahol a KL-tag magas és később sem tud kellően alacsony lenni ahhoz, hogy látens reprezentációk jelenjenek meg. A bottom up és a top down komponensek után a közbeeső rétegben való infromációcsere a létra architektúrában szintén megnehezíti a tanítást, hiszen kellő komplexitású modellek mellett a legmélyebb rétegek lehetséges, hogy nem tanulnak semmit és egyszerűen egylépcsőben visszaállítják a képeket.
 
 \vspace{4mm}
 
-\par Az utóbbi hatás több módon is elkerülhető. A létra architektúrában lecsökkenthetjük az bemeneti és kimeneti képekhez közelebbi enkóder és dekóder modelleket ezzel kényszerítva a modell arra, hogy használja a mélyebb rétegeket is. Magasabb $\beta_{max}$ hasonló hatást válthat ki, mivel ekkor a KL-tag nagyobb mértékben hat a teljes célfüggényre és ahhoz, hogy az csökkenjen a mélyebb rétegeben is optimalizálni kell arra.
+\par Az utóbbi hatás több módon is elkerülhető. A létra architektúrában lecsökkenthetjük a bemeneti és kimeneti képekhez közelebbi enkóder és dekóder modelleket ezzel kényszerítva a modellt arra, hogy használja a mélyebb rétegeket is. Magasabb $\beta_{max}$ hasonló hatást válthat ki, mivel ekkor a KL-tag nagyobb mértékben hat a teljes célfüggényre és ahhoz, hogy az csökkenjen a mélyebb rétegeben is optimalizálni kell arra.
 
 \vspace{4mm}
 
-\par A következő szekciókban főként létra variációs autoenkódereket használtam megszerított lineáris enkóder és dekóder almodellekkel valamint sűrű enkóder és dekóder modellekkel.
+\par A következő szekciókban főként létra variációs autoenkódereket használtunk megszorított lineáris enkóder és dekóder almodellekkel valamint sűrű enkóder és dekóder modellekkel.
 
 \vspace{7mm}
 
@@ -797,11 +797,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\subsubsection{LVAE I.}
+\subsubsection{Kontraszt függetlenítés vizsgálata lineárisan megszórított LVAE modellben}
 
 \vspace{4mm}
 
-\par Itt az appendixben látható (\ref{fig:linlinladdervae} - see appendix \ref{sec:lvae1}) létra VAE modellben végeztünk kísérleteket, ahol lineáris megszórítás van az első enkóderre és a végső dekóderre. A kísérleteket kontraszt normalizáció mellett és nélkül végeztük el, további kontraszt mellett és hiányában, a két látens kód mérete $[\bm{z}_{1}] = 128, [\bm{z}_{2}] = 8$:
+\par Itt az appendixben (\ref{sec:lvae1}) található (\ref{fig:linlinladdervae}) létra VAE modellben végeztünk kísérleteket, ahol lineáris megszorítás van az első enkóderre és a végső dekóderre. A kísérleteket kontraszt normalizáció mellett és nélkül végeztük el, további kontraszt mellett és hiányában, a két látens kód mérete pedig $[\bm{z}_{1}] = 128, [\bm{z}_{2}] = 8$:
 
 \vspace{4mm}
 
@@ -834,11 +834,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par A fentebbi ábrákon (\ref{fig:contrast-generated-1}, \ref{fig:contrast-generated-2}, \ref{fig:contrast-generated-3},\ref{fig:contrast-generated-4}) nehéz összehasonlítani a különböző beállítások hatását, de jól látható, hogy a kontrasztos tanítás szaturáltabb mintákat állít elő és a normalizáció pedig lecsökkente a mintavételek közötti varinciát.
+\par A fentebbi ábrákon (\ref{fig:contrast-generated-1}, \ref{fig:contrast-generated-2}, \ref{fig:contrast-generated-3},\ref{fig:contrast-generated-4}) nehéz összehasonlítani a különböző beállítások hatását, de jól látható, hogy a kontrasztos tanítás szaturáltabb mintákat állít elő és a normalizáció pedig lecsökkentette a mintavételek közötti varinciát.
 
 \vspace{4mm}
 
-\par Egy alaposabb és szisztematikusabb áttekintés nyerhető abból, ha korreláltattuk a látens kódokat a random kontraszt értékekkel. Ezt azáltal értül el, hogy megperturbáltuk a képeket $B_{s}$ ismert kontraszt értékkel. A $d$ dimenziós kódot minden komponensében $z^{(i)}_{\{j\}_{j = 1}^{B_{s}}}$ tudjuk korreláltatni a random kontraszt értékekkel az egyes képeken. Ebből egyszerű Pearson-korrelációt számolva:
+\par Egy alaposabb és szisztematikusabb áttekintés nyerhető abból, ha korreláltattuk a látens kódokat a random kontraszt értékekkel. Ezt azáltal értül el, hogy megperturbáltuk a képeket ($B_{s}$ számú) ismert kontraszt értékekkel. A $d$ dimenziós kódot minden komponensében $z^{(i)}_{\{j\}_{j = 1}^{B_{s}}}$ tudjuk korreláltatni a random kontraszt értékekkel az egyes képeken. Ebből egyszerű Pearson-korrelációt számolva:
 
 \vspace{4mm}
 
@@ -884,11 +884,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Láthajuk (\ref{fig:no-contrast-no-norm}), hogy hozzáadott kontraszt nélkül is, mintha a természeteskontrasztot is ki tudná transzformálni a modell ebből az adathalmazból a $4.$ komponensben \footnote{$0$-tól indexelve}. Megvizsgáljuk, hogy valóban ez-e a helyzet vagy a látens kód inkább egy bizonyos textúra családra érzékeny a kontrasztot változtatva, aminek nagy a variabilitása. Hozzáadott kontraszt esetén (\ref{fig:contrast-no-norm}) függetlenített paraméter nem lett, hiszen két komponens is magas korrelációt mutat a kontraszttal.
+\par Láthajuk (\ref{fig:no-contrast-no-norm}), hogy hozzáadott kontraszt nélkül is, mintha a természetes kontrasztot is ki tudná transzformálni a modell ebből az adathalmazból a $4.$ komponensben \footnote{$0$-tól indexelve}. Megvizsgáljuk, hogy valóban ez-e a helyzet vagy a látens kód inkább egy bizonyos textúra családra érzékeny a kontrasztot változtatva, aminek nagy a variabilitása. Hozzáadott kontraszt esetén (\ref{fig:contrast-no-norm}) függetlenített paraméter nem lett, hiszen két komponens is magas korrelációt mutat a kontraszttal.
 
 \vspace{4mm}
 
-\par Nagyon hasonló a helyzet a kontraszt normalizált felállásban (\ref{fig:no-contrast-norm}, \ref{fig:contrast-norm}) annak ellenéré, hogy ez nem várt viselkedés. Ez jelentheti azt, hogy a normalizáció hibás \footnote{ez nem jelent jelentős problámát} vagy a paraméter ami a kontrasztot kódolja (magas korrelációja van a kontraszztal) magas lokális variabilitású osztályokra jellemző kontrasztra érzékeny, mivel a globális kontrasztot kitranszformáltuk.
+\par Nagyon hasonló a helyzet a kontrasztnormalizált felállásban (\ref{fig:no-contrast-norm}, \ref{fig:contrast-norm}) annak ellenéré, hogy ez nem várt viselkedés. Ez jelentheti azt, hogy a normalizáció hibás \footnote{ez nem jelent jelentős problémát} vagy a paraméter ami a kontrasztot kódolja (magas korrelációja van a kontraszttal) magas lokális variabilitású osztályokra jellemző kontrasztra érzékeny, mivel a globális kontrasztot kitranszformáltuk.
 
 \vspace{4mm}
 
@@ -915,7 +915,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Ellenben, a normalizált adathalmazon megfigyelhető, hogy a címke korrelációkat lényegében eliminálta a globális kontraszt normalizáció $\bm{z}_{2}$-vel, mintkét esetben (kontraszt és kontraszt nélkül). Ez arra enged következtetni minket, hogy valamiféle lokális kontrasztot kódolhat a magas korrelációjú paraméter(ek). Ahhoz, hogy ezeket a hatásokat vizsgáljuk látens bejárással generálunk mintákat a tanított modellekből, ahol az adott neuronra jellemző aktivációkat használtuk. Ezt azáltal értük el, hogy nagy mennyiségű mintára kiszámoltuk az aktivációk átlagértékét mindkét látens kódban. Ha a legmélyebb kód eltért egy 0 közepű 1 szórású ábrától az azt is jelentett, hogy használva voltak a tanult átlag és szórás paraméterek és nem csak a $p(\epsilon)$ prior generálta a zajt. 
+\par Ellenben, a normalizált adathalmazon megfigyelhető, hogy a címke korrelációkat lényegében eliminálta a globális kontraszt normalizáció $\bm{z}_{2}$-vel, mintkét esetben (kontraszt és kontraszt nélkül). Ez arra enged következtetni minket, hogy valamiféle lokális kontrasztot kódolhat a magas korrelációjú paraméter(ek). Ahhoz, hogy ezeket a hatásokat vizsgáljuk látens bejárással generálunk mintákat a tanított modellekből, ahol az adott neuronra jellemző aktivációkat használtuk. Ezt azáltal értük el, hogy nagy mennyiségű mintára kiszámoltuk az aktivációk átlagértékét mindkét látens kódban. Ha a legmélyebb kód eltért egy 0 közepű 1 szórású ábrától az azt is jelentette, hogy használva voltak a tanult átlag és szórás paraméterek és nem csak zajt generáltunk a $p(\epsilon)$ priorból. 
 
 \vspace{4mm}
 
@@ -956,11 +956,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par A normalizált felállásban (\ref{fig:no-contrast-no-norm-sweep}) a $4.$ látens komponenst valáasztottuk (\ref{fig:no-contrast-no-norm}) alapján figyelve az átalágára és szórására (\ref{fig:no-contrast-no-norm-stats})-ből. A látens bejárást nagyjából $2\sigma$ tartományban végeztük el mindenhol. Az itt generált mintákon látható, hogy részben változik a kontraszt, ahogy a $[-2, 1]$ tartományt bejárjuk, de ahogy az ábra alja felé közeledünk (\ref{fig:no-contrast-no-norm-sweep}) kivehető, hogy a rekonstrukciók egyre jobban hasonlítanak az $1.$ textúra családhoz, amire számítottunk (\ref{fig:label-contrast-corr-1}, \ref{fig:label-contrast-corr-2}) alapján. Ellenben amikor hozzáadott kontraszttal végeztük a tanítást (\ref{fig:contrast-no-norm-sweep-3}, \ref{fig:contrast-no-norm-sweep-5}) továbbra is magas címke korrelációk figyelhetők meg, tehát teljesen függetleníteni nem lehetett a modell a kontraszttól. Más szempontból viszont a $3.$ és $5.$ komponensben történő látens bejárásból jól kivehető hogy a kontraszt inkrementálisan hozzáadodik a képekhez (\ref{fig:contrast-no-norm}) főkét (\ref{fig:contrast-no-norm-sweep-5}).
+\par A normalizált felállásban (\ref{fig:no-contrast-no-norm-sweep}) a $4.$ látens komponenst választottunk (\ref{fig:no-contrast-no-norm}) alapján figyelve az átalágára és szórására (\ref{fig:no-contrast-no-norm-stats})-ből. A látens bejárást nagyjából $2\sigma$ tartományban végeztük el mindenhol. Az itt generált mintákon látható, hogy részben változik a kontraszt, ahogy a $[-2, 1]$ tartományt bejárjuk, de ahogy az ábra alja felé közeledünk (\ref{fig:no-contrast-no-norm-sweep}) kivehető, hogy a rekonstrukciók egyre jobban hasonlítanak az $1.$ textúra családhoz, amire számítottunk (\ref{fig:label-contrast-corr-1}, \ref{fig:label-contrast-corr-2}) alapján. Ellenben amikor hozzáadott kontraszttal végeztük a tanítást (\ref{fig:contrast-no-norm-sweep-3}, \ref{fig:contrast-no-norm-sweep-5}) továbbra is magas címke korrelációk figyelhetők meg, tehát teljesen függetleníteni nem lehetett a modell a kontraszttól. Más szempontból viszont a $3.$ és $5.$ komponensben történő látens bejárásból jól kivehető hogy a kontraszt inkrementálisan hozzáadodik a képekhez (\ref{fig:contrast-no-norm}) főként (\ref{fig:contrast-no-norm-sweep-5})-ben.
 
 \vspace{4mm}
 
-\par A normlizált beállításban:
+\par A normalizált beállításban:
 
 \vspace{4mm}
 
@@ -982,7 +982,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm} 
  
- \par A fentebbi ábrák azt mutatják, hogy a $4.$ komponens korrelációja a kontraszttal a magas értek ellenére (\ref{fig:no-contrast-norm}) nem elég magas ebben a beállításban, így lényegében nem kódol kontraszot egyáltalán. A (\ref{fig:no-contrast-norm-sweep}) ábrán nincsenek triviálisan kivehető külöbségek a látens bejárás alatt, így nem tudjuk, hogy mit kódol ez a komponens. A normalizált képekhez hozzáadott kontrasztot keverve:
+ \par A fentebbi ábrák azt mutatják, hogy a $4.$ komponens korrelációja a kontraszttal a magas érték ellenére (\ref{fig:no-contrast-norm}) nem elégséges mégsem ebben a beállításban, így lényegében nem kódol kontraszot egyáltalán. A (\ref{fig:no-contrast-norm-sweep}) ábrán nincsenek triviálisan kivehető különbségek a látens bejárás alatt, így nem tudjuk, hogy mit kódol ez a komponens. A normalizált képekhez hozzáadott kontrasztot keverve:
 
 \vspace{4mm}
  
@@ -1026,11 +1026,11 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par A komponensek a hozzájuk tartozó korrelációk ábráról (\ref{fig:contrast-norm}) lettek választva és a hozzájuk tartozó intervallumokat pedig (\ref{fig:contrast-norm-stats})-ról határoztuk meg. A bejárás során nagyjából $2\sigma$ tartományban változtattuk az értékeket, hiszen bármelyik komponens szaturálva, szaturált képhez tudunk jutni, de ez nem tanult tulajdonság, hanem határeset. Inkrementális kontrasztnövekményt várunk soronként, de ez csak enyhén látható (\ref{fig:contrast-norm-sweep-2}) esetben és a többi ábrán egyáltalán nem.
+\par A komponensek a hozzájuk tartozó korrelációs ábráról (\ref{fig:contrast-norm}) lettek választva és a hozzájuk tartozó intervallumokat pedig (\ref{fig:contrast-norm-stats})-ról határoztuk meg. A bejárás során nagyjából $2\sigma$ tartományban változtattuk az értékeket, hiszen bármelyik komponenst szaturálva, szaturált képhez tudunk jutni, de ez nem tanult tulajdonság, hanem határeset. Inkrementális kontrasztnövekményt várunk soronként, de ez csak enyhén látható (\ref{fig:contrast-norm-sweep-2}) esetben és a többi ábrán egyáltalán nem.
 
 \vspace{4mm}
 
-\subsubsection{LVAE II.}
+\subsubsection{Kontraszt függetlenítés vizsgálata lineárisan nem megszorított LVAE modellben}
 
 \vspace{4mm}
 
@@ -1060,7 +1060,7 @@ Mihály Bányai, Gergő Orbán \\
   \begin{minipage}{0.5\linewidth}
     \centering
     \includegraphics[width=.75\linewidth]{lvae2/19_DenseLadderVAE_contrastNorm_contrast-generated_samples.png} 
-    \caption{Kontrast - normalizáció} 
+    \caption{Kontraszt - normalizáció} 
     \label{fig:lvae-2-contrast-generated-4} 
   \end{minipage} 
 \end{figure}
@@ -1101,7 +1101,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Itt csak (\ref{fig:lvae-2-no-contrast-norm}, \ref{fig:lave-2-contrast-norm}) ábrákról szárhetünk le használható információt, hiszen a nem kontrasztnormalizált esetben a túlillesztés miatt nem bízhatunk az eredményekben, mivel azok nem reprezentatívak a teljes adathalmazra. Az előző modellhez hasonló eredményeket kapunk viszont (\ref{fig:contrast-norm}, \ref{fig:contrast-no-norm}), de ebben a modellben a címke korrelációkat nem sikerült eliminálni így alacsonyabb szintű reprezentációkat kaptunk, mint korábban.
+\par Itt csak (\ref{fig:lvae-2-no-contrast-norm}, \ref{fig:lave-2-contrast-norm}) ábrákról szűrhetünk le használható információt, hiszen a nem kontrasztnormalizált esetben a túlillesztés miatt nem bízhatunk az eredményekben, mivel azok nem reprezentatívak a teljes adathalmazra. Az előző modellhez hasonló eredményeket kapunk viszont (\ref{fig:contrast-norm}, \ref{fig:contrast-no-norm}), de ebben a modellben a címke korrelációkat nem sikerült eliminálni így alacsonyabb szintű reprezentációkat kaptunk, mint korábban.
 
 \vspace{4mm}
 
@@ -1142,7 +1142,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Itt megfigyelhető, hogy semelyik látens bejárás sem produkált még hasonlót sem (\ref{fig:contrast-no-norm-sweep-5}), annak ellenére, hogy van valami féle kontraszt gradiens (\ref{fig:contrast-norm-sweep})-ben. Ez a következő képpen magyarázható, mivel az előbbi modellen lineáris megszorítások voltak, amik elősegítették a magasabb rendű absztrakciót - a mélyebb rétegek használatát - itt ezt a megszororítás feloldva túlillesztjük a problémát minden esetben - kontraszt normalizáció nélkül súlyosan. Ezzel megmutattuk, hogy az alacsony komplexitású almodellek szükségesek a jó látens reprezentáció kialakításához. A későbbiekben tovább vizsgáljuk, hogy mi szókséges a reprezentációk javításához.
+\par Itt megfigyelhető, hogy semelyik látens bejárás sem produkált még hasonlót sem (\ref{fig:contrast-no-norm-sweep-5}), annak ellenére, hogy van valami féle kontraszt gradiens megfigyelhető (\ref{fig:contrast-norm-sweep})-ben. Ez a következő képpen magyarázható, mivel az előbbi modellen lineáris megszorítások voltak, amik elősegítették a magasabb rendű absztrakciót - a mélyebb rétegek használatát - itt ezt a megszorítást feloldva túlillesztjük a problémát minden esetben - kontraszt normalizáció nélkül súlyosan. Ezzel megmutattuk, hogy az alacsony komplexitású almodellek szükségesek a jó látens reprezentáció kialakításához. A későbbiekben tovább vizsgáljuk, hogy mi szükséges a reprezentációk javításához.
 
 \newpage
 
@@ -1150,7 +1150,33 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{5mm}
 
-\par Először is elengedhetetlen, hogy megfelelően tudjuk mérni, hogy vajon a mély, hierarchikus architektúra ténylegesen hiearchikus-e. Ehhez a legmélyebb - jelen esetben a második - sztochasztikus réteget kell vizsgálnunk, hogy annak milyen hatása van a rekonstrukciókra és a generatív modellben. Ezt azáltal érhetjük el, hogy vizsgáljuk a top down, bottom up közepeket és szórásokat, amiket összehasonlítunk az előállított (\ref{eq:z1-mean-sigma-1}, \ref{eq:z1-mean-sigma-2}),  második előtt mintavételezett középpel és szórással. Ez fontos információt hordoz, hiszen jelentéssel bíró top down komponensek nélkül, generatív irányban (\ref{eq:ladder-vae-sampling}) a modell nem lehet jó, hiszen a legmélyebb réteg csak zajt tesz a rekonstrukciókra és nem működik hieararchikus modellként.
+\par Először is elengedhetetlen, hogy megfelelően tudjuk mérni, hogy vajon a mély, hierarchikus architektúra ténylegesen hiearchikus-e. Ehhez a legmélyebb - jelen esetben a második - sztochasztikus réteget kell vizsgálnunk, hogy annak milyen hatása van a rekonstrukciókra a generatív modellben. Ezt azáltal érhetjük el, hogy vizsgáljuk a top down, bottom up közepeket és szórásokat, amiket összehasonlítunk az előállított (\ref{eq:z1-mean-sigma-1}, \ref{eq:z1-mean-sigma-2}), második előtt mintavételezett középpel és szórással. Ez fontos információt hordoz, hiszen jelentéssel bíró top down komponensek nélkül, generatív irányban (\ref{eq:ladder-vae-sampling}) a modell nem lehet jó, hiszen a legmélyebb réteg csak zajt tesz a rekonstrukciókra és nem működik hieararchikus modellként.
+
+\vspace{4mm}
+
+\begin{figure}[H]
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.65\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-1_TD_BU_COMPS_1.png}
+  \end{minipage}
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.65\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-2_TD_BU_COMPS_1.png} 
+  \end{minipage}
+
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.8\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-1_vector_comparisons_1.png} 
+    \caption{\st{Kontraszt}, \st{normalizáció}}
+    \label{fig:sample-no-norm-no-contrast-1}
+  \end{minipage}
+  \begin{minipage}{0.5\linewidth}
+    \centering
+    \includegraphics[width=.8\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-2_vector_comparisons_1.png}
+    \caption{\st{Kontraszt}, \st{normalizáció}}
+    \label{fig:sample-no-norm-no-contrast-2}
+  \end{minipage}
+\end{figure}
 
 \vspace{4mm}
 
@@ -1158,31 +1184,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\begin{figure}[H]
-  \begin{minipage}{0.5\linewidth}
-    \centering
-    \includegraphics[width=.6\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-1_TD_BU_COMPS_1.png}
-  \end{minipage}
-  \begin{minipage}{0.5\linewidth}
-    \centering
-    \includegraphics[width=.6\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-2_TD_BU_COMPS_1.png} 
-  \end{minipage}
-
-  \begin{minipage}{0.5\linewidth}
-    \centering
-    \includegraphics[width=.75\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-1_vector_comparisons_1.png} 
-    \caption{\st{Kontraszt}, \st{normalizáció}}
-    \label{fig:sample-no-norm-no-contrast-1}
-  \end{minipage}
-  \begin{minipage}{0.5\linewidth}
-    \centering
-    \includegraphics[width=.75\linewidth]{z1_vis/14_DenseLinLinLadderVAE_noContrastNorm_-stats-2_vector_comparisons_1.png}
-    \caption{\st{Kontraszt}, \st{normalizáció}}
-    \label{fig:sample-no-norm-no-contrast-2}
-  \end{minipage}
-\end{figure}
-
-\par A (\ref{fig:sample-no-norm-no-contrast-1}) ábrán az első két sorban hisztogrammak vannak amik a bottom up és a top down átlagokat hasonlítják össze a mintavételezett átlaggal és szórással. Itt megfigyelhetjük, hogy a modell szórásban eltér, de átlagban közelíti a mintavételezettek mindkét komponensben. A textura képek a bemenetet és a visszaállított képet mutatják a harmadik sorban. Az utolsó sorban az átlagok és szórások vektorvizualizációja látható, ahol divergáló színekent használtunk, hogy kiemeljük a különbségeket. Amit ebből kivehetünk, hogy az áltagok és szórások is ritkák és hasonló helyeken hasonló értékeket vesznek fel, azaz valóban értelmes reprezentációt tanultak. A ritkaság azt is jelenti továbbá, hogy kisebb dimenziójú látens kód is megfelelő lett volna a közbeeső rétegben a használt $128$ dimenzió ellenében.
+\par A (\ref{fig:sample-no-norm-no-contrast-1}) ábrán az első két sorban hisztogrammak vannak amik a bottom up és a top down átlagokat hasonlítják össze a mintavételezett átlaggal és szórással. Itt megfigyelhetjük, hogy a modell szórásban eltér, de átlagban közelíti a mintavételezetteket mindkét komponensben. A textúrák a bemenetet és a visszaállított képet mutatják a harmadik sorban. Az utolsó sorban az átlagok és szórások vektorvizualizációja látható, ahol divergáló színeket használtunk, hogy kiemeljük a különbségeket. Amit ebből kivehetünk, hogy az áltagok és szórások is ritkák és hasonló helyeken hasonló értékeket vesznek fel, azaz valóban értelmes reprezentációt tanultak. A ritkaság azt is jelenti továbbá, hogy kisebb dimenziójú látens kód is megfelelő lett volna a közbeeső rétegben használt $128$ dimenzió ellenében.
 
 \vspace{4mm}
 
@@ -1246,7 +1248,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par A (\ref{fig:sample-no-norm-no-contrast-1}, \ref{fig:sample-no-norm-no-contrast-2}) ábrákon láthatjuk, hogy néhány textúra család esetében a kontraszt segíti a bottom up és top down komponenseket, hiszen egyszerűbb lesz az adott mintát felismerni, így jobban approximálják a tényleges szórás és átlag értékeket. Ez a hatás evidensen leszűrhtő (\ref{fig:sample-no-norm-no-contrast-2})-ről ahol a bottom up komenensek nem csak az átlagban, de a szórásban is nagyon közel vannak a mintavételezendő értékekhez.
+\par A (\ref{fig:sample-no-norm-no-contrast-1}, \ref{fig:sample-no-norm-no-contrast-2}) ábrákon láthatjuk, hogy néhány textúra család esetében a kontraszt segíti a bottom up és top down komponenseket, hiszen egyszerűbb lesz az adott mintát felismerni, így jobban approximálják a tényleges szórás és átlag értékeket. Ez a hatás evidensen leszűrhető (\ref{fig:sample-no-norm-no-contrast-2})-ről ahol a bottom up komenensek nem csak az átlagban, de a szórásban is nagyon közel vannak a mintavételezendő értékekhez.
 
 \vspace{4mm}
 
@@ -1280,15 +1282,15 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{4mm}
 
-\par Úgy tűnik, hogy a kontraszt és a normalizáció tovább javított a komponensek közelítésén aminek nagyon hasznosnak kée lennie mintavételezés során. Ezek az eredmények azt sugallják, hogy a reprezentációs hatékonyságot növeli a kontraszt és a normalizáció és ezáltal lehetővé teszi, hogy a modell függetlenítse a kontrasztot, ellenben láttuk, hogy nem ez a helyzet. A minták jól reprezentálták az adathalmazt, de a kontrasztot nem sikerült függetleníteni a normalizált esetben és a nem normalizált esetben is csak részben.
+\par Úgy tűnik, hogy a kontraszt és a normalizáció tovább javított a komponensek közelítésén aminek nagyon hasznosnak kéne lennie mintavételezés során. Ezek az eredmények azt sugallják, hogy a reprezentációs hatékonyságot növeli a kontraszt és a normalizáció és ezáltal lehetővé teszi, hogy a modell függetlenítse a kontrasztot, ellenben láttuk, hogy nem ez a helyzet. A minták jól reprezentálták az adathalmazt, de a kontrasztot nem sikerült függetleníteni a normalizált esetben és a nem normalizált esetben is csak részben.
 
 \vspace{4mm}
 
-\par Ki akartuk deríteni, hogy van-e $\bm{z}^{(1)}$ és $\bm{z}^{(2)}$ között elsőrendű korreláció, de úgy tűnik, hogy ez sem kontraszttal, sem kontraszt nélkül nem figyelhető meg, annak ellenére, hogy esetben mindkét rétegben nagy lehet a kontraszttal vett korreláció.
+\par Ki akartuk deríteni, hogy van-e $\bm{z}^{(1)}$ és $\bm{z}^{(2)}$ között elsőrendű korreláció, de úgy tűnik, hogy ez sem kontraszttal, sem kontraszt nélkül nem figyelhető meg, annak ellenére, hogy sok esetben mindkét rétegben nagy lehet a kontraszttal vett korreláció.
 
 \vspace{4mm}
 
-\par Azt mondhatjuk, hogy ezek a megfigyelések nem döntőek a témakörben, hiszen sok modell és adatmanipulációs módszert tesztelve sem jártunk teljes sikerrel a kontraszt függetlenítésére tett kísérletekben. Megtudtuk magyarázni és bemutattuk, hogy a látens reprezentációk ténylegesen használva vannak a modell által és, hogy nagy mértékben támaszkodik a generatív modell a legmélyebb rétegben tanultakra is, mivel  $\bm{z}^{(1)}$ és $\bm{z}^{(2)}$ hasonló és különböző információt is tárol az UMAP beágyazások alapján. Jól látható, hogy bizonyos paraméterekkel tanulható volt a kontraszt, de nem volt teljesen függetleníthető. Olyan modellt szerettünk volna látni, ami kontraszt normalizáció mellett, a címkékkel nem korreláló látens reprezentációt hoz létre és függetlenedik benne a kontraszt. Ez a feladat a jövőben is nyitott marad, hiszen nem egyértelmű, hogy ezt miért nem lehetett megvalósítani. Ehhez további tesztelés és modell analízis szükséges.
+\par Azt mondhatjuk, hogy ezek a megfigyelések nem döntőek a témakörben, hiszen sok modellt és adatmanipulációs módszert tesztelve sem jártunk teljes sikerrel a kontraszt függetlenítésére tett kísérletekben. Megtudtuk magyarázni és bemutattuk, hogy a látens reprezentációk ténylegesen használva vannak a modell által és, hogy nagy mértékben támaszkodik a generatív modell a legmélyebb rétegben tanultakra is, mivel  $\bm{z}^{(1)}$ és $\bm{z}^{(2)}$ hasonló és különböző információt is tárol az UMAP beágyazások alapján. Jól látható, hogy bizonyos paraméterekkel tanulható volt a kontraszt, de nem volt teljesen függetleníthető. Olyan modellt szerettünk volna látni, ami kontraszt normalizáció mellett, a címkékkel nem korreláló látens reprezentációt hoz létre és függetlenedik benne a kontraszt. Ez a feladat a jövőben is nyitott marad, hiszen nem egyértelmű, hogy ezt miért nem lehetett megvalósítani. Ehhez további tesztelés és modell analízis szükséges.
 
 \vspace{7mm}
 
@@ -1304,7 +1306,7 @@ Mihály Bányai, Gergő Orbán \\
 
 \vspace{7mm}
 
-\par Ez a munka nem jöhetett volna létre Bányai Mihály és Orbán Gergő vezetése nélkül. Ők ahoz, akik lehetővé tették nekem, hogy megismerjem ezt a tudományterületet és a saját tempómban haladhassak. Külön köszönet Bányai Mihálynak a sok-sok korrekcióért amit ehhez az esszéhez hozzáadott. 
+\par Ez a munka nem jöhetett volna létre Bányai Mihály és Orbán Gergő vezetése nélkül. Ők azok, akik lehetővé tették nekem, hogy megismerjem ezt a tudományterületet és a saját tempómban haladhassak a kutatómunkában. Külön köszönet Bányai Mihálynak a sok-sok korrekcióért amit ehhez az esszéhez hozzáadott. 
 
 \newpage
 
@@ -1326,7 +1328,7 @@ Mihály Bányai, Gergő Orbán \\
     \centering
     \includegraphics[width=0.12\linewidth]{DenseAutoEncoder_vertical.png} 
     \caption{Az autoenkóder struktúra teljes gráfja a használt almodellekkel együtt} 
-    \label{fig:sűrű-auto-encoder}
+    \label{fig:suru-auto-encoder}
 \end{figure}
 
 \subsection*{Variációs autoenkóder}
@@ -1337,7 +1339,7 @@ Mihály Bányai, Gergő Orbán \\
     \centering
     \includegraphics[width=0.2\linewidth]{DenseVAE_vertical.png} 
     \caption{Az variációs autoenkóder struktúra teljes gráfja a használt almodellekkel együtt} 
-    \label{fig:sűrű-variational-auto-encoder}
+    \label{fig:suru-variational-auto-encoder}
 \end{figure}
 
 \subsection*{LVAE I.}
